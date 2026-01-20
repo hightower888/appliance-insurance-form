@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": null,
+  "buildCommand": "node vercel-build.js",
   "outputDirectory": "src",
   "rewrites": [
     {
