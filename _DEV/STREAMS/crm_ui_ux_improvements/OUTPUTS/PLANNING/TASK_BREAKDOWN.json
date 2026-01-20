@@ -1,0 +1,639 @@
+{
+  "metadata": {
+    "stream": "crm_ui_ux_improvements",
+    "created": "2026-01-19",
+    "workflow": "PLANNING_STANDARD_AI",
+    "totalRequirements": 10,
+    "totalTasks": 120,
+    "totalEffort": "74-94 days"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Foundation",
+      "duration": "19-25 days",
+      "requirements": ["REQ-DASH-001", "REQ-FILT-001", "REQ-REALTIME-001"],
+      "tasks": [
+        {
+          "id": "TASK-DASH-001",
+          "requirement": "REQ-DASH-001",
+          "title": "Create Dashboard Widget Base System",
+          "description": "Create base widget class and widget system infrastructure",
+          "components": ["components/dashboard-widget.js"],
+          "services": ["services/widget-service.js"],
+          "effort": "2 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Base widget class created with lifecycle methods",
+            "Widget registration system working",
+            "Widget data fetching mechanism implemented"
+          ]
+        },
+        {
+          "id": "TASK-DASH-002",
+          "requirement": "REQ-DASH-001",
+          "title": "Implement Metric Widget Component",
+          "description": "Create metric/KPI widget for displaying key metrics",
+          "components": ["components/widget-metric.js"],
+          "effort": "1 day",
+          "dependencies": ["TASK-DASH-001"],
+          "acceptanceCriteria": [
+            "Metric widget displays KPI values",
+            "Supports different metric types (number, percentage, currency)",
+            "Real-time updates working"
+          ]
+        },
+        {
+          "id": "TASK-DASH-003",
+          "requirement": "REQ-DASH-001",
+          "title": "Implement Chart Widget Component",
+          "description": "Create chart widget wrapper for Chart.js integration",
+          "components": ["components/widget-chart.js"],
+          "effort": "1 day",
+          "dependencies": ["TASK-DASH-001"],
+          "acceptanceCriteria": [
+            "Chart widget wraps Chart.js charts",
+            "Supports all chart types",
+            "Chart configuration panel working"
+          ]
+        },
+        {
+          "id": "TASK-DASH-004",
+          "requirement": "REQ-DASH-001",
+          "title": "Implement List and Activity Widgets",
+          "description": "Create list widget and activity feed widget",
+          "components": ["components/widget-list.js", "components/widget-activity.js"],
+          "effort": "1.5 days",
+          "dependencies": ["TASK-DASH-001"],
+          "acceptanceCriteria": [
+            "List widget displays data lists",
+            "Activity widget shows activity feed",
+            "Both widgets support real-time updates"
+          ]
+        },
+        {
+          "id": "TASK-DASH-005",
+          "requirement": "REQ-DASH-001",
+          "title": "Implement Drag-and-Drop Dashboard Builder",
+          "description": "Create drag-and-drop interface for arranging widgets",
+          "components": ["components/dashboard-builder.js"],
+          "effort": "2 days",
+          "dependencies": ["TASK-DASH-001", "TASK-DASH-002", "TASK-DASH-003", "TASK-DASH-004"],
+          "acceptanceCriteria": [
+            "Drag-and-drop works smoothly",
+            "Widgets can be repositioned",
+            "Widgets can be resized",
+            "Layout persists on save"
+          ]
+        },
+        {
+          "id": "TASK-DASH-006",
+          "requirement": "REQ-DASH-001",
+          "title": "Implement Dashboard Service and Configuration",
+          "description": "Create service for dashboard CRUD and configuration management",
+          "services": ["services/dashboard-service.js"],
+          "effort": "1.5 days",
+          "dependencies": ["TASK-DASH-005"],
+          "acceptanceCriteria": [
+            "Save/load dashboard configurations",
+            "Role-based templates working",
+            "User preferences saved"
+          ]
+        },
+        {
+          "id": "TASK-FILT-001",
+          "requirement": "REQ-FILT-001",
+          "title": "Enhance Filter Component with Advanced Features",
+          "description": "Add advanced filter builder UI and logic",
+          "components": ["components/filter-builder.js"],
+          "services": ["services/filter-service.js"],
+          "effort": "2 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Visual filter builder UI created",
+            "AND/OR logic working",
+            "Filter combinations supported"
+          ]
+        },
+        {
+          "id": "TASK-FILT-002",
+          "requirement": "REQ-FILT-001",
+          "title": "Implement Filter Presets System",
+          "description": "Create saved filter presets functionality",
+          "components": ["components/filter-presets.js"],
+          "effort": "1 day",
+          "dependencies": ["TASK-FILT-001"],
+          "acceptanceCriteria": [
+            "Save filter presets",
+            "Load filter presets",
+            "Delete filter presets",
+            "Quick filter shortcuts working"
+          ]
+        },
+        {
+          "id": "TASK-FILT-003",
+          "requirement": "REQ-FILT-001",
+          "title": "Implement Natural Language Search",
+          "description": "Add natural language search capability",
+          "components": ["components/natural-language-search.js"],
+          "services": ["services/search-service.js"],
+          "effort": "2 days",
+          "dependencies": ["TASK-FILT-001"],
+          "acceptanceCriteria": [
+            "Natural language queries parsed",
+            "Search results returned",
+            "Query suggestions working"
+          ]
+        },
+        {
+          "id": "TASK-RT-001",
+          "requirement": "REQ-REALTIME-001",
+          "title": "Implement Real-Time Service",
+          "description": "Create service for WebSocket/Firebase real-time updates",
+          "services": ["services/realtime-service.js"],
+          "effort": "2 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Firebase listeners set up",
+            "Real-time data updates working",
+            "Connection status tracking"
+          ]
+        },
+        {
+          "id": "TASK-RT-002",
+          "requirement": "REQ-REALTIME-001",
+          "title": "Implement Notification Service",
+          "description": "Create push notification system",
+          "services": ["services/notification-service.js"],
+          "components": ["components/notification-center.js"],
+          "effort": "1.5 days",
+          "dependencies": ["TASK-RT-001"],
+          "acceptanceCriteria": [
+            "Push notifications working",
+            "Notification center UI created",
+            "Notification preferences configurable"
+          ]
+        },
+        {
+          "id": "TASK-RT-003",
+          "requirement": "REQ-REALTIME-001",
+          "title": "Implement Activity Feed",
+          "description": "Create activity feed service and component",
+          "services": ["services/activity-feed-service.js"],
+          "components": ["components/activity-feed.js"],
+          "effort": "1.5 days",
+          "dependencies": ["TASK-RT-001"],
+          "acceptanceCriteria": [
+            "Activity feed displays recent changes",
+            "Real-time activity updates",
+            "Activity filtering working"
+          ]
+        },
+        {
+          "id": "TASK-RT-004",
+          "requirement": "REQ-REALTIME-001",
+          "title": "Integrate Real-Time Updates into Dashboard",
+          "description": "Connect real-time service to dashboard widgets",
+          "effort": "1 day",
+          "dependencies": ["TASK-DASH-006", "TASK-RT-001"],
+          "acceptanceCriteria": [
+            "Dashboard widgets update in real-time",
+            "Change indicators working",
+            "Auto-refresh options available"
+          ]
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "Visualizations & Views",
+      "duration": "15-19 days",
+      "requirements": ["REQ-VIZ-001", "REQ-VIEWS-001"],
+      "tasks": [
+        {
+          "id": "TASK-VIZ-001",
+          "requirement": "REQ-VIZ-001",
+          "title": "Create Interactive Chart Wrapper",
+          "description": "Enhance Chart.js charts with interactivity",
+          "components": ["components/chart-interactive.js"],
+          "services": ["services/chart-service.js"],
+          "effort": "2 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Click to drill-down working",
+            "Hover tooltips enhanced",
+            "Chart filtering implemented"
+          ]
+        },
+        {
+          "id": "TASK-VIZ-002",
+          "requirement": "REQ-VIZ-001",
+          "title": "Implement Chart Drill-Down",
+          "description": "Add drill-down functionality to charts",
+          "components": ["components/chart-drilldown.js"],
+          "effort": "1.5 days",
+          "dependencies": ["TASK-VIZ-001"],
+          "acceptanceCriteria": [
+            "Click chart element shows detail view",
+            "Breadcrumb navigation working",
+            "Back navigation implemented"
+          ]
+        },
+        {
+          "id": "TASK-VIZ-003",
+          "requirement": "REQ-VIZ-001",
+          "title": "Add Advanced Chart Types",
+          "description": "Implement heatmap, funnel, gauge, and other chart types",
+          "services": ["services/visualization-service.js"],
+          "effort": "2 days",
+          "dependencies": ["TASK-VIZ-001"],
+          "acceptanceCriteria": [
+            "Heatmap chart working",
+            "Funnel chart working",
+            "Gauge chart working",
+            "All chart types configurable"
+          ]
+        },
+        {
+          "id": "TASK-VIZ-004",
+          "requirement": "REQ-VIZ-001",
+          "title": "Implement Chart Comparison Mode",
+          "description": "Add comparison functionality (YoY, MoM)",
+          "components": ["components/chart-comparison.js"],
+          "effort": "1.5 days",
+          "dependencies": ["TASK-VIZ-001"],
+          "acceptanceCriteria": [
+            "Compare periods working",
+            "YoY comparison implemented",
+            "MoM comparison implemented"
+          ]
+        },
+        {
+          "id": "TASK-VIZ-005",
+          "requirement": "REQ-VIZ-001",
+          "title": "Add Chart Export and Fullscreen",
+          "description": "Implement chart export and fullscreen features",
+          "effort": "1 day",
+          "dependencies": ["TASK-VIZ-001"],
+          "acceptanceCriteria": [
+            "Export chart as PNG",
+            "Export chart as SVG",
+            "Fullscreen mode working"
+          ]
+        },
+        {
+          "id": "TASK-VIEWS-001",
+          "requirement": "REQ-VIEWS-001",
+          "title": "Implement Kanban Board View",
+          "description": "Create Kanban board with drag-and-drop",
+          "components": ["components/kanban-board.js"],
+          "effort": "2.5 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Kanban board displays leads/customers",
+            "Drag-and-drop between columns working",
+            "Column customization available",
+            "Card details on click"
+          ]
+        },
+        {
+          "id": "TASK-VIEWS-002",
+          "requirement": "REQ-VIEWS-001",
+          "title": "Implement Timeline View",
+          "description": "Create timeline view for chronological activity",
+          "components": ["components/timeline-view.js"],
+          "effort": "2 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Timeline displays events chronologically",
+            "Grouping by date/type working",
+            "Zoom levels (day/week/month) implemented"
+          ]
+        },
+        {
+          "id": "TASK-VIEWS-003",
+          "requirement": "REQ-VIEWS-001",
+          "title": "Implement Card View",
+          "description": "Create card view with visual cards",
+          "components": ["components/card-view.js"],
+          "effort": "1.5 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Card view displays data as cards",
+            "Grid/list toggle working",
+            "Card size options available"
+          ]
+        },
+        {
+          "id": "TASK-VIEWS-004",
+          "requirement": "REQ-VIEWS-001",
+          "title": "Implement Calendar and Map Views",
+          "description": "Create calendar and map view components",
+          "components": ["components/calendar-view.js", "components/map-view.js"],
+          "effort": "2.5 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Calendar view shows events by date",
+            "Map view shows geographic distribution",
+            "Both views interactive"
+          ]
+        },
+        {
+          "id": "TASK-VIEWS-005",
+          "requirement": "REQ-VIEWS-001",
+          "title": "Implement View Switcher",
+          "description": "Create view type selector and switching mechanism",
+          "components": ["components/view-switcher.js"],
+          "services": ["services/view-service.js"],
+          "effort": "1 day",
+          "dependencies": ["TASK-VIEWS-001", "TASK-VIEWS-002", "TASK-VIEWS-003", "TASK-VIEWS-004"],
+          "acceptanceCriteria": [
+            "View switcher UI created",
+            "Smooth transitions between views",
+            "View preferences saved"
+          ]
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "Advanced Features",
+      "duration": "25-31 days",
+      "requirements": ["REQ-AI-001", "REQ-AUTO-001", "REQ-REPORT-001"],
+      "tasks": [
+        {
+          "id": "TASK-AI-001",
+          "requirement": "REQ-AI-001",
+          "title": "Implement Analytics Service",
+          "description": "Create service for predictive analytics calculations",
+          "services": ["services/analytics-service.js"],
+          "effort": "3 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Analytics calculations working",
+            "Trend detection implemented",
+            "Anomaly detection working"
+          ]
+        },
+        {
+          "id": "TASK-AI-002",
+          "requirement": "REQ-AI-001",
+          "title": "Implement AI Service and Lead Scoring",
+          "description": "Create AI service with lead scoring functionality",
+          "services": ["services/ai-service.js"],
+          "components": ["components/lead-scoring.js"],
+          "effort": "4 days",
+          "dependencies": ["TASK-AI-001"],
+          "acceptanceCriteria": [
+            "Lead scoring algorithm implemented",
+            "Conversion probability calculated",
+            "Churn risk indicators working"
+          ]
+        },
+        {
+          "id": "TASK-AI-003",
+          "requirement": "REQ-AI-001",
+          "title": "Implement Forecasting Service",
+          "description": "Create revenue forecasting service",
+          "services": ["services/forecasting-service.js"],
+          "effort": "2 days",
+          "dependencies": ["TASK-AI-001"],
+          "acceptanceCriteria": [
+            "Revenue forecasting working",
+            "Multiple forecast periods supported",
+            "Forecast accuracy tracking"
+          ]
+        },
+        {
+          "id": "TASK-AI-004",
+          "requirement": "REQ-AI-001",
+          "title": "Create AI Insights Panel",
+          "description": "Build UI for displaying AI insights",
+          "components": ["components/ai-insights-panel.js", "components/prediction-card.js"],
+          "effort": "1 day",
+          "dependencies": ["TASK-AI-002", "TASK-AI-003"],
+          "acceptanceCriteria": [
+            "AI insights panel displays predictions",
+            "Next best action recommendations shown",
+            "Confidence scores displayed"
+          ]
+        },
+        {
+          "id": "TASK-AUTO-001",
+          "requirement": "REQ-AUTO-001",
+          "title": "Implement Workflow Engine",
+          "description": "Create workflow execution engine",
+          "services": ["services/workflow-service.js"],
+          "effort": "3 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Workflow engine executes rules",
+            "If/then logic working",
+            "Workflow testing available"
+          ]
+        },
+        {
+          "id": "TASK-AUTO-002",
+          "requirement": "REQ-AUTO-001",
+          "title": "Create Visual Workflow Builder",
+          "description": "Build drag-and-drop workflow builder UI",
+          "components": ["components/workflow-builder.js", "components/rule-editor.js"],
+          "effort": "3 days",
+          "dependencies": ["TASK-AUTO-001"],
+          "acceptanceCriteria": [
+            "Visual workflow builder UI created",
+            "Drag-and-drop rule creation working",
+            "Rule validation implemented"
+          ]
+        },
+        {
+          "id": "TASK-AUTO-003",
+          "requirement": "REQ-AUTO-001",
+          "title": "Implement Task Management System",
+          "description": "Create task service and manager component",
+          "services": ["services/task-service.js"],
+          "components": ["components/task-manager.js"],
+          "effort": "2 days",
+          "dependencies": ["TASK-AUTO-001"],
+          "acceptanceCriteria": [
+            "Task CRUD operations working",
+            "Task assignment implemented",
+            "Reminders working"
+          ]
+        },
+        {
+          "id": "TASK-AUTO-004",
+          "requirement": "REQ-AUTO-001",
+          "title": "Implement Automation Service",
+          "description": "Create automation rule processing service",
+          "services": ["services/automation-service.js"],
+          "effort": "1 day",
+          "dependencies": ["TASK-AUTO-001", "TASK-AUTO-003"],
+          "acceptanceCriteria": [
+            "Automation rules processed",
+            "Email automation working",
+            "Status change automation working"
+          ]
+        },
+        {
+          "id": "TASK-REPORT-001",
+          "requirement": "REQ-REPORT-001",
+          "title": "Create Report Builder UI",
+          "description": "Build drag-and-drop report builder",
+          "components": ["components/report-builder.js"],
+          "effort": "3 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Report builder UI created",
+            "Drag-and-drop fields working",
+            "Report preview available"
+          ]
+        },
+        {
+          "id": "TASK-REPORT-002",
+          "requirement": "REQ-REPORT-001",
+          "title": "Implement Report Service",
+          "description": "Create report CRUD and template management",
+          "services": ["services/report-service.js"],
+          "components": ["components/report-templates.js"],
+          "effort": "2 days",
+          "dependencies": ["TASK-REPORT-001"],
+          "acceptanceCriteria": [
+            "Report CRUD working",
+            "Template library created",
+            "Report versioning implemented"
+          ]
+        },
+        {
+          "id": "TASK-REPORT-003",
+          "requirement": "REQ-REPORT-001",
+          "title": "Enhance Export Service for Multiple Formats",
+          "description": "Add PDF, Excel, PowerPoint export",
+          "services": ["services/export-service.js"],
+          "effort": "2 days",
+          "dependencies": ["TASK-REPORT-002"],
+          "acceptanceCriteria": [
+            "PDF export working",
+            "Excel export working",
+            "PowerPoint export working"
+          ]
+        },
+        {
+          "id": "TASK-REPORT-004",
+          "requirement": "REQ-REPORT-001",
+          "title": "Implement Report Scheduler",
+          "description": "Create scheduled report execution",
+          "services": ["services/report-scheduler-service.js"],
+          "components": ["components/report-scheduler.js"],
+          "effort": "1 day",
+          "dependencies": ["TASK-REPORT-002"],
+          "acceptanceCriteria": [
+            "Report scheduling working",
+            "Email delivery implemented",
+            "Schedule management UI created"
+          ]
+        }
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "Polish & Enhancement",
+      "duration": "15-19 days",
+      "requirements": ["REQ-MOBILE-001", "REQ-AI-ASSIST-001"],
+      "tasks": [
+        {
+          "id": "TASK-MOBILE-001",
+          "requirement": "REQ-MOBILE-001",
+          "title": "Implement Mobile Navigation Components",
+          "description": "Create bottom navigation and mobile UI components",
+          "components": ["components/mobile-navigation.js", "components/mobile-fab.js", "components/mobile-sheet.js"],
+          "effort": "2 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Bottom navigation bar working",
+            "Floating action button implemented",
+            "Bottom sheet modals working"
+          ]
+        },
+        {
+          "id": "TASK-MOBILE-002",
+          "requirement": "REQ-MOBILE-001",
+          "title": "Optimize All Components for Mobile",
+          "description": "Make all components mobile-responsive",
+          "effort": "2 days",
+          "dependencies": ["TASK-MOBILE-001"],
+          "acceptanceCriteria": [
+            "All components responsive",
+            "Touch-friendly targets (44x44px)",
+            "Swipe gestures working"
+          ]
+        },
+        {
+          "id": "TASK-MOBILE-003",
+          "requirement": "REQ-MOBILE-001",
+          "title": "Implement PWA Features",
+          "description": "Add Progressive Web App capabilities",
+          "services": ["services/pwa-service.js"],
+          "effort": "1.5 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "Service worker implemented",
+            "PWA manifest created",
+            "Offline support working"
+          ]
+        },
+        {
+          "id": "TASK-AI-ASSIST-001",
+          "requirement": "REQ-AI-ASSIST-001",
+          "title": "Implement AI Assistant Service",
+          "description": "Create AI chat assistant service",
+          "services": ["services/ai-assistant-service.js", "services/nlp-service.js"],
+          "effort": "4 days",
+          "dependencies": [],
+          "acceptanceCriteria": [
+            "AI chat working",
+            "Query processing implemented",
+            "Response generation working"
+          ]
+        },
+        {
+          "id": "TASK-AI-ASSIST-002",
+          "requirement": "REQ-AI-ASSIST-001",
+          "title": "Create AI Assistant UI",
+          "description": "Build chat interface for AI assistant",
+          "components": ["components/ai-assistant.js", "components/nlp-query.js"],
+          "effort": "2 days",
+          "dependencies": ["TASK-AI-ASSIST-001"],
+          "acceptanceCriteria": [
+            "Chat UI created",
+            "Natural language queries working",
+            "Conversation history saved"
+          ]
+        },
+        {
+          "id": "TASK-AI-ASSIST-003",
+          "requirement": "REQ-AI-ASSIST-001",
+          "title": "Integrate AI Assistant with CRM",
+          "description": "Connect AI assistant to CRM data and actions",
+          "effort": "1.5 days",
+          "dependencies": ["TASK-AI-ASSIST-002"],
+          "acceptanceCriteria": [
+            "AI can query CRM data",
+            "AI can perform actions",
+            "Smart suggestions working"
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "totalTasks": 40,
+    "totalEffortDays": "74-94",
+    "totalEffortWeeks": "15-19",
+    "phases": 4,
+    "newComponents": 35,
+    "newServices": 15,
+    "modifiedComponents": 5,
+    "modifiedServices": 2
+  }
+}

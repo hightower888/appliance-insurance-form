@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Processor Dashboard - View and export sales data">
+  <title>Processor Dashboard</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Inter Font (Elite Design System) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Lucide Icons (Professional Icon Library - Replaces Emoji) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Global Navigation (Phase 2) -->
+  <script src="components/global-navigation.js"></script>
+  
+  <!-- Command Palette (Phase 3) -->
+  <script src="components/command-palette.js"></script>
+  
+  <!-- Quick Actions FAB (Phase 3) -->
+  <script src="components/quick-actions-fab.js"></script>
+  
+  <!-- Performance Optimization Services -->
+  <script src="services/cache-manager.js"></script>
+  <script src="services/query-optimizer.js"></script>
+  <!-- Phase 1: Missing Features from Sales Portal -->
+  <script src="services/export-service.js"></script>
+  <script src="components/date-range-picker.js"></script>
+  <script src="components/field-mapping-ui.js"></script>
+  <script src="components/filter-component.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="user-info-header">
+        <div>
+          <h1 style="margin: 0; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="settings" style="width: 24px; height: 24px;"></i>
+            Processor Dashboard
+          </h1>
+          <p class="subtitle" style="margin-top: 8px;">View and export sales data</p>
+        </div>
+        <div id="userInfo" class="user-info">
+          <span id="userEmail" class="user-email"></span>
+          <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="processor-navigation">
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <span style="font-weight: 600; color: var(--text-secondary); font-size: 14px;">Navigate:</span>
+          <a href="/crm" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="bar-chart-3" style="width: 16px; height: 16px;"></i>
+            CRM
+          </a>
+          <a href="/form" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+            Form
+          </a>
+          <a href="/admin" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="shield" style="width: 16px; height: 16px;"></i>
+            Admin
+          </a>
+          <a href="/" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="home" style="width: 16px; height: 16px;"></i>
+            Home
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Admin Message -->
+    <div id="processorMessage" style="display: none; margin-bottom: 20px;">
+      <div id="processorMessageContent" class="message"></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchTab('sales')" id="salesTabBtn">📊 Sales Data</button>
+      <button class="admin-tab" onclick="switchTab('mapping')" id="mappingTabBtn" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="map" style="width: 16px; height: 16px;"></i>
+        Field Mapping
+      </button>
+      <button class="admin-tab" onclick="switchTab('profile')" id="profileTabBtn" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="user" style="width: 16px; height: 16px;"></i>
+        Profile
+      </button>
+      <button class="admin-tab" onclick="switchTab('activity')" id="activityTabBtn" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+        Activity Log
+      </button>
+    </div>
+
+    <!-- Sales Tab Content -->
+    <div id="salesTab" class="admin-tab-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+        <h2>Sales Data</h2>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <input type="text" id="salesSearch" class="admin-search" placeholder="🔍 Search all fields..." oninput="filterSales()">
+          <select id="salesFilterAgent" class="admin-filter" onchange="filterSales()" style="min-width: 150px;">
+            <option value="">All Agents</option>
+          </select>
+          <select id="salesFilterPlan" class="admin-filter" onchange="filterSales()" style="min-width: 150px;">
+            <option value="">All Plans</option>
+            <option value="Appliance">Appliance</option>
+            <option value="Appliance + Boiler">Appliance + Boiler</option>
+          </select>
+          <button id="refreshSalesBtn" class="btn btn-secondary" onclick="loadSales()">🔄 Refresh</button>
+          <button id="exportSalesBtn" class="btn btn-primary" onclick="exportSalesToCSV()">📥 Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Sales List -->
+      <div id="salesList" class="sales-list">
+        <div id="salesLoading" style="text-align: center; padding: 60px;">
+          <div class="spinner" style="margin: 0 auto 20px;"></div>
+          <p style="color: var(--text-secondary);">Loading sales data...</p>
+        </div>
+        <div id="salesTable" style="display: none;">
+          <div style="overflow-x: auto;">
+            <table id="salesDataTable">
+              <thead>
+                <tr id="salesTableHeader">
+                  <th onclick="sortSales('date')" style="cursor: pointer; user-select: none;">
+                    Date <span id="sort-date" class="sort-indicator">⇅</span>
+                  </th>
+                  <th onclick="sortSales('customer')" style="cursor: pointer; user-select: none;">
+                    Customer <span id="sort-customer" class="sort-indicator">⇅</span>
+                  </th>
+                  <th onclick="sortSales('agent')" style="cursor: pointer; user-select: none;">
+                    Agent <span id="sort-agent" class="sort-indicator">⇅</span>
+                  </th>
+                  <th onclick="sortSales('plan')" style="cursor: pointer; user-select: none;">
+                    Plan <span id="sort-plan" class="sort-indicator">⇅</span>
+                  </th>
+                  <th onclick="sortSales('cost')" style="cursor: pointer; user-select: none;">
+                    Total Cost <span id="sort-cost" class="sort-indicator">⇅</span>
+                  </th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="salesTableBody">
+                <!-- Sales will be populated here -->
+              </tbody>
+            </table>
+          </div>
+          <div id="salesTableInfo" style="margin-top: 15px; color: var(--text-secondary); font-size: 14px;">
+            Showing <span id="salesCount">0</span> of <span id="salesTotal">0</span> sales
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Field Mapping Tab Content -->
+    <div id="mappingTab" class="admin-tab-content" style="display: none;">
+      <div style="margin-bottom: 20px;">
+        <h2>CSV Field Mapping</h2>
+        <p style="color: var(--text-secondary); margin-top: 8px;">
+          Map form field names to your custom CSV column names. These mappings will be used when exporting sales data.
+        </p>
+      </div>
+
+      <div id="mappingLoading" style="text-align: center; padding: 60px;">
+        <div class="spinner" style="margin: 0 auto 20px;"></div>
+        <p style="color: var(--text-secondary);">Loading field mappings...</p>
+      </div>
+
+      <div id="mappingContent" style="display: none;">
+        <!-- Profile Selection -->
+        <div style="background: var(--bg-secondary); padding: 20px; border-radius: var(--border-radius); margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+            <div style="flex: 1; min-width: 200px;">
+              <label for="mappingProfileSelect" style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-primary);">Mapping Profile:</label>
+              <select id="mappingProfileSelect" onchange="switchMappingProfile(this.value)" style="width: 100%; padding: 10px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                <option value="default">Default Profile</option>
+              </select>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: flex-end;">
+              <button id="newProfileBtn" class="btn btn-secondary" onclick="showNewProfileModal()">➕ New Profile</button>
+              <button id="deleteProfileBtn" class="btn btn-danger" onclick="deleteCurrentProfile()" style="display: none;">🗑️ Delete</button>
+              <button id="setDefaultBtn" class="btn btn-secondary" onclick="setAsDefaultProfile()" style="display: none;">⭐ Set Default</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mapping Rules -->
+        <div style="background: var(--bg-secondary); padding: 20px; border-radius: var(--border-radius); margin-bottom: 20px;">
+          <h3 style="margin: 0 0 16px 0;">Mapping Rules</h3>
+          <div id="mappingRulesList">
+            <!-- Mapping rules will be populated here -->
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button id="saveMappingBtn" class="btn btn-primary" onclick="saveFieldMappings()" style="display: inline-flex; align-items: center; gap: 6px;">
+              <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+              Save Mappings
+            </button>
+            <button id="previewMappingBtn" class="btn btn-secondary" onclick="previewCSVMapping()">👁️ Preview CSV</button>
+          </div>
+        </div>
+
+        <!-- New Profile Modal -->
+        <div id="newProfileModal" class="modal" style="display: none;">
+          <div class="modal-content" style="max-width: 500px;">
+            <h3 style="margin: 0 0 20px 0;">Create New Mapping Profile</h3>
+            <div class="form-group">
+              <label for="newProfileName">Profile Name:</label>
+              <input type="text" id="newProfileName" placeholder="e.g., Client A, Export Format 1" style="width: 100%; padding: 10px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color);">
+              <span class="error-message" id="newProfileName-error" style="color: var(--danger); font-size: 12px; display: block; margin-top: 5px;"></span>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+              <button class="btn btn-primary" onclick="createNewProfile()">Create</button>
+              <button class="btn btn-secondary" onclick="closeNewProfileModal()">Cancel</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- CSV Preview Modal -->
+        <div id="csvPreviewModal" class="modal" style="display: none;">
+          <div class="modal-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+              <h3 style="margin: 0; font-size: 24px; color: var(--text-primary);">👁️ CSV Export Preview</h3>
+              <button onclick="closeCSVPreview()" class="btn btn-secondary" style="padding: 8px 16px;">✕ Close</button>
+            </div>
+            <div id="csvPreviewContent">
+              <p style="color: var(--text-secondary);">Preview will show how your CSV export will look with current field mappings.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Log Tab Content -->
+    <div id="activityTab" class="admin-tab-content" style="display: none;">
+      <div style="margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+          <h2>Activity Log</h2>
+          <button id="refreshActivityBtn" class="btn btn-secondary" onclick="loadActivityLog()">🔄 Refresh</button>
+        </div>
+        <p style="color: var(--text-secondary); margin-top: 8px;">View your recent activity including CSV exports, profile changes, and mapping updates.</p>
+      </div>
+
+      <div id="activityLogContent">
+        <div id="activityLoading" style="text-align: center; padding: 60px;">
+          <div class="spinner" style="margin: 0 auto 20px;"></div>
+          <p style="color: var(--text-secondary);">Loading activity log...</p>
+        </div>
+        <div id="activityList" style="display: none;">
+          <!-- Activity items will be populated here -->
+        </div>
+        <div id="activityEmpty" style="display: none; text-align: center; padding: 60px; color: var(--text-secondary);">
+          <p style="font-size: 18px; margin-bottom: 8px;">No activity yet</p>
+          <p>Your activity will appear here as you use the system.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Tab Content -->
+    <div id="profileTab" class="admin-tab-content" style="display: none;">
+      <div style="margin-bottom: 20px;">
+        <h2>Processor Profile</h2>
+        <p style="color: var(--text-secondary); margin-top: 8px;">
+          Manage your processor profile and export preferences.
+        </p>
+      </div>
+
+      <div id="profileLoading" style="text-align: center; padding: 60px;">
+        <div class="spinner" style="margin: 0 auto 20px;"></div>
+        <p style="color: var(--text-secondary);">Loading profile...</p>
+      </div>
+
+      <div id="profileContent" style="display: none;">
+        <div style="background: var(--bg-secondary); padding: 20px; border-radius: var(--border-radius);">
+          <h3 style="margin: 0 0 16px 0;">Profile Information</h3>
+          <div id="profileInfo">
+            <!-- Profile info will be populated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sale Details Modal (hidden by default) -->
+  <div id="saleDetailsModal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h3 style="margin: 0; font-size: 24px; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="file-text" style="width: 20px; height: 20px;"></i>
+          Sale Details
+        </h3>
+        <button onclick="closeSaleDetailsModal()" class="btn btn-secondary" style="padding: 8px 16px;">✕ Close</button>
+      </div>
+      <div id="saleDetailsContent">
+        <!-- Sale details will be populated here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK (CDN) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  
+  <!-- Authentication Module -->
+  <script src="services/security-logger.js"></script>
+  <script src="auth-db.js"></script>
+  
+  <!-- Firebase Configuration -->
+  <!-- Note: Firebase is initialized in auth-db.js, no need to re-initialize here -->
+  <!-- Firebase Auth for anonymous authentication (needed for database rules) -->
+  <!-- Database reference is available via window.database from auth-db.js -->
+  <script>
+    if (typeof window.database === 'undefined' && typeof firebase !== 'undefined' && firebase.database) {
+      window.database = firebase.database();
+    }
+  </script>
+  
+  <!-- Processor Services -->
+  <script src="utils/sanitize.js"></script>
+  <script src="services/processor-profile.js"></script>
+  <!-- Processor Logic -->
+  <script src="processor.js"></script>
+  
+  <!-- Initialize Lucide Icons (Professional Icons - Replaces Emoji) -->
+  <script>
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

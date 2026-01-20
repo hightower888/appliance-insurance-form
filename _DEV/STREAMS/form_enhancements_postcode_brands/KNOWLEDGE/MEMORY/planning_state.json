@@ -1,0 +1,65 @@
+{
+  "workflow": "PLANNING_ASSESSMENT_AI",
+  "version": "1.0.0",
+  "timestamp": "2026-01-15T06:35:00.000Z",
+  "assessment": {
+    "final_score": 24,
+    "confidence": 0.9,
+    "breakdown": {
+      "task_estimate": {
+        "score": 7,
+        "estimated_tasks": 35,
+        "requirements": 4,
+        "components": 3,
+        "services": 1,
+        "calculation": "(4×3) + (3×5) + (1×8) = 35 tasks → 7/50"
+      },
+      "dependency_complexity": {
+        "score": 2.4,
+        "internal": 2,
+        "external": 1,
+        "circular": 0,
+        "calculation": "(2/5) + (1×2) + (0×5) = 2.4/30"
+      },
+      "integration_complexity": {
+        "score": 7,
+        "apis": 1,
+        "databases": 1,
+        "services": 0,
+        "calculation": "(1×3) + (1×4) + (0×2) = 7/40"
+      },
+      "technology_breadth": {
+        "score": 8,
+        "languages": 1,
+        "frameworks": 0,
+        "new_tech": 1,
+        "calculation": "(1×3) + (0×2) + (1×5) = 8/30"
+      }
+    },
+    "learning_adjustments": {
+      "patterns_found": 0,
+      "top_similarity": null,
+      "score_adjustment": 0,
+      "confidence_adjustment": -0.1,
+      "reason": "No patterns found in learning system, reduced confidence from 1.0 to 0.9"
+    }
+  },
+  "routing": {
+    "decision": "PLANNING_SIMPLE_AI",
+    "workflow_path": "SHARED_RESOURCES/WORKFLOW_SYSTEM/AI_WORKFLOWS/PLANNING/PLANNING_SIMPLE_AI.md",
+    "rationale": "Score 24/150 falls in 0-29 range (SIMPLE tier). Low complexity enhancement with focused scope, clear requirements, estimated 35 tasks. SIMPLE tier provides quick planning without checkpointing/phasing overhead, which matches project needs. No complex features required.",
+    "overrides_applied": [],
+    "alternatives_considered": [
+      {
+        "tier": "PLANNING_STANDARD_AI",
+        "reason_not_selected": "Score 24 is below 30 threshold. No checkpointing or phasing needed for 35 tasks. SIMPLE tier sufficient."
+      }
+    ],
+    "risk_assessment": "Low risk. Score is well within SIMPLE tier range (24/150, threshold 0-29). Estimated 35 tasks is slightly above typical SIMPLE range (1-30) but manageable. No complex dependencies or integrations that would require STANDARD tier features."
+  },
+  "next_steps": [
+    "Execute PLANNING_SIMPLE_AI workflow",
+    "Monitor for complexity changes during planning",
+    "Be ready to reroute if task count exceeds 50 or new major dependencies discovered"
+  ]
+}

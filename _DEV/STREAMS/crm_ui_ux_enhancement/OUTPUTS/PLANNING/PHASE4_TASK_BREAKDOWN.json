@@ -1,0 +1,877 @@
+{
+  "stream": "crm_ui_ux_enhancement",
+  "created": "2026-01-20",
+  "workflow": "PLANNING_PHASE_4",
+  "phase": 4,
+  "total_tasks": 51,
+  "total_effort_days": 64,
+  "duration_weeks": 9,
+  "sub_phases": [
+    {
+      "sub_phase": "4A",
+      "name": "Performance & Mobile",
+      "duration": "3 weeks",
+      "effort_days": 18,
+      "priority": "P0",
+      "tasks": [
+        {
+          "id": "phase4a-001",
+          "component": "Mobile Views",
+          "task": "Mobile View Optimization",
+          "description": "Analyze current mobile experience, identify breakpoints, create mobile-first CSS, optimize all views for mobile screens",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "All views optimized for mobile",
+            "Breakpoints identified and implemented",
+            "Mobile-first CSS approach",
+            "Table view has horizontal scroll or card fallback",
+            "Kanban view optimized for vertical scroll",
+            "Timeline view has compact layout"
+          ]
+        },
+        {
+          "id": "phase4a-002",
+          "component": "Touch Interactions",
+          "task": "Touch Interactions",
+          "description": "Add touch-friendly button sizes (min 44x44px), implement swipe gestures, add pull-to-refresh, optimize form inputs",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["phase4a-001"],
+          "acceptance_criteria": [
+            "All buttons meet 44x44px minimum",
+            "Swipe gestures implemented",
+            "Pull-to-refresh functional",
+            "Form inputs touch-optimized",
+            "Touch feedback working"
+          ]
+        },
+        {
+          "id": "phase4a-003",
+          "component": "Mobile Navigation",
+          "task": "Mobile Navigation",
+          "description": "Create mobile navigation menu, implement bottom navigation bar, add mobile search interface, optimize modals",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["phase4a-001"],
+          "acceptance_criteria": [
+            "Mobile navigation menu functional",
+            "Bottom navigation bar working",
+            "Mobile search interface complete",
+            "Modals optimized for mobile",
+            "Navigation flow tested"
+          ]
+        },
+        {
+          "id": "phase4a-004",
+          "component": "Mobile Forms",
+          "task": "Mobile Forms & Inputs",
+          "description": "Optimize form layouts for mobile, add mobile-friendly date pickers, implement camera integration, optimize file uploads",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["phase4a-002"],
+          "acceptance_criteria": [
+            "Form layouts mobile-optimized",
+            "Date pickers mobile-friendly",
+            "Camera integration working",
+            "File uploads optimized",
+            "Form completion flow tested"
+          ]
+        },
+        {
+          "id": "phase4a-005",
+          "component": "Service Worker",
+          "task": "Service Worker Setup",
+          "description": "Create service worker file, implement caching strategies (Cache First, Network First), add offline fallback pages, implement cache versioning",
+          "priority": "P0",
+          "effort_days": 1.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Service worker created",
+            "Caching strategies implemented",
+            "Offline fallback pages working",
+            "Cache versioning functional",
+            "Cache cleanup logic working"
+          ]
+        },
+        {
+          "id": "phase4a-006",
+          "component": "App Manifest",
+          "task": "App Manifest",
+          "description": "Create web app manifest, add app icons (multiple sizes), configure display mode, set theme colors, add start URL",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Web app manifest created",
+            "App icons added (all sizes)",
+            "Display mode configured",
+            "Theme colors set",
+            "App installable"
+          ]
+        },
+        {
+          "id": "phase4a-007",
+          "component": "Push Notifications",
+          "task": "Push Notifications",
+          "description": "Set up push notification service, request notification permissions, implement notification display, add notification actions",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["phase4a-005"],
+          "acceptance_criteria": [
+            "Push notification service set up",
+            "Permission requests working",
+            "Notifications display correctly",
+            "Notification actions functional",
+            "Notification clicks handled"
+          ]
+        },
+        {
+          "id": "phase4a-008",
+          "component": "Offline Caching",
+          "task": "Offline Data Caching",
+          "description": "Cache critical data for offline access, implement offline data sync, add offline indicator, handle sync conflicts",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["phase4a-005"],
+          "acceptance_criteria": [
+            "Critical data cached",
+            "Offline sync implemented",
+            "Offline indicator working",
+            "Sync conflicts handled",
+            "Offline/online transitions smooth"
+          ]
+        },
+        {
+          "id": "phase4a-009",
+          "component": "Cache Manager",
+          "task": "Advanced Caching Service",
+          "description": "Expand Cache Manager service, implement intelligent cache invalidation, add cache warming strategies, create cache analytics",
+          "priority": "P0",
+          "effort_days": 2,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Cache Manager expanded",
+            "Intelligent invalidation working",
+            "Cache warming implemented",
+            "Cache analytics functional",
+            "Browser storage optimized"
+          ]
+        },
+        {
+          "id": "phase4a-010",
+          "component": "Code Splitting",
+          "task": "Code Splitting",
+          "description": "Implement route-based code splitting, add dynamic imports for components, split vendor bundles, optimize bundle sizes",
+          "priority": "P0",
+          "effort_days": 2,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Route-based splitting implemented",
+            "Dynamic imports working",
+            "Vendor bundles split",
+            "Bundle sizes optimized",
+            "Loading states added"
+          ]
+        },
+        {
+          "id": "phase4a-011",
+          "component": "Lazy Loading",
+          "task": "Lazy Loading",
+          "description": "Implement component lazy loading, add image lazy loading, lazy load charts and visualizations, add intersection observer",
+          "priority": "P0",
+          "effort_days": 1.5,
+          "dependencies": ["phase4a-010"],
+          "acceptance_criteria": [
+            "Component lazy loading working",
+            "Image lazy loading functional",
+            "Charts lazy loaded",
+            "Intersection observer implemented",
+            "Initial load time optimized"
+          ]
+        },
+        {
+          "id": "phase4a-012",
+          "component": "Performance Monitoring",
+          "task": "Performance Monitoring",
+          "description": "Add performance metrics collection, implement Real User Monitoring (RUM), create performance dashboard, add Core Web Vitals tracking",
+          "priority": "P0",
+          "effort_days": 1.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Performance metrics collected",
+            "RUM implemented",
+            "Performance dashboard created",
+            "Core Web Vitals tracked",
+            "Bottlenecks identified"
+          ]
+        },
+        {
+          "id": "phase4a-013",
+          "component": "Asset Optimization",
+          "task": "Asset Optimization",
+          "description": "Implement image optimization service, add asset compression, optimize font loading, minimize CSS/JS, add CDN configuration",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Image optimization working",
+            "Assets compressed",
+            "Font loading optimized",
+            "CSS/JS minimized",
+            "CDN configured"
+          ]
+        },
+        {
+          "id": "phase4a-014",
+          "component": "Query Optimization",
+          "task": "Query Optimization",
+          "description": "Analyze Firebase query patterns, optimize database queries, add query result caching, implement pagination improvements",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Query patterns analyzed",
+            "Queries optimized",
+            "Result caching working",
+            "Pagination improved",
+            "Query performance tested"
+          ]
+        },
+        {
+          "id": "phase4a-015",
+          "component": "Request Batching",
+          "task": "Request Batching",
+          "description": "Implement request batching service, batch Firebase operations, add request deduplication, optimize network calls",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Batching service implemented",
+            "Firebase operations batched",
+            "Deduplication working",
+            "Network calls optimized",
+            "Request queuing functional"
+          ]
+        },
+        {
+          "id": "phase4a-016",
+          "component": "Data Prefetching",
+          "task": "Data Prefetching",
+          "description": "Implement intelligent prefetching, prefetch likely-needed data, add prefetch strategies, optimize prefetch timing",
+          "priority": "P1",
+          "effort_days": 0.5,
+          "dependencies": ["phase4a-015"],
+          "acceptance_criteria": [
+            "Prefetching implemented",
+            "Intelligent prefetch working",
+            "Prefetch strategies added",
+            "Timing optimized",
+            "Prefetch effectiveness tested"
+          ]
+        }
+      ]
+    },
+    {
+      "sub_phase": "4B",
+      "name": "Analytics & Automation",
+      "duration": "3 weeks",
+      "effort_days": 22,
+      "priority": "P1",
+      "tasks": [
+        {
+          "id": "phase4b-001",
+          "component": "Lead Scoring",
+          "task": "Lead Scoring Algorithm",
+          "description": "Design lead scoring model, implement scoring algorithm, add scoring factors (engagement, demographics, behavior), create scoring rules engine",
+          "priority": "P1",
+          "effort_days": 2.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Scoring model designed",
+            "Algorithm implemented",
+            "Scoring factors added",
+            "Rules engine created",
+            "Score visualization working",
+            "Scoring accuracy > 80%"
+          ]
+        },
+        {
+          "id": "phase4b-002",
+          "component": "Conversion Prediction",
+          "task": "Conversion Probability",
+          "description": "Implement conversion prediction model, add probability calculation, create probability visualization, add conversion insights",
+          "priority": "P1",
+          "effort_days": 1.75,
+          "dependencies": ["phase4b-001"],
+          "acceptance_criteria": [
+            "Prediction model implemented",
+            "Probability calculated",
+            "Visualization created",
+            "Insights generated",
+            "Prediction accuracy tested"
+          ]
+        },
+        {
+          "id": "phase4b-003",
+          "component": "Churn Prediction",
+          "task": "Churn Prediction",
+          "description": "Implement churn detection, add churn probability calculation, create churn alerts, add retention recommendations",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["phase4b-001"],
+          "acceptance_criteria": [
+            "Churn detection working",
+            "Probability calculated",
+            "Alerts created",
+            "Recommendations added",
+            "Churn predictions tested"
+          ]
+        },
+        {
+          "id": "phase4b-004",
+          "component": "Revenue Forecasting",
+          "task": "Revenue Forecasting",
+          "description": "Implement forecasting algorithm, add revenue trend analysis, create forecast visualizations, add forecast confidence intervals",
+          "priority": "P1",
+          "effort_days": 1.25,
+          "dependencies": ["phase4b-001"],
+          "acceptance_criteria": [
+            "Forecasting algorithm implemented",
+            "Trend analysis working",
+            "Visualizations created",
+            "Confidence intervals added",
+            "Forecast accuracy tested"
+          ]
+        },
+        {
+          "id": "phase4b-005",
+          "component": "Time-Series Analysis",
+          "task": "Time-Series Analysis",
+          "description": "Implement time-series data processing, add trend detection, create trend visualizations, add seasonal pattern detection",
+          "priority": "P1",
+          "effort_days": 1.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Time-series processing working",
+            "Trend detection functional",
+            "Visualizations created",
+            "Seasonal patterns detected",
+            "Analysis tested"
+          ]
+        },
+        {
+          "id": "phase4b-006",
+          "component": "Comparative Analytics",
+          "task": "Comparative Analytics",
+          "description": "Add period-over-period comparison, implement cohort analysis, create comparison visualizations, add benchmark comparisons",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["phase4b-005"],
+          "acceptance_criteria": [
+            "Period comparisons working",
+            "Cohort analysis implemented",
+            "Visualizations created",
+            "Benchmarks added",
+            "Comparisons tested"
+          ]
+        },
+        {
+          "id": "phase4b-007",
+          "component": "Growth Metrics",
+          "task": "Growth Metrics",
+          "description": "Calculate growth rates, add growth visualizations, create growth dashboards, add growth alerts",
+          "priority": "P1",
+          "effort_days": 0.75,
+          "dependencies": ["phase4b-005"],
+          "acceptance_criteria": [
+            "Growth rates calculated",
+            "Visualizations created",
+            "Dashboards functional",
+            "Alerts working",
+            "Calculations tested"
+          ]
+        },
+        {
+          "id": "phase4b-008",
+          "component": "Heatmaps",
+          "task": "Heatmaps",
+          "description": "Implement heatmap component, add activity heatmaps, create geographic heatmaps, add time-based heatmaps",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Heatmap component created",
+            "Activity heatmaps working",
+            "Geographic heatmaps functional",
+            "Time-based heatmaps added",
+            "Rendering tested"
+          ]
+        },
+        {
+          "id": "phase4b-009",
+          "component": "Funnel Charts",
+          "task": "Funnel Charts",
+          "description": "Implement funnel chart component, add conversion funnel visualization, create multi-step funnels, add funnel analysis",
+          "priority": "P1",
+          "effort_days": 0.75,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Funnel component created",
+            "Conversion funnels working",
+            "Multi-step funnels functional",
+            "Analysis added",
+            "Charts tested"
+          ]
+        },
+        {
+          "id": "phase4b-010",
+          "component": "Advanced Charts",
+          "task": "Advanced Chart Types",
+          "description": "Add Sankey diagrams, implement geographic visualizations, add network graphs, create custom chart types",
+          "priority": "P1",
+          "effort_days": 1.25,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Sankey diagrams added",
+            "Geographic visualizations working",
+            "Network graphs implemented",
+            "Custom charts created",
+            "Visualizations tested"
+          ]
+        },
+        {
+          "id": "phase4b-011",
+          "component": "Automated Insights",
+          "task": "Automated Insights",
+          "description": "Implement insight generation engine, add insight templates, create insight display component, add insight prioritization",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["phase4b-001", "phase4b-005"],
+          "acceptance_criteria": [
+            "Insight engine implemented",
+            "Templates added",
+            "Display component created",
+            "Prioritization working",
+            "Insights tested"
+          ]
+        },
+        {
+          "id": "phase4b-012",
+          "component": "Anomaly Detection",
+          "task": "Anomaly Detection",
+          "description": "Implement anomaly detection algorithm, add anomaly alerts, create anomaly visualizations, add anomaly explanations",
+          "priority": "P1",
+          "effort_days": 0.75,
+          "dependencies": ["phase4b-005"],
+          "acceptance_criteria": [
+            "Detection algorithm implemented",
+            "Alerts working",
+            "Visualizations created",
+            "Explanations added",
+            "Detection tested"
+          ]
+        },
+        {
+          "id": "phase4b-013",
+          "component": "Recommendation Engine",
+          "task": "Recommendation Engine",
+          "description": "Implement recommendation algorithm, add action recommendations, create recommendation UI, add recommendation tracking",
+          "priority": "P1",
+          "effort_days": 0.75,
+          "dependencies": ["phase4b-001"],
+          "acceptance_criteria": [
+            "Algorithm implemented",
+            "Recommendations generated",
+            "UI created",
+            "Tracking working",
+            "Recommendations tested"
+          ]
+        },
+        {
+          "id": "phase4b-014",
+          "component": "Rules Engine",
+          "task": "Rules Engine",
+          "description": "Design rules engine architecture, implement rule definition system, create rule execution engine, add rule templates, implement rule testing framework",
+          "priority": "P1",
+          "effort_days": 4.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Architecture designed",
+            "Rule definition system working",
+            "Execution engine functional",
+            "Templates added",
+            "Testing framework implemented",
+            "Rules validated"
+          ]
+        },
+        {
+          "id": "phase4b-015",
+          "component": "Automated Actions",
+          "task": "Automated Actions",
+          "description": "Implement auto-assignment rules, add status transition automation, create email trigger system, add notification automation",
+          "priority": "P1",
+          "effort_days": 3.5,
+          "dependencies": ["phase4b-014"],
+          "acceptance_criteria": [
+            "Auto-assignment working",
+            "Status transitions automated",
+            "Email triggers functional",
+            "Notification automation working",
+            "Actions logged",
+            "Automation tested"
+          ]
+        },
+        {
+          "id": "phase4b-016",
+          "component": "Workflow Builder",
+          "task": "Workflow Builder",
+          "description": "Design workflow builder UI, implement visual workflow designer, add multi-step workflow support, create workflow templates, add workflow execution tracking",
+          "priority": "P1",
+          "effort_days": 4.5,
+          "dependencies": ["phase4b-014"],
+          "acceptance_criteria": [
+            "Builder UI designed",
+            "Visual designer working",
+            "Multi-step workflows supported",
+            "Templates created",
+            "Execution tracking functional",
+            "Workflows tested"
+          ]
+        }
+      ]
+    },
+    {
+      "sub_phase": "4C",
+      "name": "Polish & Integration",
+      "duration": "3 weeks",
+      "effort_days": 24,
+      "priority": "P1-P2",
+      "tasks": [
+        {
+          "id": "phase4c-001",
+          "component": "ARIA Implementation",
+          "task": "ARIA Implementation",
+          "description": "Audit current ARIA usage, add comprehensive ARIA labels, implement ARIA roles, add ARIA live regions, optimize for screen readers",
+          "priority": "P1",
+          "effort_days": 2.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "ARIA audit complete",
+            "Labels comprehensive",
+            "Roles implemented",
+            "Live regions added",
+            "Screen reader optimized",
+            "WCAG 2.1 AA compliant"
+          ]
+        },
+        {
+          "id": "phase4c-002",
+          "component": "Keyboard Navigation",
+          "task": "Keyboard Navigation",
+          "description": "Enhance keyboard shortcuts, implement focus management, add skip links, create keyboard-only workflows, add focus indicators",
+          "priority": "P1",
+          "effort_days": 2.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Shortcuts enhanced",
+            "Focus management working",
+            "Skip links added",
+            "Keyboard-only workflows functional",
+            "Focus indicators visible",
+            "Navigation tested"
+          ]
+        },
+        {
+          "id": "phase4c-003",
+          "component": "Visual Accessibility",
+          "task": "Visual Accessibility",
+          "description": "Implement high contrast mode, add font size controls, create color blind friendly palettes, add reduced motion support",
+          "priority": "P1",
+          "effort_days": 3,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "High contrast mode working",
+            "Font size controls functional",
+            "Color blind palettes created",
+            "Reduced motion supported",
+            "Preferences implemented",
+            "Accessibility tested"
+          ]
+        },
+        {
+          "id": "phase4c-004",
+          "component": "Comments System",
+          "task": "Comments System",
+          "description": "Design comments data structure, implement inline comments, add threaded discussions, implement @mentions, add comment notifications",
+          "priority": "P1",
+          "effort_days": 3.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Data structure designed",
+            "Inline comments working",
+            "Threaded discussions functional",
+            "@mentions implemented",
+            "Notifications working",
+            "Comments tested"
+          ]
+        },
+        {
+          "id": "phase4c-005",
+          "component": "Sharing & Permissions",
+          "task": "Sharing & Permissions",
+          "description": "Design permission system, implement record sharing, add permission levels, create access control, add activity visibility settings",
+          "priority": "P1",
+          "effort_days": 3.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Permission system designed",
+            "Record sharing working",
+            "Permission levels added",
+            "Access control functional",
+            "Visibility settings working",
+            "Permissions tested"
+          ]
+        },
+        {
+          "id": "phase4c-006",
+          "component": "Team Collaboration",
+          "task": "Team Collaboration",
+          "description": "Implement team workspaces, add shared views, create collaborative editing, add presence indicators, implement real-time collaboration",
+          "priority": "P1",
+          "effort_days": 3,
+          "dependencies": ["phase4c-004", "phase4c-005"],
+          "acceptance_criteria": [
+            "Workspaces implemented",
+            "Shared views working",
+            "Collaborative editing functional",
+            "Presence indicators added",
+            "Real-time collaboration working",
+            "Collaboration tested"
+          ]
+        },
+        {
+          "id": "phase4c-007",
+          "component": "Natural Language Search",
+          "task": "Natural Language Search",
+          "description": "Enhance NLP processing, implement query understanding, add intent recognition, create smart suggestions, add search autocomplete",
+          "priority": "P1",
+          "effort_days": 3.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "NLP processing enhanced",
+            "Query understanding working",
+            "Intent recognition functional",
+            "Smart suggestions created",
+            "Autocomplete working",
+            "Search tested"
+          ]
+        },
+        {
+          "id": "phase4c-008",
+          "component": "Advanced Filter Builder",
+          "task": "Advanced Filter Builder",
+          "description": "Enhance filter builder UI, add complex filter combinations, implement filter templates, add filter sharing, create filter presets",
+          "priority": "P1",
+          "effort_days": 2.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Builder UI enhanced",
+            "Complex combinations working",
+            "Templates implemented",
+            "Sharing functional",
+            "Presets created",
+            "Filters tested"
+          ]
+        },
+        {
+          "id": "phase4c-009",
+          "component": "Search Analytics",
+          "task": "Search Analytics",
+          "description": "Implement search history, add popular searches tracking, create search suggestions, add search performance metrics",
+          "priority": "P2",
+          "effort_days": 2,
+          "dependencies": ["phase4c-007"],
+          "acceptance_criteria": [
+            "Search history working",
+            "Popular searches tracked",
+            "Suggestions created",
+            "Performance metrics added",
+            "Analytics tested"
+          ]
+        },
+        {
+          "id": "phase4c-010",
+          "component": "Advanced Import/Export",
+          "task": "Advanced Import/Export",
+          "description": "Add Excel import support, add JSON import/export, implement import validation, add import preview, create export templates",
+          "priority": "P1",
+          "effort_days": 3.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Excel import working",
+            "JSON import/export functional",
+            "Validation implemented",
+            "Preview working",
+            "Templates created",
+            "Import/export tested"
+          ]
+        },
+        {
+          "id": "phase4c-011",
+          "component": "Data Quality Tools",
+          "task": "Data Quality Tools",
+          "description": "Enhance duplicate detection, add data validation rules, create data cleaning tools, implement data enrichment, add data quality dashboard",
+          "priority": "P1",
+          "effort_days": 2.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Duplicate detection enhanced",
+            "Validation rules added",
+            "Cleaning tools created",
+            "Enrichment implemented",
+            "Quality dashboard functional",
+            "Tools tested"
+          ]
+        },
+        {
+          "id": "phase4c-012",
+          "component": "Bulk Operations Enhancement",
+          "task": "Bulk Operations Enhancement",
+          "description": "Enhance bulk editing UI, add bulk status changes, implement bulk assignment, add bulk export, create bulk operation templates",
+          "priority": "P1",
+          "effort_days": 2.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Bulk editing UI enhanced",
+            "Status changes working",
+            "Bulk assignment functional",
+            "Bulk export added",
+            "Templates created",
+            "Operations tested"
+          ]
+        },
+        {
+          "id": "phase4c-013",
+          "component": "Backup & Recovery",
+          "task": "Backup & Recovery",
+          "description": "Implement automated backups, add point-in-time recovery, create export scheduling, add data retention policies",
+          "priority": "P1",
+          "effort_days": 1.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Automated backups working",
+            "Point-in-time recovery functional",
+            "Export scheduling created",
+            "Retention policies added",
+            "Backup/recovery tested"
+          ]
+        },
+        {
+          "id": "phase4c-014",
+          "component": "Theme Customization",
+          "task": "Theme Customization",
+          "description": "Implement light/dark mode, add custom color schemes, create brand customization, add theme presets, implement theme persistence",
+          "priority": "P2",
+          "effort_days": 2.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Light/dark mode working",
+            "Color schemes added",
+            "Brand customization functional",
+            "Presets created",
+            "Persistence implemented",
+            "Themes tested"
+          ]
+        },
+        {
+          "id": "phase4c-015",
+          "component": "Layout Customization",
+          "task": "Layout Customization",
+          "description": "Enhance dashboard customization, add widget arrangement, implement column customization, add view preferences, create layout templates",
+          "priority": "P2",
+          "effort_days": 2.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Dashboard customization enhanced",
+            "Widget arrangement working",
+            "Column customization functional",
+            "View preferences added",
+            "Templates created",
+            "Layouts tested"
+          ]
+        },
+        {
+          "id": "phase4c-016",
+          "component": "User Preferences",
+          "task": "User Preferences",
+          "description": "Create preferences system, add notification preferences, implement display preferences, add workflow preferences, create preference profiles",
+          "priority": "P2",
+          "effort_days": 3,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Preferences system created",
+            "Notification preferences working",
+            "Display preferences functional",
+            "Workflow preferences added",
+            "Profiles created",
+            "Preferences tested"
+          ]
+        },
+        {
+          "id": "phase4c-017",
+          "component": "REST API",
+          "task": "REST API",
+          "description": "Design API architecture, implement authentication, create CRUD endpoints, add API documentation, implement rate limiting, add API versioning",
+          "priority": "P1",
+          "effort_days": 5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "API architecture designed",
+            "Authentication implemented",
+            "CRUD endpoints working",
+            "Documentation complete",
+            "Rate limiting functional",
+            "Versioning added",
+            "API tested"
+          ]
+        },
+        {
+          "id": "phase4c-018",
+          "component": "Third-Party Integrations",
+          "task": "Third-Party Integrations",
+          "description": "Implement email integration (Gmail/Outlook), add calendar integration, create CRM integrations (Salesforce/HubSpot), add payment gateway integration, implement OAuth flows",
+          "priority": "P1",
+          "effort_days": 5,
+          "dependencies": ["phase4c-017"],
+          "acceptance_criteria": [
+            "Email integration working",
+            "Calendar integration functional",
+            "CRM integrations created",
+            "Payment gateway integrated",
+            "OAuth flows implemented",
+            "Integrations tested"
+          ]
+        },
+        {
+          "id": "phase4c-019",
+          "component": "Webhook System",
+          "task": "Webhook System",
+          "description": "Design webhook architecture, implement webhook configuration, add event triggers, create webhook delivery system, add webhook logging",
+          "priority": "P1",
+          "effort_days": 2.5,
+          "dependencies": ["phase4c-017"],
+          "acceptance_criteria": [
+            "Architecture designed",
+            "Configuration working",
+            "Event triggers functional",
+            "Delivery system created",
+            "Logging added",
+            "Webhooks tested"
+          ]
+        }
+      ]
+    }
+  ]
+}

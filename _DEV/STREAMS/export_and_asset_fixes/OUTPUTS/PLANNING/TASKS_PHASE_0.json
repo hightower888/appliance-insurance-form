@@ -1,0 +1,195 @@
+{
+  "phase": 0,
+  "phase_name": "Export/Asset Fixes",
+  "total_tasks": 8,
+  "estimated_effort_days": 3,
+  "tasks": [
+    {
+      "id": "TASK-0.1.1",
+      "name": "Create favicon.ico file",
+      "feature": "FEAT-0.1",
+      "phase": 0,
+      "component": "favicon.ico",
+      "requirement": "REQ-1",
+      "description": "Create favicon.ico file in src/ directory. Convert from existing favicon.svg or create new ICO file.",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/favicon.ico",
+        "details": "Create favicon.ico file. Option 1: Convert favicon.svg to ICO format. Option 2: Create new ICO file with same design. File should be 16x16 or 32x32 pixels. Place in src/ directory."
+      },
+      "estimated_hours": 2,
+      "complexity": 2,
+      "dependencies": [],
+      "acceptance_criteria": [
+        "favicon.ico file exists in src/",
+        "File is valid ICO format",
+        "File size is reasonable (< 50KB)"
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "id": "TASK-0.1.2",
+      "name": "Test favicon.ico loads without 404",
+      "feature": "FEAT-0.1",
+      "phase": 0,
+      "component": "favicon.ico",
+      "requirement": "REQ-1, REQ-10",
+      "description": "Test that favicon.ico loads correctly in browser without 404 error.",
+      "instructions": {
+        "action_type": "TEST",
+        "file_path": "src/favicon.ico",
+        "details": "Deploy to Vercel and test favicon.ico loads. Check browser console for 404 errors. Verify favicon displays in browser tab."
+      },
+      "estimated_hours": 1,
+      "complexity": 1,
+      "dependencies": ["TASK-0.1.1"],
+      "acceptance_criteria": [
+        "favicon.ico loads without 404 error",
+        "Favicon displays in browser tab",
+        "No console errors"
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "id": "TASK-0.2.1",
+      "name": "Delete export-sales-appliances.html",
+      "feature": "FEAT-0.2",
+      "phase": 0,
+      "component": "export-sales-appliances.html",
+      "requirement": "REQ-2, REQ-4",
+      "description": "Remove export-sales-appliances.html file from project root as it duplicates processor portal functionality.",
+      "instructions": {
+        "action_type": "DELETE_FILE",
+        "file_path": "export-sales-appliances.html",
+        "details": "Delete export-sales-appliances.html file from project root. This file is a duplicate of processor portal export functionality and should be removed to avoid confusion and maintain single source of truth."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 1,
+      "dependencies": ["TASK-0.3.2"],
+      "acceptance_criteria": [
+        "export-sales-appliances.html file deleted",
+        "No references to deleted file in codebase",
+        "No broken links"
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "id": "TASK-0.2.2",
+      "name": "Verify no references to removed file",
+      "feature": "FEAT-0.2",
+      "phase": 0,
+      "component": "export-sales-appliances.html",
+      "requirement": "REQ-2, REQ-4",
+      "description": "Verify no code references export-sales-appliances.html after deletion.",
+      "instructions": {
+        "action_type": "VERIFY",
+        "file_path": "project_root",
+        "details": "Search entire codebase for references to 'export-sales-appliances.html'. Verify no links, imports, or references exist. Check HTML files, JavaScript files, and documentation."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 1,
+      "dependencies": ["TASK-0.2.1"],
+      "acceptance_criteria": [
+        "No references to export-sales-appliances.html found",
+        "No broken links",
+        "Documentation updated if needed"
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "id": "TASK-0.3.1",
+      "name": "Test processor portal export button",
+      "feature": "FEAT-0.3",
+      "phase": 0,
+      "component": "processor.js",
+      "requirement": "REQ-3, REQ-7",
+      "description": "Test that processor portal export button works correctly and triggers CSV export.",
+      "instructions": {
+        "action_type": "TEST",
+        "file_path": "src/processor.html",
+        "details": "Open processor portal in browser. Click 'Export CSV' button. Verify button click triggers exportSalesToCSV() function. Check for JavaScript errors in console."
+      },
+      "estimated_hours": 1,
+      "complexity": 2,
+      "dependencies": [],
+      "acceptance_criteria": [
+        "Export button is clickable",
+        "Button triggers export function",
+        "No JavaScript errors",
+        "User feedback shown (loading/success message)"
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "id": "TASK-0.3.2",
+      "name": "Verify CSV generation works",
+      "feature": "FEAT-0.3",
+      "phase": 0,
+      "component": "processor.js, export-service.js",
+      "requirement": "REQ-3, REQ-6",
+      "description": "Verify CSV file is generated correctly with all required data fields.",
+      "instructions": {
+        "action_type": "VERIFY",
+        "file_path": "src/processor.js, src/services/export-service.js",
+        "details": "Test CSV export. Verify CSV file downloads. Open CSV file and verify it contains: sales data, customer information, plan details, field mappings work correctly, all 160+ fields included if using export-service.js."
+      },
+      "estimated_hours": 2,
+      "complexity": 3,
+      "dependencies": ["TASK-0.3.1"],
+      "acceptance_criteria": [
+        "CSV file downloads successfully",
+        "CSV contains all sales data",
+        "Field mappings work correctly",
+        "CSV format is valid (can open in Excel)"
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "id": "TASK-0.3.3",
+      "name": "Verify export includes appliances data",
+      "feature": "FEAT-0.3",
+      "phase": 0,
+      "component": "export-service.js",
+      "requirement": "REQ-3, REQ-8",
+      "description": "Verify processor portal export includes appliances data (not just sales).",
+      "instructions": {
+        "action_type": "VERIFY",
+        "file_path": "src/services/export-service.js",
+        "details": "Test export with sales that have appliances. Verify exported CSV includes appliance data. Check that export-service.js handles appliances relationship data correctly. Verify appliances are included in CSV columns."
+      },
+      "estimated_hours": 1.5,
+      "complexity": 3,
+      "dependencies": ["TASK-0.3.2"],
+      "acceptance_criteria": [
+        "CSV includes appliances data",
+        "Appliance relationships preserved",
+        "All appliance fields included"
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "id": "TASK-0.4.1",
+      "name": "Verify all assets deployed to production",
+      "feature": "FEAT-0.4",
+      "phase": 0,
+      "component": "All assets",
+      "requirement": "REQ-5",
+      "description": "Verify all assets in src/ directory are deployed to Vercel production.",
+      "instructions": {
+        "action_type": "VERIFY",
+        "file_path": "src/",
+        "details": "Deploy to Vercel production. Verify all assets accessible: favicon.ico, favicon.svg, all CSS files, all JavaScript files, all images. Check for 404 errors. Verify Vercel deployment includes all files from src/ directory."
+      },
+      "estimated_hours": 1,
+      "complexity": 2,
+      "dependencies": ["TASK-0.1.1", "TASK-0.2.1"],
+      "acceptance_criteria": [
+        "All assets accessible in production",
+        "No 404 errors for assets",
+        "favicon.ico deployed correctly",
+        "All files from src/ deployed"
+      ],
+      "priority": "MEDIUM"
+    }
+  ]
+}

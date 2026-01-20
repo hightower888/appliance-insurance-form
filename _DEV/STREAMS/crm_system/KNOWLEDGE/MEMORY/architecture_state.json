@@ -1,0 +1,224 @@
+{
+  "stream": "crm_system",
+  "architecture_complete": true,
+  "created": "2026-01-18T17:51:50.086Z",
+  "workflow": "DISCOVERY_FULL_AI",
+  "step": "full-4",
+  "components": {
+    "files": [
+      {
+        "path": "src/crm.html",
+        "type": "html",
+        "purpose": "Main CRM interface",
+        "contains": ["tab_navigation", "lead_list_view", "customer_detail_view", "edit_forms", "upload_interface", "reports_dashboard"],
+        "pattern": "Similar to admin.html structure"
+      },
+      {
+        "path": "src/crm.js",
+        "type": "javascript",
+        "purpose": "Core CRM functionality",
+        "functions": ["loadLeads", "loadCustomers", "renderLeadList", "viewLeadDetails", "editLead", "saveLead", "searchLeads", "filterLeads"],
+        "pattern": "Similar to admin.js loadSales() and renderSalesTable()"
+      },
+      {
+        "path": "src/crm-leads.js",
+        "type": "javascript",
+        "purpose": "Lead management specific functionality",
+        "functions": ["uploadLeads", "cycleToNextLead", "cycleToPreviousLead", "setDisposition", "getCurrentLeadIndex"],
+        "pattern": "New pattern for lead workflow"
+      },
+      {
+        "path": "src/crm-reports.js",
+        "type": "javascript",
+        "purpose": "Reporting and KPI calculations",
+        "functions": ["calculateConversionRate", "calculateDispositionBreakdown", "calculateAcquisitionMetrics", "generateReport", "renderKPIDashboard"],
+        "pattern": "New pattern for analytics"
+      },
+      {
+        "path": "src/styles.css",
+        "type": "css",
+        "purpose": "CRM styles",
+        "action": "extend_existing",
+        "note": "No new file, extend existing styles.css"
+      }
+    ],
+    "layers": [
+      {
+        "name": "Viewing Layer",
+        "components": ["Lead List View", "Customer List View", "Detail View (Modal)", "Reports Dashboard"]
+      },
+      {
+        "name": "Editing Layer",
+        "components": ["Inline Editing", "Modal Form Editing", "Validation"]
+      },
+      {
+        "name": "Lead Management Layer",
+        "components": ["Upload Handler", "Cycle Navigation", "Disposition Handler", "Status Workflow"]
+      },
+      {
+        "name": "Integration Layer",
+        "components": ["Form Integration", "Service Integration", "Database Integration"]
+      },
+      {
+        "name": "Reporting Layer",
+        "components": ["KPI Calculator", "Report Generator", "Dashboard Renderer"]
+      }
+    ]
+  },
+  "integration_points": [
+    {
+      "name": "Form System",
+      "method": "localStorage + URL parameters",
+      "files": ["app.js", "appliance_form.html"],
+      "flow": "paste_to_form"
+    },
+    {
+      "name": "Admin Panel Patterns",
+      "method": "Reuse patterns",
+      "files": ["admin.js", "admin.html"],
+      "patterns": ["table_rendering", "pagination", "search_filter", "modal_detail", "column_visibility"]
+    },
+    {
+      "name": "Services",
+      "method": "Import and use",
+      "files": ["form-renderer.js", "field-config.js", "appliance-relationship-manager.js"]
+    },
+    {
+      "name": "Authentication",
+      "method": "Use existing auth-db.js",
+      "files": ["auth-db.js"],
+      "roles": ["admin", "agent", "processor"]
+    },
+    {
+      "name": "Database",
+      "method": "Extend existing schema",
+      "nodes": ["sales", "appliances", "users", "security_logs"]
+    },
+    {
+      "name": "Activity Logging",
+      "method": "Use security_logs node",
+      "event_types": ["lead_dispositioned", "lead_edited", "lead_uploaded"]
+    },
+    {
+      "name": "Vercel Routing",
+      "method": "Add /crm route",
+      "file": "vercel.json"
+    }
+  ],
+  "database_schema": {
+    "extensions": [
+      {
+        "field": "leadStatus",
+        "type": "string",
+        "values": ["new", "contacted", "dispositioned", "converted"],
+        "optional": true,
+        "default": "auto-detect from submittedAt"
+      },
+      {
+        "field": "disposition",
+        "type": "string",
+        "values": ["no_answer", "not_interested", "interested", "call_back", "other", null],
+        "optional": true,
+        "default": null
+      },
+      {
+        "field": "dispositionDate",
+        "type": "string",
+        "format": "ISO string",
+        "optional": true,
+        "default": null
+      },
+      {
+        "field": "dispositionBy",
+        "type": "string",
+        "format": "agentId or email",
+        "optional": true,
+        "default": null
+      },
+      {
+        "field": "leadSource",
+        "type": "string",
+        "values": ["upload", "form", "manual", null],
+        "optional": true,
+        "default": "form"
+      }
+    ],
+    "backward_compatible": true
+  },
+  "data_flows": [
+    {
+      "name": "lead_upload",
+      "steps": ["User Input", "Validation", "Transform to Sales Schema", "Add leadStatus='new'", "Write to Firebase", "Create Appliance Records", "Update UI"]
+    },
+    {
+      "name": "disposition",
+      "steps": ["User Selects Disposition", "Validate", "Update Record", "If interested: Enable Paste to Form", "Save to Firebase", "Log Activity", "Update UI"]
+    },
+    {
+      "name": "paste_to_form",
+      "steps": ["User Clicks Paste to Form", "Validate disposition", "Collect Customer Data", "Store in localStorage", "Navigate to /form?prefill=true", "Form Reads localStorage", "Pre-fill Fields", "User Edits", "Submit Form", "Update CRM Record", "Clear localStorage"]
+    }
+  ],
+  "patterns": {
+    "reusable": [
+      {
+        "name": "Table/List View with Pagination",
+        "source": "admin.js:767-853",
+        "score": 9,
+        "use": "Extend for lead list with disposition badges"
+      },
+      {
+        "name": "Modal Detail View",
+        "source": "processor.js:354-429",
+        "score": 8,
+        "use": "Extend to editable modal"
+      },
+      {
+        "name": "Search/Filter UI",
+        "source": "admin.html:346-357",
+        "score": 9,
+        "use": "Add lead-specific filters"
+      },
+      {
+        "name": "Tab Navigation",
+        "source": "admin.html:42-48",
+        "score": 7,
+        "use": "CRM sections organization"
+      },
+      {
+        "name": "Form Data Collection",
+        "source": "app.js:1291-1383",
+        "score": 8,
+        "use": "Paste-to-form functionality"
+      },
+      {
+        "name": "Firebase Data Loading",
+        "source": "admin.js:685-759",
+        "score": 9,
+        "use": "Load leads/customers"
+      }
+    ],
+    "new": [
+      {
+        "name": "Lead Cycling Navigation",
+        "description": "Next/Previous lead navigation",
+        "implementation": "Index-based navigation with state management"
+      },
+      {
+        "name": "Disposition Tracking",
+        "description": "Disposition selection and storage",
+        "implementation": "Dropdown/buttons with status update"
+      },
+      {
+        "name": "Lead Upload",
+        "description": "Upload customer records with appliances",
+        "implementation": "Form-based upload with validation"
+      },
+      {
+        "name": "KPI Dashboard",
+        "description": "Reporting and analytics visualization",
+        "implementation": "Chart/graph components with calculations"
+      }
+    ]
+  }
+}

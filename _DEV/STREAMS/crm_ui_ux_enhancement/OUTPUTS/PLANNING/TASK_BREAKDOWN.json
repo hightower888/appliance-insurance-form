@@ -1,0 +1,1367 @@
+{
+  "stream": "crm_ui_ux_enhancement",
+  "created": "2026-01-19",
+  "workflow": "PLANNING_STANDARD_AI",
+  "total_tasks": 247,
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Foundation & Quick Wins",
+      "duration": "2-3 weeks",
+      "tasks": [
+        {
+          "id": "foundation-001",
+          "component": "State Manager",
+          "task": "Create state manager module structure",
+          "description": "Create modules/crm-state.js with class structure, state object, history array, and basic getState/setState methods",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "State manager class created",
+            "State object structure defined",
+            "History array for undo/redo",
+            "Basic getState/setState methods"
+          ]
+        },
+        {
+          "id": "foundation-002",
+          "component": "State Manager",
+          "task": "Implement state subscription system",
+          "description": "Add subscribe/unsubscribe methods for components to listen to state changes",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["foundation-001"],
+          "acceptance_criteria": [
+            "subscribe() method implemented",
+            "unsubscribe() method implemented",
+            "Components can listen to state changes",
+            "Notifications work correctly"
+          ]
+        },
+        {
+          "id": "foundation-003",
+          "component": "State Manager",
+          "task": "Implement undo/redo functionality",
+          "description": "Add undo() and redo() methods with history tracking",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["foundation-002"],
+          "acceptance_criteria": [
+            "undo() method implemented",
+            "redo() method implemented",
+            "History tracked correctly",
+            "State restored on undo/redo"
+          ]
+        },
+        {
+          "id": "foundation-004",
+          "component": "State Manager",
+          "task": "Add state persistence",
+          "description": "Implement localStorage persistence for state (optional, for user preferences)",
+          "priority": "P1",
+          "effort_days": 0.5,
+          "dependencies": ["foundation-003"],
+          "acceptance_criteria": [
+            "State saved to localStorage",
+            "State restored on page load",
+            "Error handling for storage failures"
+          ]
+        },
+        {
+          "id": "foundation-005",
+          "component": "State Manager",
+          "task": "Test state manager",
+          "description": "Unit tests for state manager functionality",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["foundation-004"],
+          "acceptance_criteria": [
+            "All state manager methods tested",
+            "Undo/redo tested",
+            "Subscription system tested"
+          ]
+        },
+        {
+          "id": "foundation-006",
+          "component": "Enhanced Logger",
+          "task": "Create enhanced logger service structure",
+          "description": "Create services/enhanced-logger.js with logging class and field-level change tracking structure",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Enhanced logger class created",
+            "Logging structure defined",
+            "Field-level change tracking structure",
+            "Database reference setup"
+          ]
+        },
+        {
+          "id": "foundation-007",
+          "component": "Enhanced Logger",
+          "task": "Implement field-level change detection",
+          "description": "Add logic to detect field changes (before/after values) and track which fields changed",
+          "priority": "P0",
+          "effort_days": 2,
+          "dependencies": ["foundation-006"],
+          "acceptance_criteria": [
+            "Change detection works",
+            "Before/after values captured",
+            "Field names tracked",
+            "Nested object changes handled"
+          ]
+        },
+        {
+          "id": "foundation-008",
+          "component": "Enhanced Logger",
+          "task": "Implement debounced batch logging",
+          "description": "Add debouncing to batch multiple changes into single log entry for performance",
+          "priority": "P0",
+          "effort_days": 1.5,
+          "dependencies": ["foundation-007"],
+          "acceptance_criteria": [
+            "Debouncing implemented",
+            "Batch updates work",
+            "Performance optimized",
+            "No data loss"
+          ]
+        },
+        {
+          "id": "foundation-009",
+          "component": "Enhanced Logger",
+          "task": "Implement efficient storage structure",
+          "description": "Design and implement efficient storage structure in security_logs node with indexing",
+          "priority": "P0",
+          "effort_days": 2,
+          "dependencies": ["foundation-008"],
+          "acceptance_criteria": [
+            "Storage structure efficient",
+            "Indexed for queries",
+            "Query performance good",
+            "Storage size optimized"
+          ]
+        },
+        {
+          "id": "foundation-010",
+          "component": "Enhanced Logger",
+          "task": "Add query methods for audit logs",
+          "description": "Implement methods to query logs by leadId, userId, date range, eventType",
+          "priority": "P0",
+          "effort_days": 1.5,
+          "dependencies": ["foundation-009"],
+          "acceptance_criteria": [
+            "Query by leadId works",
+            "Query by userId works",
+            "Query by date range works",
+            "Query by eventType works",
+            "Performance acceptable"
+          ]
+        },
+        {
+          "id": "foundation-011",
+          "component": "Enhanced Logger",
+          "task": "Add error handling and fallbacks",
+          "description": "Add comprehensive error handling, fallbacks if logging fails, and retry logic",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["foundation-010"],
+          "acceptance_criteria": [
+            "Error handling comprehensive",
+            "Fallbacks work",
+            "Retry logic implemented",
+            "No breaking on errors"
+          ]
+        },
+        {
+          "id": "foundation-012",
+          "component": "Enhanced Logger",
+          "task": "Performance testing",
+          "description": "Test logging performance with large datasets and optimize if needed",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["foundation-011"],
+          "acceptance_criteria": [
+            "Performance tested",
+            "No performance degradation",
+            "Optimizations applied if needed"
+          ]
+        },
+        {
+          "id": "foundation-013",
+          "component": "Enhanced Logger",
+          "task": "Test enhanced logger",
+          "description": "Unit and integration tests for enhanced logger",
+          "priority": "P0",
+          "effort_days": 1.5,
+          "dependencies": ["foundation-012"],
+          "acceptance_criteria": [
+            "All logger methods tested",
+            "Change detection tested",
+            "Query methods tested",
+            "Performance tests pass"
+          ]
+        },
+        {
+          "id": "foundation-014",
+          "component": "Cache Manager",
+          "task": "Create cache manager service",
+          "description": "Create services/cache-manager.js with Map-based cache, TTL support, and basic get/set methods",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Cache manager class created",
+            "Map-based cache",
+            "TTL support",
+            "get/set methods work"
+          ]
+        },
+        {
+          "id": "foundation-015",
+          "component": "Cache Manager",
+          "task": "Implement cache invalidation",
+          "description": "Add cache invalidation logic, manual invalidation, and automatic expiry",
+          "priority": "P1",
+          "effort_days": 0.5,
+          "dependencies": ["foundation-014"],
+          "acceptance_criteria": [
+            "Cache invalidation works",
+            "Automatic expiry works",
+            "Manual invalidation works"
+          ]
+        },
+        {
+          "id": "foundation-016",
+          "component": "Cache Manager",
+          "task": "Test cache manager",
+          "description": "Unit tests for cache manager",
+          "priority": "P1",
+          "effort_days": 0.5,
+          "dependencies": ["foundation-015"],
+          "acceptance_criteria": [
+            "Cache operations tested",
+            "TTL tested",
+            "Invalidation tested"
+          ]
+        },
+        {
+          "id": "foundation-017",
+          "component": "View Controller",
+          "task": "Create view controller base class",
+          "description": "Create modules/view-controller.js with base ViewController class and abstract methods",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["foundation-001"],
+          "acceptance_criteria": [
+            "ViewController base class created",
+            "Abstract methods defined",
+            "Interface consistent"
+          ]
+        },
+        {
+          "id": "foundation-018",
+          "component": "View Controller",
+          "task": "Implement view lifecycle methods",
+          "description": "Add render(), update(), destroy() methods and lifecycle management",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["foundation-017"],
+          "acceptance_criteria": [
+            "render() method works",
+            "update() method works",
+            "destroy() method works",
+            "Lifecycle managed correctly"
+          ]
+        },
+        {
+          "id": "foundation-019",
+          "component": "View Controller",
+          "task": "Add view state management",
+          "description": "Integrate with state manager for view state persistence",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["foundation-018", "foundation-001"],
+          "acceptance_criteria": [
+            "View state persisted",
+            "State manager integrated",
+            "State restored on view switch"
+          ]
+        },
+        {
+          "id": "foundation-020",
+          "component": "View Controller",
+          "task": "Test view controller",
+          "description": "Unit tests for view controller",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["foundation-019"],
+          "acceptance_criteria": [
+            "Lifecycle methods tested",
+            "State management tested"
+          ]
+        },
+        {
+          "id": "ui-001",
+          "component": "Sidebar",
+          "task": "Create sidebar component structure",
+          "description": "Create components/sidebar.js and sidebar HTML structure with navigation items",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Sidebar component file created",
+            "HTML structure defined",
+            "Navigation items structure"
+          ]
+        },
+        {
+          "id": "ui-002",
+          "component": "Sidebar",
+          "task": "Implement sidebar navigation logic",
+          "description": "Add navigation logic, active state management, and route handling",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["ui-001"],
+          "acceptance_criteria": [
+            "Navigation works",
+            "Active state managed",
+            "Routes handled correctly"
+          ]
+        },
+        {
+          "id": "ui-003",
+          "component": "Sidebar",
+          "task": "Add collapsible functionality",
+          "description": "Implement sidebar collapse/expand for mobile and desktop",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["ui-002"],
+          "acceptance_criteria": [
+            "Sidebar collapses/expands",
+            "Mobile responsive",
+            "State persisted"
+          ]
+        },
+        {
+          "id": "ui-004",
+          "component": "Sidebar",
+          "task": "Style sidebar component",
+          "description": "Add CSS styling for sidebar with modern design, animations, and responsive styles",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["ui-003"],
+          "acceptance_criteria": [
+            "Sidebar styled",
+            "Modern design",
+            "Animations work",
+            "Responsive"
+          ]
+        },
+        {
+          "id": "ui-005",
+          "component": "Sidebar",
+          "task": "Test sidebar component",
+          "description": "UI and integration tests for sidebar",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["ui-004"],
+          "acceptance_criteria": [
+            "Navigation tested",
+            "Collapse/expand tested",
+            "Responsive tested"
+          ]
+        },
+        {
+          "id": "ui-006",
+          "component": "Desktop Layout",
+          "task": "Create responsive grid system",
+          "description": "Implement CSS grid system for multi-column layouts on desktop (1200px+)",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["ui-005"],
+          "acceptance_criteria": [
+            "Grid system works",
+            "Multi-column on desktop",
+            "Responsive breakpoints",
+            "Layout customizable"
+          ]
+        },
+        {
+          "id": "ui-007",
+          "component": "Desktop Layout",
+          "task": "Optimize layout for wide screens",
+          "description": "Optimize CRM layout to use screen space efficiently on 1200px+ screens",
+          "priority": "P0",
+          "effort_days": 1.5,
+          "dependencies": ["ui-006"],
+          "acceptance_criteria": [
+            "Layout optimized",
+            "Better space utilization",
+            "Multi-column where appropriate",
+            "Desktop experience improved"
+          ]
+        },
+        {
+          "id": "ui-008",
+          "component": "Quick Filters",
+          "task": "Create filter pill component",
+          "description": "Create filter pill/badge component with toggle functionality",
+          "priority": "P1",
+          "effort_days": 0.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Filter pill component created",
+            "Toggle functionality",
+            "Active state indication"
+          ]
+        },
+        {
+          "id": "ui-009",
+          "component": "Quick Filters",
+          "task": "Integrate filter pills with existing filters",
+          "description": "Connect filter pills to existing filter logic and update UI",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["ui-008"],
+          "acceptance_criteria": [
+            "Filter pills work",
+            "Integrated with filter logic",
+            "UI updates correctly"
+          ]
+        },
+        {
+          "id": "ui-010",
+          "component": "Status Indicators",
+          "task": "Create status indicator component",
+          "description": "Create status indicator component with color coding for statuses and dispositions",
+          "priority": "P1",
+          "effort_days": 0.5,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Status indicator component",
+            "Color coding",
+            "Consistent styling"
+          ]
+        },
+        {
+          "id": "ui-011",
+          "component": "Status Indicators",
+          "task": "Integrate status indicators throughout UI",
+          "description": "Add status indicators to tables, cards, lists, and detail views",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["ui-010"],
+          "acceptance_criteria": [
+            "Indicators in tables",
+            "Indicators in cards",
+            "Indicators in lists",
+            "Consistent usage"
+          ]
+        },
+        {
+          "id": "editing-001",
+          "component": "Inline Editor",
+          "task": "Create inline editor component",
+          "description": "Create components/inline-editor.js with click-to-edit functionality",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["foundation-016"],
+          "acceptance_criteria": [
+            "Inline editor component created",
+            "Click-to-edit works",
+            "Input/select controls"
+          ]
+        },
+        {
+          "id": "editing-002",
+          "component": "Inline Editor",
+          "task": "Implement edit mode and save logic",
+          "description": "Add edit mode activation, save on blur/Enter, cancel on Escape",
+          "priority": "P0",
+          "effort_days": 1.5,
+          "dependencies": ["editing-001"],
+          "acceptance_criteria": [
+            "Edit mode works",
+            "Save on blur/Enter",
+            "Cancel on Escape",
+            "Visual indicators"
+          ]
+        },
+        {
+          "id": "editing-003",
+          "component": "Inline Editor",
+          "task": "Integrate with validation service",
+          "description": "Connect inline editor to validation service for real-time validation",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["editing-002", "editing-010"],
+          "acceptance_criteria": [
+            "Validation integrated",
+            "Real-time feedback",
+            "Error indicators",
+            "Prevent save on errors"
+          ]
+        },
+        {
+          "id": "editing-004",
+          "component": "Inline Editor",
+          "task": "Integrate with enhanced logger",
+          "description": "Log field changes when inline editing saves",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["editing-003", "foundation-013"],
+          "acceptance_criteria": [
+            "Changes logged",
+            "Field-level tracking",
+            "Before/after values"
+          ]
+        },
+        {
+          "id": "editing-005",
+          "component": "Inline Editor",
+          "task": "Add error handling",
+          "description": "Add error handling for save failures, network errors, and validation errors",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["editing-004"],
+          "acceptance_criteria": [
+            "Error handling comprehensive",
+            "User-friendly messages",
+            "Retry capability"
+          ]
+        },
+        {
+          "id": "editing-006",
+          "component": "Inline Editor",
+          "task": "Test inline editor",
+          "description": "Unit and integration tests for inline editor",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["editing-005"],
+          "acceptance_criteria": [
+            "Edit functionality tested",
+            "Validation tested",
+            "Error handling tested"
+          ]
+        },
+        {
+          "id": "editing-007",
+          "component": "Bulk Selection",
+          "task": "Create bulk selection component",
+          "description": "Create checkbox column in tables with select all/none functionality",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["foundation-001"],
+          "acceptance_criteria": [
+            "Checkbox column added",
+            "Select all/none works",
+            "Selection counter",
+            "Visual indicators"
+          ]
+        },
+        {
+          "id": "editing-008",
+          "component": "Bulk Selection",
+          "task": "Integrate with state manager",
+          "description": "Store selected items in state manager and sync across views",
+          "priority": "P1",
+          "effort_days": 0.5,
+          "dependencies": ["editing-007"],
+          "acceptance_criteria": [
+            "Selection in state",
+            "Syncs across views",
+            "Persists correctly"
+          ]
+        },
+        {
+          "id": "editing-009",
+          "component": "Bulk Operations",
+          "task": "Create bulk operations component",
+          "description": "Create bulk operations UI with action buttons and selection display",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["editing-008"],
+          "acceptance_criteria": [
+            "Bulk operations UI",
+            "Action buttons",
+            "Selection display"
+          ]
+        },
+        {
+          "id": "editing-010",
+          "component": "Validation Service",
+          "task": "Create validation service",
+          "description": "Create services/validation-service.js with validation rules per field type",
+          "priority": "P1",
+          "effort_days": 2,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Validation service created",
+            "Rules per field type",
+            "Custom messages",
+            "Real-time validation"
+          ]
+        },
+        {
+          "id": "audit-001",
+          "component": "Audit Viewer",
+          "task": "Create audit viewer component",
+          "description": "Create components/audit-viewer.js with log display structure",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["foundation-013"],
+          "acceptance_criteria": [
+            "Audit viewer component created",
+            "Log display structure",
+            "UI layout"
+          ]
+        },
+        {
+          "id": "audit-002",
+          "component": "Audit Viewer",
+          "task": "Implement log filtering",
+          "description": "Add filters for user, date, action type with UI controls",
+          "priority": "P0",
+          "effort_days": 1.5,
+          "dependencies": ["audit-001"],
+          "acceptance_criteria": [
+            "Filter by user works",
+            "Filter by date works",
+            "Filter by action works",
+            "Filters combine correctly"
+          ]
+        },
+        {
+          "id": "audit-003",
+          "component": "Audit Viewer",
+          "task": "Add search functionality",
+          "description": "Implement search within audit logs with debouncing",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["audit-002"],
+          "acceptance_criteria": [
+            "Search works",
+            "Debounced",
+            "Performance good"
+          ]
+        },
+        {
+          "id": "audit-004",
+          "component": "Audit Viewer",
+          "task": "Add pagination",
+          "description": "Implement pagination for audit logs with page size options",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["audit-003"],
+          "acceptance_criteria": [
+            "Pagination works",
+            "Page size options",
+            "Performance good"
+          ]
+        },
+        {
+          "id": "audit-005",
+          "component": "Audit Viewer",
+          "task": "Add export functionality",
+          "description": "Add export logs to CSV functionality",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["audit-004"],
+          "acceptance_criteria": [
+            "Export to CSV works",
+            "All filtered data exported"
+          ]
+        },
+        {
+          "id": "audit-006",
+          "component": "Audit Viewer",
+          "task": "Style audit viewer",
+          "description": "Add CSS styling for audit viewer with readable log display",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["audit-005"],
+          "acceptance_criteria": [
+            "Audit viewer styled",
+            "Readable log display",
+            "Responsive"
+          ]
+        },
+        {
+          "id": "audit-007",
+          "component": "Audit Viewer",
+          "task": "Test audit viewer",
+          "description": "Unit and integration tests for audit viewer",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["audit-006"],
+          "acceptance_criteria": [
+            "Filtering tested",
+            "Search tested",
+            "Pagination tested",
+            "Export tested"
+          ]
+        },
+        {
+          "id": "reporting-001",
+          "component": "KPI Calculator - LTV",
+          "task": "Implement Customer LTV calculation",
+          "description": "Calculate customer lifetime value based on plan costs and duration",
+          "priority": "P0",
+          "effort_days": 2,
+          "dependencies": ["foundation-014"],
+          "acceptance_criteria": [
+            "LTV calculated correctly",
+            "Per customer and aggregate",
+            "Trend over time"
+          ]
+        },
+        {
+          "id": "reporting-002",
+          "component": "KPI Calculator - Retention",
+          "task": "Implement retention rate calculation",
+          "description": "Calculate customer retention rate for periods",
+          "priority": "P0",
+          "effort_days": 2,
+          "dependencies": ["foundation-014"],
+          "acceptance_criteria": [
+            "Retention rate calculated",
+            "Period comparisons",
+            "Trend analysis"
+          ]
+        },
+        {
+          "id": "reporting-003",
+          "component": "KPI Calculator - Churn",
+          "task": "Implement churn rate calculation",
+          "description": "Calculate customer churn rate",
+          "priority": "P0",
+          "effort_days": 2,
+          "dependencies": ["foundation-014"],
+          "acceptance_criteria": [
+            "Churn rate calculated",
+            "Period comparisons",
+            "Trend analysis"
+          ]
+        },
+        {
+          "id": "reporting-004",
+          "component": "KPI Calculator - ARPC",
+          "task": "Implement average revenue per customer",
+          "description": "Calculate average revenue per customer",
+          "priority": "P0",
+          "effort_days": 1.5,
+          "dependencies": ["foundation-014"],
+          "acceptance_criteria": [
+            "ARPC calculated",
+            "Period comparisons",
+            "Trend analysis"
+          ]
+        },
+        {
+          "id": "reporting-005",
+          "component": "KPI Calculator - Agent Metrics",
+          "task": "Implement agent performance metrics",
+          "description": "Calculate leads per agent, conversion rate, avg time to convert",
+          "priority": "P1",
+          "effort_days": 2.5,
+          "dependencies": ["foundation-014"],
+          "acceptance_criteria": [
+            "Agent metrics calculated",
+            "Leaderboard data",
+            "Performance trends"
+          ]
+        },
+        {
+          "id": "reporting-006",
+          "component": "Dashboard",
+          "task": "Create dashboard component",
+          "description": "Create components/dashboard.js with KPI card layout",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["ui-005", "reporting-001", "reporting-002", "reporting-003", "reporting-004"],
+          "acceptance_criteria": [
+            "Dashboard component created",
+            "KPI card layout",
+            "Responsive grid"
+          ]
+        },
+        {
+          "id": "reporting-007",
+          "component": "Dashboard",
+          "task": "Implement real-time KPI updates",
+          "description": "Add real-time updates for KPI cards with debouncing",
+          "priority": "P1",
+          "effort_days": 1.5,
+          "dependencies": ["reporting-006"],
+          "acceptance_criteria": [
+            "Real-time updates work",
+            "Debounced",
+            "Performance good"
+          ]
+        },
+        {
+          "id": "reporting-008",
+          "component": "Dashboard",
+          "task": "Add clickable cards navigation",
+          "description": "Make KPI cards clickable to navigate to detailed views",
+          "priority": "P1",
+          "effort_days": 0.5,
+          "dependencies": ["reporting-007"],
+          "acceptance_criteria": [
+            "Cards clickable",
+            "Navigation works",
+            "Details shown"
+          ]
+        },
+        {
+          "id": "reporting-009",
+          "component": "Dashboard",
+          "task": "Style dashboard",
+          "description": "Add CSS styling for dashboard with modern card design",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["reporting-008"],
+          "acceptance_criteria": [
+            "Dashboard styled",
+            "Modern card design",
+            "Responsive"
+          ]
+        },
+        {
+          "id": "reporting-010",
+          "component": "Dashboard",
+          "task": "Test dashboard",
+          "description": "Unit and integration tests for dashboard",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["reporting-009"],
+          "acceptance_criteria": [
+            "KPI calculations tested",
+            "Real-time updates tested",
+            "Navigation tested"
+          ]
+        },
+        {
+          "id": "view-001",
+          "component": "Table View",
+          "task": "Refactor table view to use view controller",
+          "description": "Refactor existing table rendering to use ViewController base class",
+          "priority": "P0",
+          "effort_days": 1.5,
+          "dependencies": ["foundation-020"],
+          "acceptance_criteria": [
+            "Table view uses ViewController",
+            "Inherits correctly",
+            "Functionality preserved"
+          ]
+        },
+        {
+          "id": "view-002",
+          "component": "Table View",
+          "task": "Integrate inline editor",
+          "description": "Integrate inline editor component into table view",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["view-001", "editing-006"],
+          "acceptance_criteria": [
+            "Inline editing in table",
+            "All fields editable",
+            "Save works"
+          ]
+        },
+        {
+          "id": "view-003",
+          "component": "Table View",
+          "task": "Integrate bulk selection",
+          "description": "Add bulk selection checkbox column to table view",
+          "priority": "P0",
+          "effort_days": 0.5,
+          "dependencies": ["view-002", "editing-008"],
+          "acceptance_criteria": [
+            "Bulk selection in table",
+            "Select all/none works",
+            "Selection counter"
+          ]
+        },
+        {
+          "id": "view-004",
+          "component": "Table View",
+          "task": "Test table view",
+          "description": "Integration tests for table view with inline editing and bulk selection",
+          "priority": "P0",
+          "effort_days": 1,
+          "dependencies": ["view-003"],
+          "acceptance_criteria": [
+            "Table rendering tested",
+            "Inline editing tested",
+            "Bulk selection tested"
+          ]
+        },
+        {
+          "id": "view-005",
+          "component": "Kanban View",
+          "task": "Create kanban view component",
+          "description": "Create components/kanban-view.js extending ViewController with column layout",
+          "priority": "P1",
+          "effort_days": 1.5,
+          "dependencies": ["foundation-020"],
+          "acceptance_criteria": [
+            "Kanban view component created",
+            "Column layout",
+            "Extends ViewController"
+          ]
+        },
+        {
+          "id": "view-006",
+          "component": "Kanban View",
+          "task": "Implement drag-and-drop",
+          "description": "Add drag-and-drop functionality to move cards between columns",
+          "priority": "P1",
+          "effort_days": 2.5,
+          "dependencies": ["view-005"],
+          "acceptance_criteria": [
+            "Drag-and-drop works",
+            "Cards move between columns",
+            "State updates",
+            "Smooth animations"
+          ]
+        },
+        {
+          "id": "view-007",
+          "component": "Kanban View",
+          "task": "Add card rendering",
+          "description": "Implement card rendering with key information displayed",
+          "priority": "P1",
+          "effort_days": 1.5,
+          "dependencies": ["view-006"],
+          "acceptance_criteria": [
+            "Cards render correctly",
+            "Key information shown",
+            "Click to view details"
+          ]
+        },
+        {
+          "id": "view-008",
+          "component": "Kanban View",
+          "task": "Add filtering to kanban",
+          "description": "Implement filtering for kanban board view",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["view-007"],
+          "acceptance_criteria": [
+            "Filtering works",
+            "Real-time updates",
+            "Performance good"
+          ]
+        },
+        {
+          "id": "view-009",
+          "component": "Kanban View",
+          "task": "Style kanban view",
+          "description": "Add CSS styling for kanban board with modern design",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["view-008"],
+          "acceptance_criteria": [
+            "Kanban styled",
+            "Modern design",
+            "Responsive"
+          ]
+        },
+        {
+          "id": "view-010",
+          "component": "Kanban View",
+          "task": "Test kanban view",
+          "description": "Unit and integration tests for kanban view",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["view-009"],
+          "acceptance_criteria": [
+            "Drag-and-drop tested",
+            "Card rendering tested",
+            "Filtering tested"
+          ]
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "Core Enhancements",
+      "duration": "4-6 weeks",
+      "tasks": [
+        {
+          "id": "editing-011",
+          "component": "Bulk Edit",
+          "task": "Implement bulk edit form",
+          "description": "Create bulk edit form UI with field selection and value input",
+          "priority": "P1",
+          "effort_days": 2,
+          "dependencies": ["editing-009"],
+          "acceptance_criteria": [
+            "Bulk edit form created",
+            "Field selection",
+            "Value input",
+            "Preview changes"
+          ]
+        },
+        {
+          "id": "editing-012",
+          "component": "Bulk Edit",
+          "task": "Implement bulk edit logic",
+          "description": "Add logic to apply changes to selected records with validation",
+          "priority": "P1",
+          "effort_days": 2.5,
+          "dependencies": ["editing-011", "editing-010"],
+          "acceptance_criteria": [
+            "Bulk edit logic works",
+            "Validation applied",
+            "Changes applied correctly",
+            "Error handling"
+          ]
+        },
+        {
+          "id": "editing-013",
+          "component": "Bulk Edit",
+          "task": "Add progress tracking",
+          "description": "Implement progress indicator for bulk operations",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["editing-012"],
+          "acceptance_criteria": [
+            "Progress indicator works",
+            "Shows progress",
+            "Error recovery"
+          ]
+        },
+        {
+          "id": "editing-014",
+          "component": "Bulk Disposition",
+          "task": "Implement bulk disposition",
+          "description": "Add functionality to set disposition for multiple selected leads",
+          "priority": "P1",
+          "effort_days": 1.5,
+          "dependencies": ["editing-009"],
+          "acceptance_criteria": [
+            "Bulk disposition works",
+            "Confirmation dialog",
+            "Progress tracking",
+            "Success/error feedback"
+          ]
+        },
+        {
+          "id": "audit-008",
+          "component": "History Viewer",
+          "task": "Create history viewer component",
+          "description": "Create components/history-viewer.js to display change history for a record",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["foundation-013"],
+          "acceptance_criteria": [
+            "History viewer created",
+            "History display",
+            "Chronological list"
+          ]
+        },
+        {
+          "id": "audit-009",
+          "component": "History Viewer",
+          "task": "Implement history filtering",
+          "description": "Add filtering for history by date, user, field",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["audit-008"],
+          "acceptance_criteria": [
+            "Filtering works",
+            "Filter by date",
+            "Filter by user",
+            "Filter by field"
+          ]
+        },
+        {
+          "id": "audit-010",
+          "component": "History Viewer",
+          "task": "Integrate with lead detail modal",
+          "description": "Add History tab to lead detail modal",
+          "priority": "P1",
+          "effort_days": 0.5,
+          "dependencies": ["audit-009"],
+          "acceptance_criteria": [
+            "History tab added",
+            "Displays in modal",
+            "Works correctly"
+          ]
+        },
+        {
+          "id": "reporting-011",
+          "component": "Chart Service",
+          "task": "Create chart service",
+          "description": "Create services/chart-service.js with enhanced chart functionality",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": ["reporting-005"],
+          "acceptance_criteria": [
+            "Chart service created",
+            "Enhanced functionality",
+            "Chart.js integration"
+          ]
+        },
+        {
+          "id": "reporting-012",
+          "component": "Chart Service",
+          "task": "Implement chart drill-down",
+          "description": "Add click handlers to charts to show detailed data",
+          "priority": "P1",
+          "effort_days": 1.5,
+          "dependencies": ["reporting-011"],
+          "acceptance_criteria": [
+            "Drill-down works",
+            "Detail modal/table",
+            "Navigation back"
+          ]
+        },
+        {
+          "id": "reporting-013",
+          "component": "Chart Service",
+          "task": "Implement trend comparisons",
+          "description": "Add previous period comparison logic and visual indicators",
+          "priority": "P1",
+          "effort_days": 2,
+          "dependencies": ["reporting-012"],
+          "acceptance_criteria": [
+            "Trend comparisons work",
+            "Previous period data",
+            "Visual indicators",
+            "Percentage changes"
+          ]
+        },
+        {
+          "id": "reporting-014",
+          "component": "Export Service",
+          "task": "Create export service",
+          "description": "Create services/export-service.js with PDF and Excel export functionality",
+          "priority": "P1",
+          "effort_days": 1,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Export service created",
+            "PDF export structure",
+            "Excel export structure"
+          ]
+        },
+        {
+          "id": "reporting-015",
+          "component": "Export Service",
+          "task": "Implement PDF export",
+          "description": "Add PDF generation using jsPDF or PDFKit library",
+          "priority": "P1",
+          "effort_days": 3,
+          "dependencies": ["reporting-014"],
+          "acceptance_criteria": [
+            "PDF export works",
+            "KPI dashboard exported",
+            "Charts included",
+            "Formatted layout"
+          ]
+        },
+        {
+          "id": "reporting-016",
+          "component": "Export Service",
+          "task": "Implement Excel export",
+          "description": "Add Excel generation using SheetJS (xlsx) library",
+          "priority": "P1",
+          "effort_days": 2.5,
+          "dependencies": ["reporting-014"],
+          "acceptance_criteria": [
+            "Excel export works",
+            "Multiple sheets",
+            "Formatted Excel",
+            "Charts optional"
+          ]
+        },
+        {
+          "id": "navigation-001",
+          "component": "Search Service",
+          "task": "Create search service",
+          "description": "Create services/search-service.js with advanced search functionality",
+          "priority": "P1",
+          "effort_days": 1.5,
+          "dependencies": ["foundation-016"],
+          "acceptance_criteria": [
+            "Search service created",
+            "Multi-field search",
+            "Search operators"
+          ]
+        },
+        {
+          "id": "navigation-002",
+          "component": "Search Service",
+          "task": "Implement search builder UI",
+          "description": "Create UI for building advanced search queries",
+          "priority": "P1",
+          "effort_days": 2,
+          "dependencies": ["navigation-001"],
+          "acceptance_criteria": [
+            "Search builder UI",
+            "Query construction",
+            "User-friendly"
+          ]
+        },
+        {
+          "id": "navigation-003",
+          "component": "Search Service",
+          "task": "Add search history",
+          "description": "Implement search history tracking and recent searches display",
+          "priority": "P2",
+          "effort_days": 1,
+          "dependencies": ["navigation-002"],
+          "acceptance_criteria": [
+            "Search history tracked",
+            "Recent searches shown",
+            "Click to reuse"
+          ]
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "Advanced Features",
+      "duration": "3-4 weeks",
+      "tasks": [
+        {
+          "id": "view-011",
+          "component": "Timeline View",
+          "task": "Create timeline view component",
+          "description": "Create components/timeline-view.js with chronological display",
+          "priority": "P2",
+          "effort_days": 2,
+          "dependencies": ["foundation-020"],
+          "acceptance_criteria": [
+            "Timeline view created",
+            "Chronological display",
+            "Visual timeline"
+          ]
+        },
+        {
+          "id": "view-012",
+          "component": "Card View",
+          "task": "Create card view component",
+          "description": "Create components/card-view.js with card-based layout",
+          "priority": "P2",
+          "effort_days": 1.5,
+          "dependencies": ["foundation-020"],
+          "acceptance_criteria": [
+            "Card view created",
+            "Card layout",
+            "Grid responsive"
+          ]
+        },
+        {
+          "id": "audit-011",
+          "component": "Diff Viewer",
+          "task": "Create diff viewer component",
+          "description": "Create components/diff-viewer.js with before/after comparison",
+          "priority": "P2",
+          "effort_days": 2,
+          "dependencies": ["audit-010"],
+          "acceptance_criteria": [
+            "Diff viewer created",
+            "Side-by-side view",
+            "Highlighted changes"
+          ]
+        },
+        {
+          "id": "editing-015",
+          "component": "Auto-Save",
+          "task": "Create auto-save service",
+          "description": "Create services/auto-save-service.js with debounced auto-save",
+          "priority": "P2",
+          "effort_days": 2,
+          "dependencies": ["foundation-001", "foundation-013"],
+          "acceptance_criteria": [
+            "Auto-save service created",
+            "Debounced saves",
+            "Save indicator"
+          ]
+        },
+        {
+          "id": "editing-016",
+          "component": "Auto-Save",
+          "task": "Implement conflict detection",
+          "description": "Add conflict detection and resolution logic",
+          "priority": "P2",
+          "effort_days": 3,
+          "dependencies": ["editing-015"],
+          "acceptance_criteria": [
+            "Conflict detection works",
+            "Resolution UI",
+            "User choice"
+          ]
+        },
+        {
+          "id": "reporting-017",
+          "component": "Report Builder",
+          "task": "Create report builder component",
+          "description": "Create components/report-builder.js with drag-and-drop interface",
+          "priority": "P2",
+          "effort_days": 3,
+          "dependencies": ["reporting-011"],
+          "acceptance_criteria": [
+            "Report builder created",
+            "Drag-and-drop interface",
+            "Metric selection"
+          ]
+        },
+        {
+          "id": "reporting-018",
+          "component": "Report Builder",
+          "task": "Implement custom report generation",
+          "description": "Add logic to generate custom reports from selected metrics",
+          "priority": "P2",
+          "effort_days": 3.5,
+          "dependencies": ["reporting-017"],
+          "acceptance_criteria": [
+            "Custom reports generated",
+            "Selected metrics included",
+            "Export works"
+          ]
+        },
+        {
+          "id": "performance-001",
+          "component": "Virtual Scrolling",
+          "task": "Create virtual scrolling service",
+          "description": "Create services/performance-service.js with virtual scrolling implementation",
+          "priority": "P2",
+          "effort_days": 3,
+          "dependencies": [],
+          "acceptance_criteria": [
+            "Virtual scrolling service",
+            "Viewport calculations",
+            "Only visible items rendered"
+          ]
+        },
+        {
+          "id": "performance-002",
+          "component": "Virtual Scrolling",
+          "task": "Integrate with table view",
+          "description": "Integrate virtual scrolling with table view for large datasets",
+          "priority": "P2",
+          "effort_days": 2,
+          "dependencies": ["performance-001", "view-004"],
+          "acceptance_criteria": [
+            "Virtual scrolling in table",
+            "Performance improved",
+            "Smooth scrolling"
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_tasks": 247,
+    "total_effort_days": 183,
+    "phases": 3,
+    "components": 25,
+    "testing_effort_days": 45
+  }
+}

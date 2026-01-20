@@ -1,0 +1,9 @@
+{
+  "project_name": "appliance-insurance-form",
+  "stream_name": "initial_discovery",
+  "workflow": "DISCOVERY_ASSESSMENT_AI",
+  "status": "initialized",
+  "created": "2026-01-12T20:37:33+00:00",
+  "next_step": "assess-1",
+  "workflow_path": "SHARED_RESOURCES/WORKFLOW_SYSTEM/AI_WORKFLOWS/DISCOVERY/DISCOVERY_ASSESSMENT_AI.md"
+}

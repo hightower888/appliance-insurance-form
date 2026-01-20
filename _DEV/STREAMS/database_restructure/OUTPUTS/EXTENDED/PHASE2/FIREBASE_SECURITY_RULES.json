@@ -1,0 +1,418 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "users": {
+      "$userId": {
+        ".read": "auth != null && (auth.uid === $userId || auth.token.role === 'admin')",
+        ".write": "auth != null && (auth.uid === $userId || auth.token.role === 'admin')",
+        ".validate": "newData.hasChildren(['email', 'role'])",
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/)"
+        },
+        "role": {
+          ".validate": "newData.val() === 'admin' || newData.val() === 'agent' || newData.val() === 'processor'"
+        },
+        "username": {
+          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 50"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+
+    "sales": {
+      ".indexOn": ["agentId", "timestamp", "status"],
+      "$saleId": {
+        ".read": "auth != null && (getSaleAgent($saleId) === auth.uid || auth.token.role === 'processor' || auth.token.role === 'admin')",
+        ".write": "auth != null && (getSaleAgent($saleId) === auth.uid || auth.token.role === 'admin')",
+        ".validate": "newData.hasChildren(['contact', 'plan', 'payment', 'agentId'])",
+
+        "saleId": {
+          ".validate": "newData.val() === $saleId"
+        },
+        "timestamp": {
+          ".validate": "newData.isNumber() && newData.val() > 0"
+        },
+        "submittedAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$/)"
+        },
+        "status": {
+          ".validate": "!newData.exists() || (newData.val() === 'active' || newData.val() === 'cancelled')"
+        },
+
+        "contact": {
+          ".validate": "newData.hasChildren(['name', 'phoneNumbers', 'address', 'postcode'])",
+          "name": {
+            ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 100"
+          },
+          "phoneNumbers": {
+            ".validate": "newData.isArray() && newData.numChildren() >= 1 && newData.numChildren() <= 3"
+          },
+          "phoneNumbers": {
+            ".validate": "newData.isString() && newData.val().matches(/^(\\+44|0)[0-9]{10,11}$/)"
+          },
+          "address": {
+            ".validate": "newData.isString() && newData.val().length >= 5 && newData.val().length <= 200"
+          },
+          "postcode": {
+            ".validate": "newData.isString() && newData.val().matches(/^[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}$/i)"
+          }
+        },
+
+        "plan": {
+          ".validate": "newData.hasChildren(['number', 'type', 'totalCost'])",
+          "number": {
+            ".validate": "newData.isString() && newData.val().matches(/^NDAC[0-9]{4}APP$/)"
+          },
+          "type": {
+            ".validate": "newData.val() === 'Appliance' || newData.val() === 'Boiler' || newData.val() === 'Combined'"
+          },
+          "totalCost": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10000"
+          }
+        },
+
+        "payment": {
+          ".validate": "newData.hasChildren(['sortCode', 'accountNumber', 'ddDate'])",
+          "sortCode": {
+            ".validate": "newData.isString() && newData.val().matches(/^[0-9]{6}$/)"
+          },
+          "accountNumber": {
+            ".validate": "newData.isString() && newData.val().matches(/^[0-9]{8}$/)"
+          },
+          "ddDate": {
+            ".validate": "newData.isString() && newData.val().matches(/^[0-9]{1,2}(st|nd|rd|th)$/)"
+          }
+        },
+
+        "agentId": {
+          ".validate": "newData.isString() && newData.val().matches(/^[a-zA-Z0-9_-]{20,36}$/)"
+        },
+        "agentEmail": {
+          ".validate": "newData.isString() && newData.val().matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/)"
+        },
+
+        // Relationship arrays - validated but not required
+        "applianceIds": {
+          ".validate": "!newData.exists() || newData.isArray()"
+        },
+        "boilerIds": {
+          ".validate": "!newData.exists() || newData.isArray()"
+        },
+        "dynamicFieldValueIds": {
+          ".validate": "!newData.exists() || newData.isArray()"
+        },
+
+        // Metadata
+        "version": {
+          ".validate": "newData.isNumber() && newData.val() >= 1"
+        },
+        "createdAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$/)"
+        },
+        "updatedAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$/)"
+        },
+
+        // Prevent unknown fields
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+
+    "appliances": {
+      ".indexOn": ["saleId", "type", "make", "age"],
+      "$applianceId": {
+        ".read": "auth != null && getApplianceAccess($applianceId)",
+        ".write": "auth != null && getApplianceAccess($applianceId)",
+        ".validate": "newData.hasChildren(['applianceId', 'saleId', 'type', 'make', 'model', 'age', 'monthlyCost'])",
+
+        "applianceId": {
+          ".validate": "newData.val() === $applianceId"
+        },
+        "saleId": {
+          ".validate": "newData.isString() && newData.val().matches(/^[a-zA-Z0-9_-]{20,36}$/)"
+        },
+        "type": {
+          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 50"
+        },
+        "make": {
+          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 50"
+        },
+        "model": {
+          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 100"
+        },
+        "age": {
+          ".validate": "newData.isString() && ['0-1 years', '1-3 years', '3-5 years', '5-10 years', '10+ years', 'Unknown'].hasAny([newData.val()])"
+        },
+        "monthlyCost": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000"
+        },
+
+        // Optional fields
+        "serialNumber": {
+          ".validate": "!newData.exists() || (newData.isString() && newData.val().length <= 100)"
+        },
+        "warrantyExpiry": {
+          ".validate": "!newData.exists() || (newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/))"
+        },
+        "purchaseDate": {
+          ".validate": "!newData.exists() || (newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/))"
+        },
+        "installationDate": {
+          ".validate": "!newData.exists() || (newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/))"
+        },
+        "capacity": {
+          ".validate": "!newData.exists() || newData.isString()"
+        },
+        "energyRating": {
+          ".validate": "!newData.exists() || newData.isString()"
+        },
+        "powerConsumption": {
+          ".validate": "!newData.exists() || newData.isNumber()"
+        },
+
+        "status": {
+          ".validate": "!newData.exists() || (newData.val() === 'active' || newData.val() === 'removed')"
+        },
+        "version": {
+          ".validate": "newData.isNumber() && newData.val() >= 1"
+        },
+        "createdAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$/)"
+        },
+        "updatedAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$/)"
+        },
+
+        // Prevent unknown fields
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+
+    "boilers": {
+      ".indexOn": ["saleId", "type", "fuelType", "age"],
+      "$boilerId": {
+        ".read": "auth != null && getBoilerAccess($boilerId)",
+        ".write": "auth != null && getBoilerAccess($boilerId)",
+        ".validate": "newData.hasChildren(['boilerId', 'saleId', 'type', 'make', 'model', 'age', 'monthlyCost', 'fuelType'])",
+
+        "boilerId": {
+          ".validate": "newData.val() === $boilerId"
+        },
+        "saleId": {
+          ".validate": "newData.isString() && newData.val().matches(/^[a-zA-Z0-9_-]{20,36}$/)"
+        },
+        "type": {
+          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 50"
+        },
+        "make": {
+          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 50"
+        },
+        "model": {
+          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 100"
+        },
+        "age": {
+          ".validate": "newData.isString() && ['0-1 years', '1-3 years', '3-5 years', '5-10 years', '10+ years', 'Unknown'].hasAny([newData.val()])"
+        },
+        "monthlyCost": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 2000"
+        },
+        "fuelType": {
+          ".validate": "newData.isString() && ['Gas', 'Oil', 'Electric', 'LPG', 'Solid Fuel'].hasAny([newData.val()])"
+        },
+        "efficiencyRating": {
+          ".validate": "!newData.exists() || newData.isString()"
+        },
+        "outputKw": {
+          ".validate": "!newData.exists() || newData.isNumber()"
+        },
+
+        // Optional maintenance fields
+        "serialNumber": {
+          ".validate": "!newData.exists() || (newData.isString() && newData.val().length <= 100)"
+        },
+        "installationDate": {
+          ".validate": "!newData.exists() || (newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/))"
+        },
+        "lastServiceDate": {
+          ".validate": "!newData.exists() || (newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/))"
+        },
+        "warrantyExpiry": {
+          ".validate": "!newData.exists() || (newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/))"
+        },
+
+        // Technical specifications
+        "flowRate": {
+          ".validate": "!newData.exists() || newData.isNumber()"
+        },
+        "pressureRange": {
+          ".validate": "!newData.exists() || newData.isString()"
+        },
+        "flueType": {
+          ".validate": "!newData.exists() || newData.isString()"
+        },
+
+        "status": {
+          ".validate": "!newData.exists() || (newData.val() === 'active' || newData.val() === 'removed')"
+        },
+        "version": {
+          ".validate": "newData.isNumber() && newData.val() >= 1"
+        },
+        "createdAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$/)"
+        },
+        "updatedAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$/)"
+        },
+
+        // Prevent unknown fields
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+
+    "dynamicFieldValues": {
+      ".indexOn": ["saleId", "fieldId", "fieldType"],
+      "$fieldValueId": {
+        ".read": "auth != null && getFieldValueAccess($fieldValueId)",
+        ".write": "auth != null && getFieldValueAccess($fieldValueId)",
+        ".validate": "newData.hasChildren(['fieldValueId', 'saleId', 'fieldId', 'fieldType', 'value'])",
+
+        "fieldValueId": {
+          ".validate": "newData.val() === $fieldValueId"
+        },
+        "saleId": {
+          ".validate": "newData.isString() && newData.val().matches(/^[a-zA-Z0-9_-]{20,36}$/)"
+        },
+        "fieldId": {
+          ".validate": "newData.isString() && newData.val().matches(/^[a-zA-Z0-9_-]{1,50}$/)"
+        },
+        "fieldType": {
+          ".validate": "newData.isString() && ['text', 'select', 'number', 'checkbox', 'textarea'].hasAny([newData.val()])"
+        },
+        "fieldName": {
+          ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 100"
+        },
+        "required": {
+          ".validate": "newData.isBoolean()"
+        },
+        "value": {
+          ".validate": "validateFieldValue(newData, data.child('fieldType').val())"
+        },
+        "selectedOption": {
+          ".validate": "!newData.exists() || newData.isString()"
+        },
+        "isValid": {
+          ".validate": "newData.isBoolean()"
+        },
+        "validationErrors": {
+          ".validate": "newData.isArray()"
+        },
+
+        "version": {
+          ".validate": "newData.isNumber() && newData.val() >= 1"
+        },
+        "createdAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$/)"
+        },
+        "updatedAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$/)"
+        },
+
+        // Prevent unknown fields
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+
+    "form_fields": {
+      ".indexOn": ["fieldName", "category", "active"],
+      ".read": "auth != null && auth.token.role === 'admin'",
+      ".write": "auth != null && auth.token.role === 'admin'",
+      "$fieldId": {
+        ".validate": "newData.hasChildren(['fieldName', 'fieldType', 'label', 'required'])",
+
+        "fieldId": {
+          ".validate": "newData.val() === $fieldId"
+        },
+        "fieldName": {
+          ".validate": "newData.isString() && newData.val().matches(/^[a-zA-Z][a-zA-Z0-9_]*$/) && newData.val().length <= 50"
+        },
+        "fieldType": {
+          ".validate": "newData.isString() && ['text', 'select', 'number', 'checkbox', 'textarea'].hasAny([newData.val()])"
+        },
+        "label": {
+          ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 200"
+        },
+        "required": {
+          ".validate": "newData.isBoolean()"
+        },
+        "options": {
+          ".validate": "!newData.exists() || newData.isArray()"
+        },
+        "order": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "active": {
+          ".validate": "newData.isBoolean()"
+        },
+        "category": {
+          ".validate": "!newData.exists() || newData.isString()"
+        },
+        "validationRules": {
+          ".validate": "!newData.exists() || newData.isObject()"
+        },
+
+        "createdBy": {
+          ".validate": "newData.isString() && newData.val().matches(/^[a-zA-Z0-9_-]{20,36}$/)"
+        },
+        "version": {
+          ".validate": "newData.isNumber() && newData.val() >= 1"
+        },
+        "createdAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$/)"
+        },
+        "updatedAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$/)"
+        },
+
+        // Prevent unknown fields
+        "$other": {
+          ".validate": false
+        }
+      }
+    }
+  },
+
+  "functions": {
+    "getSaleAgent": {
+      "params": ["saleId"],
+      "code": "return get(/databases/$(database)/documents/sales/$(saleId)).data.agentId;"
+    },
+    "getApplianceAccess": {
+      "params": ["applianceId"],
+      "code": "let appliance = get(/databases/$(database)/documents/appliances/$(applianceId)).data; let saleAgent = getSaleAgent(appliance.saleId); return auth != null && (saleAgent === auth.uid || auth.token.role === 'processor' || auth.token.role === 'admin');"
+    },
+    "getBoilerAccess": {
+      "params": ["boilerId"],
+      "code": "let boiler = get(/databases/$(database)/documents/boilers/$(boilerId)).data; let saleAgent = getSaleAgent(boiler.saleId); return auth != null && (saleAgent === auth.uid || auth.token.role === 'processor' || auth.token.role === 'admin');"
+    },
+    "getFieldValueAccess": {
+      "params": ["fieldValueId"],
+      "code": "let fieldValue = get(/databases/$(database)/documents/dynamicFieldValues/$(fieldValueId)).data; let saleAgent = getSaleAgent(fieldValue.saleId); return auth != null && (saleAgent === auth.uid || auth.token.role === 'processor' || auth.token.role === 'admin');"
+    },
+    "validateFieldValue": {
+      "params": ["value", "fieldType"],
+      "code": "if (fieldType === 'text') { return value.isString() && value.val().length <= 1000; } else if (fieldType === 'number') { return value.isNumber(); } else if (fieldType === 'select') { return value.isString(); } else if (fieldType === 'checkbox') { return value.isBoolean(); } else if (fieldType === 'textarea') { return value.isString() && value.val().length <= 5000; } return false;"
+    }
+  }
+}

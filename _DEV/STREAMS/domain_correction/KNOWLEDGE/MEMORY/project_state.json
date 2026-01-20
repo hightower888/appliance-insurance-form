@@ -1,0 +1,58 @@
+{
+  "stream_name": "domain_correction",
+  "created_date": "2026-01-12",
+  "status": "active",
+  "phase": "discovery",
+  "complexity_score": null,
+  "priority": "critical",
+  "primary_goal": "Identify correct domain without 'insurance' and deploy fixes to it",
+  "scope": {
+    "domain_identification": true,
+    "project_linking": true,
+    "deployment_correction": true,
+    "verification": true
+  },
+  "success_criteria": [
+    "Correct domain identified (no insurance)",
+    "Project linked to correct Vercel project",
+    "All fixes deployed to correct domain",
+    "Deployment verified on correct domain"
+  ],
+  "current_issues": [
+    "Deployed to wrong domain (contains 'insurance')",
+    "Need to find most recent domain without 'insurance'",
+    "Need to link to correct Vercel project",
+    "Need to deploy fixes to correct domain"
+  ],
+  "technologies": [
+    "Vercel Deployment",
+    "Domain Management",
+    "Project Configuration"
+  ],
+  "team_members": [],
+  "estimated_completion": null,
+  "last_updated": "2026-01-12",
+  "workflow_state": "discovery_assessment_complete",
+  "current_step": "awaiting_user_input",
+  "completed_steps": ["assess-1"],
+  "complexity_scores": {
+    "final_score": 15,
+    "routing_decision": "quick_discovery"
+  },
+  "assessment_complete": true,
+  "current_issue": "domain_contains_insurance",
+  "action_required": "user_must_rename_project_or_provide_correct_domain",
+  "correct_domain": "appliance-form-app.vercel.app",
+  "project_linked": true,
+  "deployment_complete": true,
+  "verification_status": "passed",
+  "deployment_url": "https://appliance-form-app.vercel.app",
+  "domain_correction_complete": true,
+  "mcp_config": {
+    "stream_path": "_DEV/STREAMS/domain_correction",
+    "workflow_type": "discovery_assessment",
+    "enforcement_level": "full",
+    "quality_gates": true,
+    "reflection_checkpoints": true
+  }
+}

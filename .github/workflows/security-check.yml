@@ -1,0 +1,39 @@
+name: Security Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Check for exposed API keys
+        run: |
+          echo "🔍 Scanning for exposed secrets..."
+          if grep -r "AIzaSy" --include="*.js" --include="*.json" src/ scripts/ 2>/dev/null | grep -v ".env.example" | grep -v "SECURITY_SETUP.md"; then
+            echo "❌ ERROR: Potential API key exposure found!"
+            echo "Please ensure all API keys are in environment variables"
+            exit 1
+          fi
+          echo "✅ No exposed API keys found"
+      
+      - name: Check for .env files
+        run: |
+          if [ -f .env ] || [ -f .env.local ] || [ -f .env.production ]; then
+            echo "❌ ERROR: .env files should not be committed!"
+            exit 1
+          fi
+          echo "✅ No .env files in repository"
+      
+      - name: Verify .gitignore
+        run: |
+          if ! grep -q "\.env" .gitignore; then
+            echo "❌ ERROR: .env files not in .gitignore!"
+            exit 1
+          fi
+          echo "✅ .gitignore properly configured"

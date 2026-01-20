@@ -1,0 +1,335 @@
+{
+  "stream": "crm_system",
+  "created": "2026-01-18T17:51:50.086Z",
+  "workflow": "DISCOVERY_FULL_AI",
+  "discovery_complete": true,
+  "project_context": {
+    "goal": "Build comprehensive CRM system for customer management, lead tracking, disposition management, and reporting with KPIs",
+    "scope": {
+      "feature_groups": 5,
+      "total_requirements": 29,
+      "new_files": 5,
+      "integration_points": 7
+    },
+    "objectives": [
+      "Visual CRM interface for customer/lead management",
+      "Lead disposition tracking system",
+      "Form integration for positive dispositions",
+      "Reporting dashboard with KPIs"
+    ],
+    "constraints": [
+      "Must work with existing Firebase Realtime Database structure",
+      "Must integrate with existing form submission system",
+      "Must maintain data consistency across systems",
+      "Must support existing roles (admin, agent, processor)"
+    ],
+    "dependencies": [
+      "Firebase Realtime Database",
+      "Form renderer service (form-renderer.js)",
+      "Field config service (field-config.js)",
+      "Admin panel structure for reference"
+    ]
+  },
+  "requirements": {
+    "total": 29,
+    "functional": 15,
+    "non_functional": 10,
+    "constraints": 4,
+    "priorities": {
+      "P0": 8,
+      "P1": 10,
+      "P2": 8,
+      "P3": 3
+    },
+    "chunks": [
+      {
+        "name": "Core CRM Viewing",
+        "requirements": ["REQ-001", "REQ-002", "REQ-003", "REQ-004", "REQ-005", "REQ-006"]
+      },
+      {
+        "name": "Record Management",
+        "requirements": ["REQ-007", "REQ-008", "REQ-009", "REQ-010", "REQ-011"]
+      },
+      {
+        "name": "Lead Management",
+        "requirements": ["REQ-012", "REQ-013", "REQ-014", "REQ-015", "REQ-016", "REQ-017"]
+      },
+      {
+        "name": "Form Integration",
+        "requirements": ["REQ-018", "REQ-019", "REQ-020"]
+      },
+      {
+        "name": "Reporting & Analytics",
+        "requirements": ["REQ-021", "REQ-022", "REQ-023", "REQ-024", "REQ-025"]
+      },
+      {
+        "name": "Infrastructure",
+        "requirements": ["REQ-026", "REQ-027", "REQ-028", "REQ-029", "REQ-030", "REQ-031", "REQ-032", "REQ-033", "REQ-034", "REQ-035"]
+      }
+    ],
+    "gaps": [
+      "Lead status workflow not fully defined",
+      "Disposition options need complete specification",
+      "KPI calculation formulas not defined",
+      "Report formats not specified",
+      "Upload format not specified",
+      "Permission model not fully defined"
+    ]
+  },
+  "patterns": {
+    "reusable": [
+      {
+        "name": "Table/List View with Pagination",
+        "source": "admin.js:767-853",
+        "score": 9,
+        "relevance": "highly_relevant",
+        "use": "Extend for lead list with disposition badges"
+      },
+      {
+        "name": "Modal Detail View",
+        "source": "processor.js:354-429",
+        "score": 8,
+        "relevance": "highly_relevant",
+        "use": "Extend to editable modal"
+      },
+      {
+        "name": "Search/Filter UI",
+        "source": "admin.html:346-357",
+        "score": 9,
+        "relevance": "essential",
+        "use": "Add lead-specific filters"
+      },
+      {
+        "name": "Tab Navigation",
+        "source": "admin.html:42-48",
+        "score": 7,
+        "relevance": "useful",
+        "use": "CRM sections organization"
+      },
+      {
+        "name": "Form Data Collection",
+        "source": "app.js:1291-1383",
+        "score": 8,
+        "relevance": "needed",
+        "use": "Paste-to-form functionality"
+      },
+      {
+        "name": "Firebase Data Loading",
+        "source": "admin.js:685-759",
+        "score": 9,
+        "relevance": "core_pattern",
+        "use": "Load leads/customers"
+      }
+    ],
+    "new": [
+      {
+        "name": "Lead Cycling Navigation",
+        "description": "Next/Previous lead navigation",
+        "implementation": "Index-based navigation with state management"
+      },
+      {
+        "name": "Disposition Tracking",
+        "description": "Disposition selection and storage",
+        "implementation": "Dropdown/buttons with status update"
+      },
+      {
+        "name": "Lead Upload",
+        "description": "Upload customer records with appliances",
+        "implementation": "Form-based upload with validation"
+      },
+      {
+        "name": "KPI Dashboard",
+        "description": "Reporting and analytics visualization",
+        "implementation": "Chart/graph components with calculations"
+      }
+    ],
+    "implementation_order": [
+      "Firebase Data Loading",
+      "Table/List View",
+      "Search/Filter UI",
+      "Modal Detail View",
+      "Form Data Collection",
+      "Tab Navigation",
+      "Lead Cycling Navigation",
+      "Disposition Tracking",
+      "Lead Upload",
+      "KPI Dashboard"
+    ]
+  },
+  "architecture": {
+    "new_files": [
+      "src/crm.html",
+      "src/crm.js",
+      "src/crm-leads.js",
+      "src/crm-reports.js",
+      "styles.css (extend existing)"
+    ],
+    "integration_points": [
+      {
+        "name": "Form System",
+        "method": "URL Parameters + localStorage",
+        "files": ["app.js", "appliance_form.html"]
+      },
+      {
+        "name": "Admin Panel Patterns",
+        "method": "Reuse patterns",
+        "files": ["admin.js", "admin.html"]
+      },
+      {
+        "name": "Services",
+        "method": "Import and use",
+        "files": ["form-renderer.js", "field-config.js", "appliance-relationship-manager.js"]
+      },
+      {
+        "name": "Authentication",
+        "method": "Use existing auth-db.js",
+        "files": ["auth-db.js"]
+      },
+      {
+        "name": "Database",
+        "method": "Extend existing schema",
+        "nodes": ["sales", "appliances", "users", "security_logs"]
+      }
+    ],
+    "database_extensions": {
+      "new_fields": [
+        "leadStatus",
+        "disposition",
+        "dispositionDate",
+        "dispositionBy",
+        "leadSource"
+      ],
+      "backward_compatible": true,
+      "default_values": {
+        "leadStatus": "auto-detect from submittedAt",
+        "disposition": null,
+        "dispositionDate": null,
+        "dispositionBy": null,
+        "leadSource": "form"
+      }
+    }
+  },
+  "data_flows": {
+    "lead_upload": {
+      "steps": [
+        "User Input (CSV/JSON/Manual)",
+        "Validation",
+        "Transform to Sales Schema",
+        "Add leadStatus='new', leadSource='upload'",
+        "Write to Firebase",
+        "Create Appliance Records",
+        "Update UI"
+      ]
+    },
+    "disposition": {
+      "steps": [
+        "User Selects Disposition",
+        "Validate (must be logged in)",
+        "Update Record (disposition, dispositionDate, dispositionBy, leadStatus)",
+        "If interested: Enable 'Paste to Form' button",
+        "Save to Firebase",
+        "Log Activity",
+        "Update UI"
+      ]
+    },
+    "paste_to_form": {
+      "steps": [
+        "User Clicks 'Paste to Form'",
+        "Validate disposition === 'interested'",
+        "Collect Customer Data",
+        "Store in localStorage",
+        "Navigate to /form?prefill=true",
+        "Form Reads localStorage",
+        "Pre-fill Fields",
+        "User Edits (optional)",
+        "Submit Form (normal flow)",
+        "Update CRM Record (leadStatus='converted')",
+        "Clear localStorage"
+      ]
+    }
+  },
+  "key_decisions": [
+    {
+      "decision": "Form integration via localStorage + URL parameters",
+      "rationale": "Simple, works across page navigation, no server needed",
+      "alternatives_considered": ["API endpoint", "URL encoding", "Session storage"]
+    },
+    {
+      "decision": "Extend sales node rather than create separate leads node",
+      "rationale": "Backward compatible, unified data model, easier queries",
+      "alternatives_considered": ["Separate leads node", "Hybrid approach"]
+    },
+    {
+      "decision": "Reuse existing patterns from admin panel",
+      "rationale": "Consistency, proven patterns, faster development",
+      "alternatives_considered": ["New patterns", "Third-party library"]
+    },
+    {
+      "decision": "Use security_logs for activity logging",
+      "rationale": "Consistency, existing infrastructure, unified logging",
+      "alternatives_considered": ["New crm_activity node", "Separate logging system"]
+    }
+  ],
+  "gaps_and_risks": {
+    "gaps": [
+      {
+        "gap": "Lead status workflow not fully defined",
+        "impact": "medium",
+        "recommendation": "Define workflow: new -> contacted -> dispositioned -> converted"
+      },
+      {
+        "gap": "Disposition options need complete specification",
+        "impact": "medium",
+        "recommendation": "Finalize disposition list and 'other' option handling"
+      },
+      {
+        "gap": "KPI calculation formulas not defined",
+        "impact": "high",
+        "recommendation": "Define formulas: conversion rate, average time, etc."
+      },
+      {
+        "gap": "Report formats not specified",
+        "impact": "low",
+        "recommendation": "Decide on chart types, table formats, export options"
+      },
+      {
+        "gap": "Upload format not specified",
+        "impact": "medium",
+        "recommendation": "Define CSV structure, JSON structure, field mapping"
+      },
+      {
+        "gap": "Permission model not fully defined",
+        "impact": "high",
+        "recommendation": "Define who can edit, who can disposition, who can upload"
+      }
+    ],
+    "risks": [
+      {
+        "risk": "Data consistency between CRM and form system",
+        "mitigation": "Use same data structure, validate on both sides"
+      },
+      {
+        "risk": "Performance with large lead datasets",
+        "mitigation": "Pagination, lazy loading, optimized queries"
+      },
+      {
+        "risk": "Concurrent edits",
+        "mitigation": "Real-time listeners, conflict detection, last-write-wins with warning"
+      }
+    ]
+  },
+  "planning_notes": {
+    "estimated_tasks": 40,
+    "estimated_duration": "2-3 hours",
+    "complexity": "moderate",
+    "recommended_approach": "Incremental: Start with viewing, then editing, then lead management, then reporting",
+    "critical_path": [
+      "Database schema extensions",
+      "Core viewing functionality",
+      "Edit functionality",
+      "Disposition tracking",
+      "Form integration",
+      "Reporting"
+    ]
+  }
+}

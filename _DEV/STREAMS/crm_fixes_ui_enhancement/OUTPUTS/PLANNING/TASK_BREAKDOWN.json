@@ -1,0 +1,242 @@
+{
+  "stream": "crm_fixes_ui_enhancement",
+  "created": "2026-01-19",
+  "workflow": "PLANNING_STANDARD_AI",
+  "total_tasks": 16,
+  "estimated_hours": 8,
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Complete Critical Fixes",
+      "priority": "P0",
+      "tasks": [1, 2],
+      "estimated_hours": 1
+    },
+    {
+      "phase": 2,
+      "name": "UI/UX Enhancements",
+      "priority": "P1",
+      "tasks": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+      "estimated_hours": 7
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Verify Authentication Fix",
+      "priority": "P0",
+      "phase": 1,
+      "status": "in_progress",
+      "files": ["src/auth-db.js"],
+      "description": "Verify Firebase Auth anonymous sign-in works correctly and CRM can access database",
+      "acceptance_criteria": [
+        "No permission denied errors",
+        "CRM loads leads/customers successfully",
+        "Reports load without errors"
+      ],
+      "estimated_hours": 0.5,
+      "dependencies": []
+    },
+    {
+      "id": 2,
+      "title": "Test All Fixes Together",
+      "priority": "P0",
+      "phase": 1,
+      "status": "pending",
+      "files": ["src/crm.js", "src/crm-leads.js", "src/crm-reports.js"],
+      "description": "End-to-end testing of all three critical fixes",
+      "acceptance_criteria": [
+        "No console errors",
+        "All CRM functionality works",
+        "Variable conflict resolved",
+        "Function scope fixed",
+        "Authentication working"
+      ],
+      "estimated_hours": 0.5,
+      "dependencies": [1]
+    },
+    {
+      "id": 3,
+      "title": "Integrate Chart.js Library",
+      "priority": "P1",
+      "phase": 2,
+      "status": "pending",
+      "files": ["src/crm.html"],
+      "description": "Add Chart.js CDN script tag to crm.html",
+      "acceptance_criteria": [
+        "Chart.js loaded successfully",
+        "No console errors",
+        "Chart.js available globally"
+      ],
+      "estimated_hours": 0.25,
+      "dependencies": []
+    },
+    {
+      "id": 4,
+      "title": "Create Chart Utility Functions",
+      "priority": "P1",
+      "phase": 2,
+      "status": "pending",
+      "files": ["src/crm-reports.js"],
+      "description": "Create reusable helper functions for chart creation",
+      "acceptance_criteria": [
+        "Chart utility functions created",
+        "Functions are reusable",
+        "Error handling included"
+      ],
+      "estimated_hours": 0.75,
+      "dependencies": [3]
+    },
+    {
+      "id": 5,
+      "title": "Add Pie Chart for Disposition Breakdown",
+      "priority": "P1",
+      "phase": 2,
+      "status": "pending",
+      "files": ["src/crm-reports.js", "src/crm.html"],
+      "description": "Replace disposition breakdown table with pie chart",
+      "acceptance_criteria": [
+        "Pie chart displays correctly",
+        "Data matches table data",
+        "Chart is responsive",
+        "Accessible (ARIA labels)"
+      ],
+      "estimated_hours": 1,
+      "dependencies": [4]
+    },
+    {
+      "id": 6,
+      "title": "Add Bar Chart for Conversion Trends",
+      "priority": "P1",
+      "phase": 2,
+      "status": "pending",
+      "files": ["src/crm-reports.js"],
+      "description": "Add bar chart showing conversion trends over time",
+      "acceptance_criteria": [
+        "Bar chart displays correctly",
+        "Shows conversion trends",
+        "Responsive and accessible"
+      ],
+      "estimated_hours": 1,
+      "dependencies": [4]
+    },
+    {
+      "id": 7,
+      "title": "Add Line Chart for Lead Acquisition",
+      "priority": "P1",
+      "phase": 2,
+      "status": "pending",
+      "files": ["src/crm-reports.js"],
+      "description": "Add line chart for lead acquisition timeline",
+      "acceptance_criteria": [
+        "Line chart displays correctly",
+        "Shows acquisition timeline",
+        "Tooltips work",
+        "Responsive"
+      ],
+      "estimated_hours": 1,
+      "dependencies": [4]
+    },
+    {
+      "id": 8,
+      "title": "Improve Error Messages",
+      "priority": "P1",
+      "phase": 2,
+      "status": "pending",
+      "files": ["src/crm.js", "src/crm-leads.js", "src/crm-reports.js"],
+      "description": "Replace generic error messages with user-friendly, actionable messages",
+      "acceptance_criteria": [
+        "All errors are clear",
+        "Actionable guidance provided",
+        "No technical jargon",
+        "Consistent messaging"
+      ],
+      "estimated_hours": 1,
+      "dependencies": []
+    },
+    {
+      "id": 9,
+      "title": "Add Retry Mechanisms",
+      "priority": "P1",
+      "phase": 2,
+      "status": "pending",
+      "files": ["src/crm.js"],
+      "description": "Add retry buttons for failed operations",
+      "acceptance_criteria": [
+        "Retry buttons appear on errors",
+        "Retry logic works",
+        "UI updates correctly"
+      ],
+      "estimated_hours": 0.5,
+      "dependencies": [8]
+    },
+    {
+      "id": 10,
+      "title": "Create Skeleton Loading Screens",
+      "priority": "P1",
+      "phase": 2,
+      "status": "pending",
+      "files": ["src/crm.html", "src/styles.css"],
+      "description": "Replace spinners with skeleton screens that match content layout",
+      "acceptance_criteria": [
+        "Skeleton screens match layout",
+        "Smooth transitions",
+        "No layout shift",
+        "Better UX than spinners"
+      ],
+      "estimated_hours": 1,
+      "dependencies": []
+    },
+    {
+      "id": 11,
+      "title": "Add Date Range Pickers",
+      "priority": "P1",
+      "phase": 2,
+      "status": "pending",
+      "files": ["src/crm.html", "src/crm-reports.js"],
+      "description": "Enhance date filters with proper range pickers",
+      "acceptance_criteria": [
+        "Date pickers work correctly",
+        "Range selection works",
+        "Filters update reports",
+        "Styled appropriately"
+      ],
+      "estimated_hours": 0.75,
+      "dependencies": []
+    },
+    {
+      "id": 12,
+      "title": "Add Multi-Select Filters",
+      "priority": "P1",
+      "phase": 2,
+      "status": "pending",
+      "files": ["src/crm.html", "src/crm.js"],
+      "description": "Add multi-select for status and disposition filters",
+      "acceptance_criteria": [
+        "Multi-select works",
+        "Filter logic updated",
+        "Clear all button works",
+        "UI is intuitive"
+      ],
+      "estimated_hours": 0.75,
+      "dependencies": []
+    },
+    {
+      "id": 13,
+      "title": "Enhance Mobile Responsiveness",
+      "priority": "P1",
+      "phase": 2,
+      "status": "pending",
+      "files": ["src/styles.css", "src/crm.html"],
+      "description": "Improve mobile layout, touch targets, and table display",
+      "acceptance_criteria": [
+        "Works well on mobile",
+        "Touch targets adequate",
+        "Tables scrollable",
+        "Charts responsive"
+      ],
+      "estimated_hours": 1,
+      "dependencies": [5, 6, 7]
+    }
+  ]
+}

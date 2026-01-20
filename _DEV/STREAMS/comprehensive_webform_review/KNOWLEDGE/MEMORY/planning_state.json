@@ -1,0 +1,202 @@
+{
+  "planning_complete": true,
+  "planning_timestamp": "2026-01-15T05:00:00.000Z",
+  "workflow_tier": "STANDARD",
+  "workflow": "PLANNING_STANDARD_AI",
+  "complexity_score": 48,
+  "planning_complexity_score": 55.8,
+  "profiles": ["priority_based", "dependency_heavy", "integration_heavy", "pattern_driven"],
+  "active_components": [
+    "priority_analyzer",
+    "phase_plan_generator",
+    "dependency_analyzer",
+    "dependency_graph_builder",
+    "dependency_resolver",
+    "integration_analyzer",
+    "integration_planner",
+    "integration_sequencer",
+    "research_engine",
+    "pattern_applier"
+  ],
+  "architecture_components": [
+    "Authentication System",
+    "Form System",
+    "Admin Panel",
+    "Services",
+    "Utils",
+    "Database",
+    "Security",
+    "Deployment"
+  ],
+  "architecture_patterns": [
+    "Modular Service Design",
+    "Database-Driven Configuration",
+    "One-to-Many Relationship Management",
+    "Dual Authentication Systems (conflict)"
+  ],
+  "requirements": {
+    "total": 10,
+    "by_priority": {
+      "CRITICAL": 5,
+      "HIGH": 10,
+      "MEDIUM": 5,
+      "LOW": 3
+    },
+    "by_type": {
+      "functional": 10,
+      "non_functional": 0,
+      "technical": 0
+    }
+  },
+  "implementation_plan": {
+    "features": [
+      {
+        "id": "FEAT-1",
+        "name": "Fix Syntax Errors",
+        "priority": "CRITICAL",
+        "phase": 1,
+        "components": ["Admin Panel"],
+        "issues": ["ADMIN-2", "ADMIN-3"],
+        "estimated_hours": "1-2"
+      },
+      {
+        "id": "FEAT-2",
+        "name": "Resolve Authentication System Conflicts",
+        "priority": "CRITICAL",
+        "phase": 1,
+        "components": ["Authentication System"],
+        "issues": ["AUTH-2", "AUTH-5"],
+        "estimated_hours": "3-4"
+      },
+      {
+        "id": "FEAT-3",
+        "name": "Fix Admin Panel Core Functionality",
+        "priority": "CRITICAL",
+        "phase": 1,
+        "components": ["Admin Panel", "Authentication System"],
+        "issues": ["ADMIN-1", "AUTH-7"],
+        "estimated_hours": "2-3"
+      },
+      {
+        "id": "FEAT-4",
+        "name": "Fix Authentication Login Issues",
+        "priority": "HIGH",
+        "phase": 2,
+        "components": ["Authentication System"],
+        "issues": ["AUTH-1", "AUTH-3", "AUTH-6"],
+        "estimated_hours": "2-3"
+      },
+      {
+        "id": "FEAT-5",
+        "name": "Fix Form Functionality",
+        "priority": "HIGH",
+        "phase": 2,
+        "components": ["Form System"],
+        "issues": ["FORM-1", "FORM-2", "FORM-3", "FORM-4", "FORM-5"],
+        "estimated_hours": "3-4"
+      },
+      {
+        "id": "FEAT-6",
+        "name": "Fix Backend & Export Issues",
+        "priority": "MEDIUM",
+        "phase": 3,
+        "components": ["Database", "Deployment"],
+        "issues": ["BACKEND-1", "EXPORT-1", "EXPORT-2"],
+        "estimated_hours": "2-3"
+      },
+      {
+        "id": "FEAT-7",
+        "name": "Fix Remaining Issues",
+        "priority": "LOW",
+        "phase": 4,
+        "components": ["Multiple"],
+        "issues": ["AUTH-4", "AUTH-8", "FORM-3", "FORM-4", "ADMIN-5", "ADMIN-6", "ADMIN-4", "BACKEND-3"],
+        "estimated_hours": "2-3"
+      }
+    ],
+    "phases": [
+      {
+        "number": 1,
+        "name": "CRITICAL Fixes",
+        "features": ["FEAT-1", "FEAT-2", "FEAT-3"],
+        "estimated_hours": "6-9",
+        "milestone": "Core functionality restored"
+      },
+      {
+        "number": 2,
+        "name": "HIGH Priority Fixes",
+        "features": ["FEAT-4", "FEAT-5"],
+        "estimated_hours": "5-7",
+        "milestone": "Authentication and form functionality working"
+      },
+      {
+        "number": 3,
+        "name": "MEDIUM Priority Fixes",
+        "features": ["FEAT-6"],
+        "estimated_hours": "2-3",
+        "milestone": "Backend and export functionality working"
+      },
+      {
+        "number": 4,
+        "name": "LOW Priority Fixes",
+        "features": ["FEAT-7"],
+        "estimated_hours": "2-3",
+        "milestone": "All remaining issues fixed"
+      }
+    ],
+    "component_to_feature_mapping": {
+      "Authentication System": ["FEAT-2", "FEAT-3", "FEAT-4"],
+      "Form System": ["FEAT-5"],
+      "Admin Panel": ["FEAT-1", "FEAT-3"],
+      "Services": ["FEAT-5"],
+      "Database": ["FEAT-6"],
+      "Security": ["FEAT-4"],
+      "Deployment": ["FEAT-6"]
+    },
+    "patterns_applied": [
+      "Priority-Based Phased Approach",
+      "Dependency-Respecting Order",
+      "Auth System Unification",
+      "Integration Coordination"
+    ]
+  },
+  "tasks": {
+    "total": 50,
+    "by_phase": {
+      "Phase 1": 18,
+      "Phase 2": 25,
+      "Phase 3": 3,
+      "Phase 4": 4
+    },
+    "by_complexity": {
+      "1-3": 15,
+      "4-7": 30,
+      "8-10": 5
+    },
+    "by_action_type": {
+      "EDIT_FILE": 40,
+      "CREATE_FILE": 2,
+      "Testing": 8
+    }
+  },
+  "task_summary": {
+    "total": 50,
+    "estimated_hours": "15-22",
+    "estimated_days": "2-3"
+  },
+  "drift_checks": [
+    {
+      "step": 6,
+      "aligned": true,
+      "issues": []
+    }
+  ],
+  "outputs": {
+    "content_analysis": "_DEV/STREAMS/comprehensive_webform_review/OUTPUTS/PLANNING/CONTENT_ANALYSIS.md",
+    "profile_selection": "_DEV/STREAMS/comprehensive_webform_review/OUTPUTS/PLANNING/PROFILE_SELECTION.md",
+    "requirements_catalog": "_DEV/STREAMS/comprehensive_webform_review/OUTPUTS/PLANNING/REQUIREMENTS_CATALOG.md",
+    "component_results": "_DEV/STREAMS/comprehensive_webform_review/OUTPUTS/PLANNING/COMPONENT_RESULTS.md",
+    "implementation_plan": "_DEV/STREAMS/comprehensive_webform_review/OUTPUTS/PLANNING/IMPLEMENTATION_PLAN.md",
+    "task_breakdown": "_DEV/STREAMS/comprehensive_webform_review/OUTPUTS/PLANNING/TASK_BREAKDOWN.md"
+  }
+}

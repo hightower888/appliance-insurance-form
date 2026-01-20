@@ -1,0 +1,1583 @@
+{
+  "stream": "crm_system",
+  "created": "2026-01-19T10:01:00.000Z",
+  "workflow": "PLANNING_STANDARD_AI",
+  "total_tasks": 62,
+  "estimated_hours": 17,
+  "phases": 3,
+  "tasks": [
+    {
+      "id": "task-1",
+      "name": "Design Database Schema Extensions",
+      "feature": "Database Foundation",
+      "requirement_id": "CON-001",
+      "architecture_component": "Database",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Design database schema extensions for CRM fields (leadStatus, disposition, dispositionDate, dispositionBy, leadSource)",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "_DEV/STREAMS/crm_system/OUTPUTS/PLANNING/DATABASE_SCHEMA_DESIGN.md",
+        "details": "Create documentation file defining the 5 new optional fields for sales records, their types, default values, and backward compatibility strategy"
+      },
+      "estimated_hours": 0.2,
+      "complexity": 2,
+      "dependencies": [],
+      "acceptance_criteria": [
+        "Schema design document created",
+        "All 5 fields defined with types and defaults",
+        "Backward compatibility strategy documented"
+      ]
+    },
+    {
+      "id": "task-2",
+      "name": "Update Database Rules",
+      "feature": "Database Foundation",
+      "requirement_id": "CON-001",
+      "architecture_component": "database.rules.json",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Update database.rules.json to support new CRM fields while maintaining existing permissions",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "database.rules.json",
+        "details": "Extend existing rules to allow reads/writes of new CRM fields (leadStatus, disposition, dispositionDate, dispositionBy, leadSource) while maintaining backward compatibility with existing sales records"
+      },
+      "estimated_hours": 0.2,
+      "complexity": 3,
+      "dependencies": ["task-1"],
+      "acceptance_criteria": [
+        "database.rules.json updated",
+        "New fields supported in rules",
+        "Existing permissions maintained",
+        "Rules validated"
+      ]
+    },
+    {
+      "id": "task-3",
+      "name": "Create CRM HTML Structure",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-001",
+      "architecture_component": "crm.html",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Create main CRM interface HTML file with tab navigation, table structure, and basic layout",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/crm.html",
+        "details": "Create crm.html with header, tab navigation (Leads, Customers, Reports), search/filter bar, data table container, pagination controls, modal structure for detail view. Reuse admin.html structure patterns."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 3,
+      "dependencies": ["task-2"],
+      "acceptance_criteria": [
+        "crm.html file created",
+        "Tab navigation structure present",
+        "Table container present",
+        "Modal structure present",
+        "Page loads without errors"
+      ]
+    },
+    {
+      "id": "task-4",
+      "name": "Create CRM Core JavaScript File",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-001",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Create crm.js with core functionality structure and Firebase initialization",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/crm.js",
+        "details": "Create crm.js file with Firebase database reference, global state variables (leads, customers, currentLeadIndex, etc.), initialization function, and basic structure. Reuse admin.js Firebase initialization pattern."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 2,
+      "dependencies": ["task-3"],
+      "acceptance_criteria": [
+        "crm.js file created",
+        "Firebase database reference initialized",
+        "Global state variables defined",
+        "File structure ready for functions"
+      ]
+    },
+    {
+      "id": "task-5",
+      "name": "Implement loadLeads() Function",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-001",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement function to load leads from Firebase database using admin.js pattern",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add loadLeads() function that loads data from Firebase sales node, filters for leads (leadStatus='new' or null), handles authentication, shows loading indicator, transforms data, and updates global leads array. Reuse admin.js loadSales() pattern (lines 685-759)."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 4,
+      "dependencies": ["task-4"],
+      "acceptance_criteria": [
+        "loadLeads() function implemented",
+        "Loads data from Firebase",
+        "Filters for leads correctly",
+        "Shows loading indicator",
+        "Handles errors gracefully",
+        "Updates global leads array"
+      ]
+    },
+    {
+      "id": "task-6",
+      "name": "Implement renderLeadList() Function",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-001",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement function to render lead list in table format with pagination",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add renderLeadList() function that renders leads in table format with columns (date, name, contact, status, disposition, actions), pagination (50 per page), uses DocumentFragment for performance, requestAnimationFrame for smooth rendering. Reuse admin.js renderSalesTable() pattern (lines 767-853)."
+      },
+      "estimated_hours": 0.7,
+      "complexity": 5,
+      "dependencies": ["task-5"],
+      "acceptance_criteria": [
+        "renderLeadList() function implemented",
+        "Table renders with all columns",
+        "Pagination works correctly",
+        "Performance optimized (DocumentFragment)",
+        "Empty state displayed when no leads"
+      ]
+    },
+    {
+      "id": "task-7",
+      "name": "Implement Navigation Functions",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-002",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement next/previous navigation for cycling through leads",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add cycleToNextLead() and cycleToPreviousLead() functions that update currentLeadIndex, validate boundaries, update UI to show current lead, handle wrap-around or disable at boundaries. Add keyboard navigation (arrow keys)."
+      },
+      "estimated_hours": 0.4,
+      "complexity": 3,
+      "dependencies": ["task-6"],
+      "acceptance_criteria": [
+        "cycleToNextLead() function implemented",
+        "cycleToPreviousLead() function implemented",
+        "Current lead indicator updates",
+        "Keyboard navigation works",
+        "Boundaries handled correctly"
+      ]
+    },
+    {
+      "id": "task-8",
+      "name": "Implement viewLeadDetails() Function",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-001",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement modal detail view for viewing full lead information",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add viewLeadDetails(leadId) function that displays lead details in modal with sections (Contact, Appliances, Plan/Payment, Form Fields, Notes, Metadata). Reuse processor.js viewSaleDetails() pattern (lines 354-429) but extend for lead-specific fields (disposition, status, source)."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 4,
+      "dependencies": ["task-6"],
+      "acceptance_criteria": [
+        "viewLeadDetails() function implemented",
+        "Modal displays all lead information",
+        "All sections rendered correctly",
+        "Modal opens and closes properly",
+        "Lead-specific fields displayed"
+      ]
+    },
+    {
+      "id": "task-9",
+      "name": "Implement Search Functionality",
+      "feature": "Search & Filter",
+      "requirement_id": "REQ-003",
+      "architecture_component": "crm.js",
+      "phase": 2,
+      "priority": "P1",
+      "description": "Implement search across all customer fields with real-time results",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add searchLeads(query) function that searches across all text fields (name, email, phone, address, postcode, notes), debounces input, highlights matches, updates filtered leads array. Add search input to crm.html. Reuse admin.html search pattern."
+      },
+      "estimated_hours": 0.4,
+      "complexity": 4,
+      "dependencies": ["task-6"],
+      "acceptance_criteria": [
+        "searchLeads() function implemented",
+        "Search input field in UI",
+        "Real-time search results",
+        "Searches all text fields",
+        "Debounced for performance"
+      ]
+    },
+    {
+      "id": "task-10",
+      "name": "Implement Filter Functionality",
+      "feature": "Search & Filter",
+      "requirement_id": "REQ-004",
+      "architecture_component": "crm.js",
+      "phase": 2,
+      "priority": "P1",
+      "description": "Implement filters for disposition, status, date range, and agent",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add filterLeads(filters) function that filters by disposition, leadStatus, date range, agent, and leadSource. Add filter dropdowns to crm.html. Support multiple combined filters. Add clear filters button. Reuse admin.html filter pattern."
+      },
+      "estimated_hours": 0.6,
+      "complexity": 5,
+      "dependencies": ["task-6"],
+      "acceptance_criteria": [
+        "filterLeads() function implemented",
+        "Filter dropdowns in UI",
+        "Date range picker works",
+        "Multiple filters can be combined",
+        "Clear filters button works"
+      ]
+    },
+    {
+      "id": "task-11",
+      "name": "Implement Sort Functionality",
+      "feature": "Search & Filter",
+      "requirement_id": "REQ-005",
+      "architecture_component": "crm.js",
+      "phase": 2,
+      "priority": "P2",
+      "description": "Implement column sorting with ascending/descending toggle",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add sortLeads(column, direction) function that sorts by date, name, status, disposition, etc. Add sortable column headers to crm.html table. Add visual sort indicators. Default sort by newest first. Reuse admin.js sort pattern."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 3,
+      "dependencies": ["task-6"],
+      "acceptance_criteria": [
+        "sortLeads() function implemented",
+        "Sortable columns in table",
+        "Ascending/descending toggle works",
+        "Visual sort indicators displayed",
+        "Default sort applied"
+      ]
+    },
+    {
+      "id": "task-12",
+      "name": "Implement Column Visibility",
+      "feature": "Search & Filter",
+      "requirement_id": "REQ-006",
+      "architecture_component": "crm.js",
+      "phase": 2,
+      "priority": "P2",
+      "description": "Implement show/hide columns functionality with preference persistence",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add column visibility menu and toggle functions. Store preferences in localStorage. Add column visibility button to crm.html. Reuse admin.js column visibility pattern."
+      },
+      "estimated_hours": 0.2,
+      "complexity": 2,
+      "dependencies": ["task-6"],
+      "acceptance_criteria": [
+        "Column visibility menu implemented",
+        "Toggle columns on/off works",
+        "Preferences persist in localStorage",
+        "Reset to default option works"
+      ]
+    },
+    {
+      "id": "task-13",
+      "name": "Implement Edit Mode in Modal",
+      "feature": "Record Editing",
+      "requirement_id": "REQ-007",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Extend modal to support edit mode with inline editing",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Extend viewLeadDetails() to support edit mode. Add edit mode toggle, convert display fields to input fields, add save/cancel buttons. Reuse processor.js modal pattern but make fields editable."
+      },
+      "estimated_hours": 0.6,
+      "complexity": 5,
+      "dependencies": ["task-8"],
+      "acceptance_criteria": [
+        "Edit mode toggle implemented",
+        "Fields become editable in edit mode",
+        "Save and cancel buttons present",
+        "Edit mode switches correctly"
+      ]
+    },
+    {
+      "id": "task-14",
+      "name": "Implement editLead() Function",
+      "feature": "Record Editing",
+      "requirement_id": "REQ-007",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement function to handle lead editing with form field integration",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add editLead(leadId) function that opens modal in edit mode, loads lead data, uses form-renderer.js to display dynamic form fields, allows editing of contact details, form fields, and appliances. Integrate with form-renderer.js renderForm() and field-config.js getAllFields()."
+      },
+      "estimated_hours": 0.8,
+      "complexity": 6,
+      "dependencies": ["task-13"],
+      "acceptance_criteria": [
+        "editLead() function implemented",
+        "Modal opens in edit mode",
+        "Form fields rendered using form-renderer",
+        "Contact details editable",
+        "Dynamic fields editable"
+      ]
+    },
+    {
+      "id": "task-15",
+      "name": "Implement Data Validation",
+      "feature": "Record Editing",
+      "requirement_id": "REQ-011",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P1",
+      "description": "Implement validation for email, phone, postcode, and required fields",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add validateLeadData(data) function that validates email format, phone format, postcode format, required fields. Show validation errors below fields. Prevent save on validation errors. Reuse existing validation patterns from app.js."
+      },
+      "estimated_hours": 0.4,
+      "complexity": 4,
+      "dependencies": ["task-14"],
+      "acceptance_criteria": [
+        "validateLeadData() function implemented",
+        "Email validation works",
+        "Phone validation works",
+        "Postcode validation works",
+        "Required field validation works",
+        "Error messages displayed"
+      ]
+    },
+    {
+      "id": "task-16",
+      "name": "Implement saveLead() Function",
+      "feature": "Record Editing",
+      "requirement_id": "REQ-010",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement function to save edited lead data to Firebase",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add saveLead(leadId, data) function that validates data, updates updatedAt timestamp, saves to Firebase sales node, handles errors gracefully, shows success/error feedback, performs optimistic updates, rolls back on error. Use Firebase database reference from global scope."
+      },
+      "estimated_hours": 0.6,
+      "complexity": 5,
+      "dependencies": ["task-15"],
+      "acceptance_criteria": [
+        "saveLead() function implemented",
+        "Data validated before save",
+        "updatedAt timestamp updated",
+        "Saves to Firebase successfully",
+        "Error handling works",
+        "Success/error feedback shown",
+        "Optimistic updates work"
+      ]
+    },
+    {
+      "id": "task-17",
+      "name": "Implement Appliance Editing",
+      "feature": "Record Editing",
+      "requirement_id": "REQ-009",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P1",
+      "description": "Implement editing, adding, and removing appliances from lead records",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add appliance editing functions that use appliance-relationship-manager.js for CRUD operations. Add UI for editing appliance details (type, make, model, age), adding new appliances, removing appliances. Update costs automatically. Integrate with appliance-relationship-manager.js addAppliancesToSale(), updateAppliance(), removeAppliance()."
+      },
+      "estimated_hours": 0.7,
+      "complexity": 6,
+      "dependencies": ["task-14"],
+      "acceptance_criteria": [
+        "Appliance editing UI implemented",
+        "Edit appliance details works",
+        "Add new appliances works",
+        "Remove appliances works",
+        "Costs update automatically",
+        "Integrates with appliance-relationship-manager"
+      ]
+    },
+    {
+      "id": "task-18",
+      "name": "Create CRM Leads JavaScript File",
+      "feature": "Lead Management",
+      "requirement_id": "REQ-012",
+      "architecture_component": "crm-leads.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Create crm-leads.js file for lead management functionality",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/crm-leads.js",
+        "details": "Create crm-leads.js file with lead management functions structure: uploadLeads(), cycleToNextLead(), cycleToPreviousLead(), setDisposition(), getCurrentLeadIndex(). Initialize with Firebase database reference and state management."
+      },
+      "estimated_hours": 0.2,
+      "complexity": 2,
+      "dependencies": ["task-4"],
+      "acceptance_criteria": [
+        "crm-leads.js file created",
+        "File structure ready",
+        "Firebase reference initialized",
+        "State variables defined"
+      ]
+    },
+    {
+      "id": "task-19",
+      "name": "Implement Upload Interface",
+      "feature": "Lead Management",
+      "requirement_id": "REQ-012",
+      "architecture_component": "crm.html",
+      "phase": 1,
+      "priority": "P1",
+      "description": "Create upload interface for CSV, JSON, and manual entry",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.html",
+        "details": "Add upload section to crm.html with file input for CSV/JSON, manual entry form, upload button, validation feedback. Include fields for customer data and appliances. Style consistently with existing UI."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 4,
+      "dependencies": ["task-3"],
+      "acceptance_criteria": [
+        "Upload interface in crm.html",
+        "File input for CSV/JSON",
+        "Manual entry form present",
+        "Upload button present",
+        "Validation feedback area present"
+      ]
+    },
+    {
+      "id": "task-20",
+      "name": "Implement uploadLeads() Function",
+      "feature": "Lead Management",
+      "requirement_id": "REQ-012",
+      "architecture_component": "crm-leads.js",
+      "phase": 1,
+      "priority": "P1",
+      "description": "Implement function to upload and process customer records",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-leads.js",
+        "details": "Add uploadLeads(data) function that accepts CSV/JSON/manual data, validates data, transforms to sales schema, adds leadStatus='new' and leadSource='upload', writes to Firebase sales node, creates appliance records using appliance-relationship-manager, updates UI, handles errors."
+      },
+      "estimated_hours": 1.0,
+      "complexity": 7,
+      "dependencies": ["task-18", "task-19"],
+      "acceptance_criteria": [
+        "uploadLeads() function implemented",
+        "CSV import works",
+        "JSON import works",
+        "Manual entry works",
+        "Data validated",
+        "Records created in database",
+        "Appliances created correctly",
+        "Error handling works"
+      ]
+    },
+    {
+      "id": "task-21",
+      "name": "Implement Lead Cycling Navigation",
+      "feature": "Lead Management",
+      "requirement_id": "REQ-013",
+      "architecture_component": "crm-leads.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement next/previous lead navigation with state management",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-leads.js",
+        "details": "Add cycleToNextLead() and cycleToPreviousLead() functions that manage currentLeadIndex, filter leads (leadStatus='new' or null), update UI to show current lead details, handle boundaries (wrap or disable), support keyboard shortcuts. Add getCurrentLeadIndex() helper function."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 4,
+      "dependencies": ["task-18", "task-5"],
+      "acceptance_criteria": [
+        "cycleToNextLead() implemented",
+        "cycleToPreviousLead() implemented",
+        "Current lead indicator updates",
+        "Filters to leads only",
+        "Keyboard shortcuts work",
+        "Boundaries handled correctly"
+      ]
+    },
+    {
+      "id": "task-22",
+      "name": "Implement Disposition UI",
+      "feature": "Lead Management",
+      "requirement_id": "REQ-014",
+      "architecture_component": "crm.html",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Create disposition dropdown/buttons in lead detail modal",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.html",
+        "details": "Add disposition controls to lead detail modal with dropdown/buttons for options: No answer, Not interested, Interested, Call back, Other. Add visual disposition indicator (badge/color). Style consistently with existing UI."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 2,
+      "dependencies": ["task-8"],
+      "acceptance_criteria": [
+        "Disposition dropdown/buttons in modal",
+        "All options present",
+        "Visual indicator (badge/color)",
+        "Styled consistently"
+      ]
+    },
+    {
+      "id": "task-23",
+      "name": "Implement setDisposition() Function",
+      "feature": "Lead Management",
+      "requirement_id": "REQ-014",
+      "architecture_component": "crm-leads.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement function to set and store lead disposition",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-leads.js",
+        "details": "Add setDisposition(leadId, disposition) function that validates user is logged in, validates disposition value, updates record with disposition, dispositionDate (now), dispositionBy (currentUser), leadStatus='dispositioned', saves to Firebase, logs activity to security_logs, updates UI, enables 'Paste to Form' button if disposition='interested'."
+      },
+      "estimated_hours": 0.6,
+      "complexity": 5,
+      "dependencies": ["task-18", "task-22"],
+      "acceptance_criteria": [
+        "setDisposition() function implemented",
+        "Validates user authentication",
+        "Updates database correctly",
+        "Sets all required fields",
+        "Logs activity",
+        "Updates UI",
+        "Enables paste-to-form if interested"
+      ]
+    },
+    {
+      "id": "task-24",
+      "name": "Implement Lead Status Workflow",
+      "feature": "Lead Management",
+      "requirement_id": "REQ-016",
+      "architecture_component": "crm-leads.js",
+      "phase": 1,
+      "priority": "P2",
+      "description": "Implement status tracking and transitions",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-leads.js",
+        "details": "Add status workflow management: new -> contacted -> dispositioned -> converted. Add status badges/indicators, filter by status, auto-update status on actions (e.g., set disposition -> status='dispositioned', paste to form -> status='converted')."
+      },
+      "estimated_hours": 0.4,
+      "complexity": 4,
+      "dependencies": ["task-23"],
+      "acceptance_criteria": [
+        "Status workflow implemented",
+        "Status transitions work",
+        "Status badges displayed",
+        "Filter by status works",
+        "Auto-update on actions works"
+      ]
+    },
+    {
+      "id": "task-25",
+      "name": "Implement Lead Source Tracking",
+      "feature": "Lead Management",
+      "requirement_id": "REQ-017",
+      "architecture_component": "crm-leads.js",
+      "phase": 1,
+      "priority": "P2",
+      "description": "Implement tracking of lead source (upload, form, manual)",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-leads.js",
+        "details": "Add leadSource field tracking: set source on creation (upload='upload', form submission='form', manual entry='manual'), display source in UI, filter by source, include in reports. Update uploadLeads() to set leadSource='upload'."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 3,
+      "dependencies": ["task-20"],
+      "acceptance_criteria": [
+        "leadSource field set on creation",
+        "Source displayed in UI",
+        "Filter by source works",
+        "Source included in reports"
+      ]
+    },
+    {
+      "id": "task-26",
+      "name": "Implement pasteToForm() Function",
+      "feature": "Form Integration",
+      "requirement_id": "REQ-018",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement function to paste customer data to form using localStorage",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add pasteToForm(customerData) function that validates disposition === 'interested', collects customer data (contact, appliances, payment if available), stores in localStorage with key 'crm_prefill_data', navigates to '/form?prefill=true'. Add 'Paste to Form' button to modal (only visible if disposition='interested')."
+      },
+      "estimated_hours": 0.4,
+      "complexity": 4,
+      "dependencies": ["task-16", "task-23"],
+      "acceptance_criteria": [
+        "pasteToForm() function implemented",
+        "Validates disposition",
+        "Stores data in localStorage",
+        "Navigates to form page",
+        "Button only visible for interested dispositions"
+      ]
+    },
+    {
+      "id": "task-27",
+      "name": "Implement Form Prefill Handling in app.js",
+      "feature": "Form Integration",
+      "requirement_id": "REQ-019",
+      "architecture_component": "app.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Modify app.js to handle prefill parameter and read from localStorage",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/app.js",
+        "details": "Add prefill handling in initializeAppAfterAuth() or similar initialization function: Check for URL parameter 'prefill=true', read data from localStorage key 'crm_prefill_data', call prefillFormFields(data) function, clear localStorage after prefill. Map CRM data structure to form field names."
+      },
+      "estimated_hours": 0.6,
+      "complexity": 5,
+      "dependencies": ["task-26"],
+      "acceptance_criteria": [
+        "Prefill parameter check implemented",
+        "Reads from localStorage",
+        "prefillFormFields() function implemented",
+        "Maps CRM data to form fields",
+        "Clears localStorage after prefill",
+        "Form fields pre-filled correctly"
+      ]
+    },
+    {
+      "id": "task-28",
+      "name": "Implement prefillFormFields() Function",
+      "feature": "Form Integration",
+      "requirement_id": "REQ-019",
+      "architecture_component": "app.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement function to pre-fill form fields with customer data",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/app.js",
+        "details": "Add prefillFormFields(customerData) function that maps CRM data to form fields: contact.name -> name input, contact.phone -> phoneNumbers input, contact.email -> email input, contact.address -> adress input, contact.postcode -> postcode input, appliances -> appliance entries, payment -> sort code/account number/dd date. Handle field name differences. Use form-renderer if needed for dynamic fields."
+      },
+      "estimated_hours": 0.7,
+      "complexity": 6,
+      "dependencies": ["task-27"],
+      "acceptance_criteria": [
+        "prefillFormFields() function implemented",
+        "Contact details pre-filled",
+        "Appliances pre-filled",
+        "Payment details pre-filled (if available)",
+        "Field name mapping works",
+        "Dynamic fields handled"
+      ]
+    },
+    {
+      "id": "task-29",
+      "name": "Update CRM Record Status on Form Submission",
+      "feature": "Form Integration",
+      "requirement_id": "REQ-020",
+      "architecture_component": "app.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Update CRM record status to 'converted' when form is submitted with pre-filled data",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/app.js",
+        "details": "Modify submitToFirebase() to check if data came from CRM prefill (check localStorage or flag), if yes, update original CRM record (sales node) with leadStatus='converted', link back to CRM record if possible. Add logic after successful form submission."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 4,
+      "dependencies": ["task-28"],
+      "acceptance_criteria": [
+        "Status update logic implemented",
+        "Checks for CRM prefill",
+        "Updates leadStatus to 'converted'",
+        "Links back to CRM record",
+        "Works after form submission"
+      ]
+    },
+    {
+      "id": "task-30",
+      "name": "Create CRM Reports JavaScript File",
+      "feature": "Reporting & KPIs",
+      "requirement_id": "REQ-021",
+      "architecture_component": "crm-reports.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Create crm-reports.js file for reporting and KPI calculations",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/crm-reports.js",
+        "details": "Create crm-reports.js file with reporting functions structure: calculateConversionRate(), calculateDispositionBreakdown(), calculateAcquisitionMetrics(), generateReport(), renderKPIDashboard(). Initialize with Firebase database reference."
+      },
+      "estimated_hours": 0.2,
+      "complexity": 2,
+      "dependencies": ["task-4"],
+      "acceptance_criteria": [
+        "crm-reports.js file created",
+        "File structure ready",
+        "Firebase reference initialized"
+      ]
+    },
+    {
+      "id": "task-31",
+      "name": "Implement calculateConversionRate() Function",
+      "feature": "Reporting & KPIs",
+      "requirement_id": "REQ-021",
+      "architecture_component": "crm-reports.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Calculate lead conversion rate (interested / total leads)",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-reports.js",
+        "details": "Add calculateConversionRate(filters) function that loads leads from database, filters by date range and agent if provided, counts total leads, counts leads with disposition='interested', calculates percentage (interested/total * 100), returns rate and counts. Support historical trends."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 5,
+      "dependencies": ["task-30", "task-5"],
+      "acceptance_criteria": [
+        "calculateConversionRate() implemented",
+        "Calculates rate correctly",
+        "Supports date range filter",
+        "Supports agent filter",
+        "Returns rate and counts",
+        "Historical trends supported"
+      ]
+    },
+    {
+      "id": "task-32",
+      "name": "Implement calculateDispositionBreakdown() Function",
+      "feature": "Reporting & KPIs",
+      "requirement_id": "REQ-022",
+      "architecture_component": "crm-reports.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Calculate disposition breakdown with counts and percentages",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-reports.js",
+        "details": "Add calculateDispositionBreakdown(filters) function that loads leads, counts by disposition type (no_answer, not_interested, interested, call_back, other), calculates percentage for each, returns breakdown object. Support date range filter."
+      },
+      "estimated_hours": 0.4,
+      "complexity": 4,
+      "dependencies": ["task-30", "task-5"],
+      "acceptance_criteria": [
+        "calculateDispositionBreakdown() implemented",
+        "Counts by disposition type",
+        "Calculates percentages",
+        "Returns breakdown object",
+        "Supports date range filter"
+      ]
+    },
+    {
+      "id": "task-33",
+      "name": "Implement calculateAcquisitionMetrics() Function",
+      "feature": "Reporting & KPIs",
+      "requirement_id": "REQ-023",
+      "architecture_component": "crm-reports.js",
+      "phase": 1,
+      "priority": "P1",
+      "description": "Calculate customer acquisition metrics",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-reports.js",
+        "details": "Add calculateAcquisitionMetrics(filters) function that calculates: new leads count by period, conversion count, conversion rate, average time to convert (dispositionDate - createdAt), trends over time. Support date range and agent filters."
+      },
+      "estimated_hours": 0.6,
+      "complexity": 6,
+      "dependencies": ["task-30", "task-5"],
+      "acceptance_criteria": [
+        "calculateAcquisitionMetrics() implemented",
+        "New leads count calculated",
+        "Conversion count calculated",
+        "Conversion rate calculated",
+        "Average time to convert calculated",
+        "Trends over time supported"
+      ]
+    },
+    {
+      "id": "task-34",
+      "name": "Implement Form Completion Rate Calculation",
+      "feature": "Reporting & KPIs",
+      "requirement_id": "REQ-024",
+      "architecture_component": "crm-reports.js",
+      "phase": 1,
+      "priority": "P1",
+      "description": "Calculate form completion rates (started vs completed)",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-reports.js",
+        "details": "Add calculateFormCompletionRate() function that tracks form starts (leads with pasteToForm called) vs form completions (leads with leadStatus='converted'), calculates completion rate, identifies drop-off points, reports on completion trends. May require tracking form starts in database."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 5,
+      "dependencies": ["task-30", "task-26"],
+      "acceptance_criteria": [
+        "calculateFormCompletionRate() implemented",
+        "Tracks form starts",
+        "Tracks form completions",
+        "Calculates completion rate",
+        "Identifies drop-off points",
+        "Reports on trends"
+      ]
+    },
+    {
+      "id": "task-35",
+      "name": "Implement renderKPIDashboard() Function",
+      "feature": "Reporting & KPIs",
+      "requirement_id": "REQ-025",
+      "architecture_component": "crm-reports.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Render KPI dashboard with charts and widgets",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-reports.js",
+        "details": "Add renderKPIDashboard() function that calls all KPI calculation functions, renders KPI cards/widgets in dashboard, creates charts/graphs (pie chart for disposition breakdown, line chart for trends), supports filtering by date/agent, updates in real-time. Add dashboard section to crm.html."
+      },
+      "estimated_hours": 1.0,
+      "complexity": 7,
+      "dependencies": ["task-31", "task-32", "task-33", "task-34"],
+      "acceptance_criteria": [
+        "renderKPIDashboard() implemented",
+        "KPI cards/widgets rendered",
+        "Charts and graphs displayed",
+        "Filterable by date/agent",
+        "Real-time updates work",
+        "Dashboard section in crm.html"
+      ]
+    },
+    {
+      "id": "task-36",
+      "name": "Integrate Authentication",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-026",
+      "architecture_component": "crm.js",
+      "phase": 2,
+      "priority": "P1",
+      "description": "Integrate auth-db.js for authentication and role-based access",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add authentication check on page load using auth-db.js getCurrentUser(), checkRole(). Redirect to login if not authenticated. Implement role-based permissions: Admin (full access), Agent (view, edit, disposition own leads), Processor (view only). Add permission checks before edit/disposition/upload actions."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 4,
+      "dependencies": ["task-4"],
+      "acceptance_criteria": [
+        "Authentication check on load",
+        "Redirects to login if not authenticated",
+        "Role-based permissions implemented",
+        "Permission checks before actions",
+        "Uses auth-db.js correctly"
+      ]
+    },
+    {
+      "id": "task-37",
+      "name": "Implement Performance Optimizations",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-027",
+      "architecture_component": "crm.js",
+      "phase": 2,
+      "priority": "P1",
+      "description": "Implement pagination, lazy loading, and optimized queries",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add pagination for 50 records per page, lazy loading of detail views (load on demand), optimized Firebase queries (limit results, order by), debounced search/filter, use DocumentFragment for batch DOM updates, requestAnimationFrame for smooth rendering. Reuse admin.js pagination pattern."
+      },
+      "estimated_hours": 0.6,
+      "complexity": 5,
+      "dependencies": ["task-6"],
+      "acceptance_criteria": [
+        "Pagination implemented (50 per page)",
+        "Lazy loading works",
+        "Optimized Firebase queries",
+        "Debounced search/filter",
+        "Performance optimizations applied"
+      ]
+    },
+    {
+      "id": "task-38",
+      "name": "Implement Real-time Updates",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-028",
+      "architecture_component": "crm.js",
+      "phase": 2,
+      "priority": "P1",
+      "description": "Implement real-time database listeners for live updates",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Replace once() calls with on() listeners for real-time updates. Update UI when data changes in database. Handle concurrent edits (show update indicators, last-write-wins with warning). Add listeners for sales node changes."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 5,
+      "dependencies": ["task-5"],
+      "acceptance_criteria": [
+        "Real-time listeners implemented",
+        "UI updates on data changes",
+        "Concurrent edits handled",
+        "Update indicators shown",
+        "Conflict detection works"
+      ]
+    },
+    {
+      "id": "task-39",
+      "name": "Implement Error Handling",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-029",
+      "architecture_component": "crm.js",
+      "phase": 2,
+      "priority": "P1",
+      "description": "Implement comprehensive error handling with user-friendly messages",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add error handling for network errors (retry logic, offline detection), validation errors (inline field errors), permission errors (clear messages, redirect if unauthorized). Add error logging. Show user-friendly error messages. Reuse existing error handling patterns."
+      },
+      "estimated_hours": 0.4,
+      "complexity": 4,
+      "dependencies": ["task-4"],
+      "acceptance_criteria": [
+        "Network error handling works",
+        "Validation error handling works",
+        "Permission error handling works",
+        "User-friendly messages shown",
+        "Error logging implemented"
+      ]
+    },
+    {
+      "id": "task-40",
+      "name": "Implement Mobile Responsiveness",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-030",
+      "architecture_component": "styles.css",
+      "phase": 3,
+      "priority": "P1",
+      "description": "Add responsive CSS for mobile devices",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/styles.css",
+        "details": "Extend styles.css with mobile-responsive styles: media queries for small screens, touch-friendly buttons, mobile-optimized forms, readable text on small screens, mobile navigation. Test on mobile viewport sizes."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 4,
+      "dependencies": ["task-3"],
+      "acceptance_criteria": [
+        "Mobile-responsive styles added",
+        "Media queries implemented",
+        "Touch-friendly buttons",
+        "Mobile-optimized forms",
+        "Readable on small screens"
+      ]
+    },
+    {
+      "id": "task-41",
+      "name": "Implement Data Export",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-031",
+      "architecture_component": "crm.js",
+      "phase": 3,
+      "priority": "P2",
+      "description": "Implement CSV export functionality",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add exportLeadsToCSV() function that exports current filtered view to CSV format, includes all fields, creates downloadable file. Add export button to crm.html. Reuse admin.js exportSalesToCSV() pattern."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 3,
+      "dependencies": ["task-6"],
+      "acceptance_criteria": [
+        "exportLeadsToCSV() implemented",
+        "Exports to CSV format",
+        "Includes all fields",
+        "Downloadable file created",
+        "Export button in UI"
+      ]
+    },
+    {
+      "id": "task-42",
+      "name": "Implement Activity Logging",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-032",
+      "architecture_component": "crm.js",
+      "phase": 2,
+      "priority": "P1",
+      "description": "Log CRM activities to security_logs node",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add logActivity(action, leadId, details) function that logs to security_logs node with event types: 'lead_dispositioned', 'lead_edited', 'lead_uploaded'. Include userId, timestamp, action details. Reuse existing security-logger.js if available, or implement directly."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 3,
+      "dependencies": ["task-4"],
+      "acceptance_criteria": [
+        "logActivity() function implemented",
+        "Logs to security_logs node",
+        "Event types logged correctly",
+        "Includes userId and timestamp",
+        "Activity history viewable"
+      ]
+    },
+    {
+      "id": "task-43",
+      "name": "Add Vercel Routing",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-026",
+      "architecture_component": "vercel.json",
+      "phase": 2,
+      "priority": "P1",
+      "description": "Add /crm route to vercel.json",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "vercel.json",
+        "details": "Add rewrite rule to vercel.json: source '/crm', destination '/crm.html'. Follow existing pattern for /admin, /form, /processor routes."
+      },
+      "estimated_hours": 0.1,
+      "complexity": 1,
+      "dependencies": ["task-3"],
+      "acceptance_criteria": [
+        "/crm route added to vercel.json",
+        "Route works correctly",
+        "Follows existing pattern"
+      ]
+    },
+    {
+      "id": "task-44",
+      "name": "Extend Styles for CRM",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-030",
+      "architecture_component": "styles.css",
+      "phase": 2,
+      "priority": "P1",
+      "description": "Extend existing styles.css with CRM-specific styles",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/styles.css",
+        "details": "Add CRM-specific styles: disposition badges, status indicators, lead list styles, dashboard styles, modal styles. Maintain consistency with existing admin panel styles. Use existing CSS variables and color scheme."
+      },
+      "estimated_hours": 0.4,
+      "complexity": 3,
+      "dependencies": ["task-3"],
+      "acceptance_criteria": [
+        "CRM styles added to styles.css",
+        "Disposition badges styled",
+        "Status indicators styled",
+        "Consistent with existing styles",
+        "Uses existing CSS variables"
+      ]
+    },
+    {
+      "id": "task-45",
+      "name": "Add Loading States and Empty States",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-001",
+      "architecture_component": "crm.html",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Add loading indicators and empty state messages",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.html",
+        "details": "Add loading indicator (spinner) that shows during data fetch, empty state message when no leads found, error state message for errors. Style consistently with admin.html loading states."
+      },
+      "estimated_hours": 0.2,
+      "complexity": 2,
+      "dependencies": ["task-3"],
+      "acceptance_criteria": [
+        "Loading indicator present",
+        "Empty state message present",
+        "Error state message present",
+        "States display correctly"
+      ]
+    },
+    {
+      "id": "task-46",
+      "name": "Add Pagination Controls",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-001",
+      "architecture_component": "crm.html",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Add pagination UI controls to crm.html",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.html",
+        "details": "Add pagination controls: Previous/Next buttons, page number display, total pages display, items per page selector. Style consistently with admin.html pagination. Add pagination container to table section."
+      },
+      "estimated_hours": 0.2,
+      "complexity": 2,
+      "dependencies": ["task-3"],
+      "acceptance_criteria": [
+        "Pagination controls in crm.html",
+        "Previous/Next buttons work",
+        "Page number displayed",
+        "Total pages displayed",
+        "Styled consistently"
+      ]
+    },
+    {
+      "id": "task-47",
+      "name": "Implement Pagination Logic",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-001",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement pagination logic in crm.js",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add pagination logic: pageSize=50, currentPage tracking, totalPages calculation, updatePaginationControls() function, handle page changes, update display. Reuse admin.js pagination pattern (pageSize, currentPage, totalPages variables and logic)."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 3,
+      "dependencies": ["task-6", "task-46"],
+      "acceptance_criteria": [
+        "Pagination logic implemented",
+        "PageSize=50",
+        "Current page tracking works",
+        "Total pages calculated",
+        "Pagination controls update",
+        "Page changes work"
+      ]
+    },
+    {
+      "id": "task-48",
+      "name": "Add Tab Switching Logic",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-001",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement tab switching between Leads, Customers, Reports",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add switchTab(tabName) function that switches between 'leads', 'customers', 'reports' tabs, shows/hides appropriate content sections, updates active tab styling, loads data for selected tab. Reuse admin.html tab switching pattern."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 3,
+      "dependencies": ["task-4"],
+      "acceptance_criteria": [
+        "switchTab() function implemented",
+        "Tab switching works",
+        "Content sections show/hide correctly",
+        "Active tab styling updates",
+        "Data loads for selected tab"
+      ]
+    },
+    {
+      "id": "task-49",
+      "name": "Implement loadCustomers() Function",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-001",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement function to load customers (converted leads) from database",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add loadCustomers() function similar to loadLeads() but filters for leadStatus='converted' or has submittedAt. Loads from sales node, transforms data, updates global customers array. Reuse loadLeads() pattern."
+      },
+      "estimated_hours": 0.4,
+      "complexity": 4,
+      "dependencies": ["task-5"],
+      "acceptance_criteria": [
+        "loadCustomers() function implemented",
+        "Loads converted customers",
+        "Filters correctly",
+        "Updates customers array",
+        "Handles errors"
+      ]
+    },
+    {
+      "id": "task-50",
+      "name": "Add Disposition Badges to Table",
+      "feature": "Lead Management",
+      "requirement_id": "REQ-014",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Add visual disposition badges to lead list table",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Modify renderLeadList() to add disposition badges/colors to table rows. Style badges based on disposition type (interested=green, not_interested=red, call_back=yellow, etc.). Add disposition column to table if not present."
+      },
+      "estimated_hours": 0.2,
+      "complexity": 2,
+      "dependencies": ["task-6"],
+      "acceptance_criteria": [
+        "Disposition badges in table",
+        "Badges styled by type",
+        "Disposition column present",
+        "Visual indicators clear"
+      ]
+    },
+    {
+      "id": "task-51",
+      "name": "Add Status Badges to Table",
+      "feature": "Lead Management",
+      "requirement_id": "REQ-016",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P2",
+      "description": "Add visual status badges to lead list table",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Modify renderLeadList() to add status badges (new, contacted, dispositioned, converted) with colors. Add status column to table. Style badges consistently."
+      },
+      "estimated_hours": 0.2,
+      "complexity": 2,
+      "dependencies": ["task-6"],
+      "acceptance_criteria": [
+        "Status badges in table",
+        "Badges styled by status",
+        "Status column present",
+        "Visual indicators clear"
+      ]
+    },
+    {
+      "id": "task-52",
+      "name": "Implement Report Export",
+      "feature": "Reporting & KPIs",
+      "requirement_id": "REQ-022",
+      "architecture_component": "crm-reports.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement export functionality for reports",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-reports.js",
+        "details": "Add exportReport(type, data) function that exports reports to CSV or JSON format. Support export of disposition breakdown, conversion rates, acquisition metrics. Add export buttons to dashboard. Create downloadable files."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 3,
+      "dependencies": ["task-35"],
+      "acceptance_criteria": [
+        "exportReport() function implemented",
+        "Exports to CSV/JSON",
+        "Export buttons in dashboard",
+        "Downloadable files created"
+      ]
+    },
+    {
+      "id": "task-53",
+      "name": "Add Chart Library Integration",
+      "feature": "Reporting & KPIs",
+      "requirement_id": "REQ-022",
+      "architecture_component": "crm-reports.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Integrate chart library for visualization (or use CSS/Canvas)",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm-reports.js",
+        "details": "Add chart rendering for pie chart (disposition breakdown), bar chart (conversion rates), line chart (trends). Use Chart.js library (if available) or implement with CSS/Canvas. Add chart containers to crm.html dashboard section."
+      },
+      "estimated_hours": 0.6,
+      "complexity": 5,
+      "dependencies": ["task-35"],
+      "acceptance_criteria": [
+        "Chart library integrated or CSS/Canvas charts",
+        "Pie chart for disposition breakdown",
+        "Bar chart for conversion rates",
+        "Line chart for trends",
+        "Charts render correctly"
+      ]
+    },
+    {
+      "id": "task-54",
+      "name": "Implement Form Field Rendering in Edit Mode",
+      "feature": "Record Editing",
+      "requirement_id": "REQ-008",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Use form-renderer to display form fields in edit mode",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "In editLead() function, use form-renderer.js renderForm() to display dynamic form fields in edit mode. Create container in modal for dynamic fields. Load field definitions from field-config.js. Allow editing of field values."
+      },
+      "estimated_hours": 0.5,
+      "complexity": 5,
+      "dependencies": ["task-14"],
+      "acceptance_criteria": [
+        "Form fields rendered in edit mode",
+        "Uses form-renderer.js",
+        "Field definitions loaded",
+        "Fields editable",
+        "Container in modal"
+      ]
+    },
+    {
+      "id": "task-55",
+      "name": "Implement Field Value Collection in Edit Mode",
+      "feature": "Record Editing",
+      "requirement_id": "REQ-008",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Collect edited form field values using form-renderer",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "In saveLead() function, use form-renderer.js getAllFieldValues() to collect edited dynamic field values. Merge with contact and appliance data. Structure data for database save."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 4,
+      "dependencies": ["task-54", "task-16"],
+      "acceptance_criteria": [
+        "Field values collected",
+        "Uses form-renderer getAllFieldValues()",
+        "Data merged correctly",
+        "Structured for database"
+      ]
+    },
+    {
+      "id": "task-56",
+      "name": "Add Keyboard Navigation Support",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-002",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Add keyboard shortcuts for navigation (arrow keys)",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add keyboard event listeners for arrow keys: Left arrow = previous lead, Right arrow = next lead. Add event listener in initialization. Handle focus state (only when CRM page is focused)."
+      },
+      "estimated_hours": 0.2,
+      "complexity": 2,
+      "dependencies": ["task-7"],
+      "acceptance_criteria": [
+        "Keyboard navigation implemented",
+        "Left arrow = previous",
+        "Right arrow = next",
+        "Works when page focused",
+        "Event listeners added"
+      ]
+    },
+    {
+      "id": "task-57",
+      "name": "Add Jump to Lead Functionality",
+      "feature": "Core CRM Viewing",
+      "requirement_id": "REQ-013",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Add ability to jump to specific lead by ID or index",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add jumpToLead(leadId) function that finds lead by ID, sets currentLeadIndex, updates UI to show that lead, opens detail modal. Add jump input/button to UI if needed."
+      },
+      "estimated_hours": 0.2,
+      "complexity": 3,
+      "dependencies": ["task-7"],
+      "acceptance_criteria": [
+        "jumpToLead() function implemented",
+        "Finds lead by ID",
+        "Updates current index",
+        "Shows lead details",
+        "Opens modal"
+      ]
+    },
+    {
+      "id": "task-58",
+      "name": "Add Success/Error Feedback Messages",
+      "feature": "Record Editing",
+      "requirement_id": "REQ-010",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Add user feedback for save operations",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add showMessage(message, type) function that displays success/error messages. Show success message on successful save, error message on save failure. Add message container to crm.html. Style consistently with admin panel messages."
+      },
+      "estimated_hours": 0.2,
+      "complexity": 2,
+      "dependencies": ["task-16"],
+      "acceptance_criteria": [
+        "showMessage() function implemented",
+        "Success messages shown",
+        "Error messages shown",
+        "Message container in UI",
+        "Styled consistently"
+      ]
+    },
+    {
+      "id": "task-59",
+      "name": "Implement Optimistic Updates",
+      "feature": "Record Editing",
+      "requirement_id": "REQ-010",
+      "architecture_component": "crm.js",
+      "phase": 1,
+      "priority": "P0",
+      "description": "Implement optimistic UI updates with rollback on error",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "In saveLead(), update UI immediately (optimistic update), then save to database. If save fails, rollback UI changes, show error message. Store previous state for rollback."
+      },
+      "estimated_hours": 0.4,
+      "complexity": 5,
+      "dependencies": ["task-16"],
+      "acceptance_criteria": [
+        "Optimistic updates implemented",
+        "UI updates immediately",
+        "Rollback on error works",
+        "Previous state stored",
+        "Error handling works"
+      ]
+    },
+    {
+      "id": "task-60",
+      "name": "Add Data Sanitization",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-011",
+      "architecture_component": "crm.js",
+      "phase": 2,
+      "priority": "P1",
+      "description": "Add XSS prevention through data sanitization",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Add sanitizeHTML() function or use existing sanitize utility. Sanitize all user inputs before displaying in UI. Sanitize data before saving to database. Reuse existing sanitize.js utility if available."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 3,
+      "dependencies": ["task-4"],
+      "acceptance_criteria": [
+        "Data sanitization implemented",
+        "User inputs sanitized",
+        "XSS prevention works",
+        "Uses existing sanitize utility"
+      ]
+    },
+    {
+      "id": "task-61",
+      "name": "Add Maintainability Improvements",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-033",
+      "architecture_component": "All files",
+      "phase": 3,
+      "priority": "P2",
+      "description": "Ensure code follows existing patterns and is well-documented",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js, src/crm-leads.js, src/crm-reports.js",
+        "details": "Add JSDoc comments to all functions, ensure code follows existing patterns from admin.js, maintain consistent code style, add inline comments for complex logic, ensure modular structure."
+      },
+      "estimated_hours": 0.3,
+      "complexity": 2,
+      "dependencies": ["task-4", "task-18", "task-30"],
+      "acceptance_criteria": [
+        "JSDoc comments added",
+        "Code follows existing patterns",
+        "Consistent code style",
+        "Well-documented",
+        "Modular structure"
+      ]
+    },
+    {
+      "id": "task-62",
+      "name": "Add Scalability Optimizations",
+      "feature": "Infrastructure",
+      "requirement_id": "REQ-034",
+      "architecture_component": "crm.js",
+      "phase": 3,
+      "priority": "P2",
+      "description": "Add optimizations for handling growth",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/crm.js",
+        "details": "Optimize database queries (limit, order, index considerations), implement caching for field configurations and user permissions, add performance monitoring, optimize rendering for large datasets. Consider virtual scrolling for future if needed."
+      },
+      "estimated_hours": 0.4,
+      "complexity": 4,
+      "dependencies": ["task-37"],
+      "acceptance_criteria": [
+        "Database queries optimized",
+        "Caching implemented",
+        "Performance monitoring added",
+        "Rendering optimized",
+        "Scalability considerations addressed"
+      ]
+    }
+  ],
+  "task_summary": {
+    "total": 62,
+    "by_complexity": {
+      "1-3": 20,
+      "4-7": 35,
+      "8-10": 7
+    },
+    "by_phase": {
+      "1": 35,
+      "2": 18,
+      "3": 9
+    },
+    "by_priority": {
+      "P0": 28,
+      "P1": 24,
+      "P2": 10
+    },
+    "estimated_total_hours": 17
+  },
+  "dependencies": {
+    "total_dependencies": 45,
+    "max_depth": 6,
+    "circular_dependencies": 0
+  }
+}

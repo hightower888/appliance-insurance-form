@@ -1,0 +1,208 @@
+{
+  "stream_name": "appliance_insurance_form",
+  "project_type": "NEW_FEATURE",
+  "status": "discovery_assessment_complete",
+  "created": "2026-01-08T00:00:00Z",
+  "last_updated": "2026-01-08T00:00:00Z",
+  "primary_goal": "Create a user-friendly HTML form for home appliance insurance with Firebase integration - including contact details, direct debit setup, multi-appliance registration, optional boiler plans, and dynamic cost calculation",
+  "complexity": {
+    "file_structure_score": 32,
+    "file_structure_max": 60,
+    "characteristics_score": 28,
+    "characteristics_max": 40,
+    "total_score": 60,
+    "total_max": 100,
+    "percentage": 60,
+    "level": "MODERATE",
+    "breakdown": {
+      "file_structure": {
+        "total_files": 5,
+        "source_files": 4,
+        "directory_depth": 10,
+        "languages": 8,
+        "organization": 5
+      },
+      "characteristics": {
+        "requirements": 10,
+        "architecture": 9,
+        "technology": 9
+      }
+    }
+  },
+  "routing": {
+    "decision": "FULL_DISCOVERY",
+    "workflow_path": "SHARED_RESOURCES/WORKFLOW_SYSTEM/AI_WORKFLOWS/DISCOVERY/DISCOVERY_FULL_AI.md",
+    "reasoning": "Score 60/100 falls in 41-70 range. Project has moderate complexity with well-defined requirements (30+), standard technology stack, 8 architectural patterns, and single integration (Firebase). Needs structured discovery but not enterprise-level deep dive.",
+    "override_applied": false,
+    "override_reason": null,
+    "confidence": "VERY_HIGH"
+  },
+  "requirements": {
+    "total_count": 10,
+    "functional_count": 6,
+    "non_functional_count": 4,
+    "categories": [
+      "Contact Details (8 fields)",
+      "Direct Debit Setup (5 fields + mandate)",
+      "Appliance Registration (dynamic, 1-10 entries, 5 fields each)",
+      "Boiler Plan Add-On (optional, 3 tiers)",
+      "Total Cost Calculation (real-time)",
+      "Form Submission (async, Firebase)",
+      "User Experience (mobile-first, WCAG AA)",
+      "Technical Stack (HTML/CSS/JS, Firebase)",
+      "Performance (<1s load, <2s submit)",
+      "Security (XSS, Firebase rules, GDPR)"
+    ],
+    "detailed_count": "30+"
+  },
+  "architecture": {
+    "patterns": [
+      "Form Management Pattern",
+      "Dynamic List Pattern",
+      "Progressive Disclosure",
+      "Observer Pattern",
+      "Validation Pattern",
+      "Repository Pattern",
+      "Configuration Pattern",
+      "Loading State Pattern"
+    ],
+    "pattern_count": 8,
+    "data_flow": "simple_unidirectional",
+    "state_management": "simple_form_state",
+    "integrations": ["Firebase Realtime Database", "Firebase Authentication (optional)"],
+    "integration_count": 1
+  },
+  "technology": {
+    "frontend": ["HTML5", "CSS3 (Grid + Flexbox)", "JavaScript (ES6+)"],
+    "backend": ["Firebase Realtime Database"],
+    "authentication": ["Firebase Authentication (optional)"],
+    "deployment": ["Static file hosting (Firebase Hosting, Netlify, Vercel)"],
+    "frameworks": [],
+    "build_tools": [],
+    "dependencies": ["Firebase SDK (CDN)"],
+    "dependency_count": 1,
+    "learning_curve": "LOW_MEDIUM"
+  },
+  "deliverables": {
+    "files": [
+      {
+        "name": "appliance_insurance_form.html",
+        "type": "html",
+        "estimated_loc": 300,
+        "purpose": "Main form (semantic HTML5, accessible)"
+      },
+      {
+        "name": "styles.css",
+        "type": "css",
+        "estimated_loc": 500,
+        "purpose": "Responsive styles (mobile-first)"
+      },
+      {
+        "name": "app.js",
+        "type": "javascript",
+        "estimated_loc": 600,
+        "purpose": "Form logic, validation, Firebase integration"
+      },
+      {
+        "name": "firebase-config.js",
+        "type": "javascript",
+        "estimated_loc": 50,
+        "purpose": "Firebase initialization"
+      },
+      {
+        "name": "firebase-rules.json",
+        "type": "json",
+        "estimated_loc": 100,
+        "purpose": "Security rules"
+      },
+      {
+        "name": "README.md",
+        "type": "markdown",
+        "estimated_loc": 200,
+        "purpose": "Setup & deployment guide"
+      }
+    ],
+    "total_files": 6,
+    "total_estimated_loc": 1750
+  },
+  "risks": {
+    "accessibility": {
+      "level": "MEDIUM",
+      "description": "WCAG AA compliance required",
+      "mitigation": "axe DevTools testing, screen reader testing, keyboard navigation"
+    },
+    "firebase_security": {
+      "level": "MEDIUM",
+      "description": "Security rules critical to prevent unauthorized writes",
+      "mitigation": "Security rules validation, rate limiting (10 submissions/hour/IP)"
+    },
+    "browser_compatibility": {
+      "level": "LOW",
+      "description": "Standard web APIs, broad support",
+      "mitigation": "Manual testing on Chrome, Firefox, Safari, Edge"
+    },
+    "dynamic_form_complexity": {
+      "level": "MEDIUM",
+      "description": "Add/remove appliances requires careful state management",
+      "mitigation": "Min/max constraints enforcement, comprehensive testing"
+    },
+    "validation_complexity": {
+      "level": "MEDIUM",
+      "description": "Multiple validation patterns (format, conditional, real-time)",
+      "mitigation": "Comprehensive validation testing, clear error messages"
+    },
+    "performance": {
+      "level": "LOW",
+      "description": "Simple app (<200KB), static hosting",
+      "mitigation": "Firebase CDN, minification for production"
+    },
+    "overall_risk": "MEDIUM"
+  },
+  "time_estimates": {
+    "discovery_assessment": "10 minutes (COMPLETE)",
+    "full_discovery": "15-25 minutes",
+    "design_phase": "2-4 hours",
+    "execution_phase": "1-2 days",
+    "total_estimate": "1-2 days"
+  },
+  "outputs_generated": [
+    "_DEV/STREAMS/appliance_insurance_form/CONTEXT/STREAM_INTENT.md",
+    "_DEV/STREAMS/appliance_insurance_form/OUTPUTS/DISCOVERY/CONTEXT_SUMMARY.md",
+    "_DEV/STREAMS/appliance_insurance_form/OUTPUTS/DISCOVERY/FILE_STRUCTURE_ANALYSIS.md",
+    "_DEV/STREAMS/appliance_insurance_form/OUTPUTS/DISCOVERY/CHARACTERISTICS_ANALYSIS.md",
+    "_DEV/STREAMS/appliance_insurance_form/OUTPUTS/DISCOVERY/COMPLEXITY_CALCULATION.md",
+    "_DEV/STREAMS/appliance_insurance_form/OUTPUTS/DISCOVERY/DISCOVERY_ASSESSMENT_REPORT.md",
+    "_DEV/STREAMS/appliance_insurance_form/KNOWLEDGE/MEMORY/project_state.json"
+  ],
+  "mcp_tracking": {
+    "workflow_intelligence_enabled": true,
+    "scratchpad_path": "_DEV/STREAMS/appliance_insurance_form/KNOWLEDGE/MEMORY/scratchpad.json",
+    "complexity_registered": true,
+    "complexity_score": 60,
+    "complexity_band": "medium",
+    "recommended_discovery": "discovery_full",
+    "recommended_architecture": "architecture_medium",
+    "reflection_gate_enabled": true,
+    "reflection_checkpoints_passed": 2,
+    "reflection_scores": [0.95, 0.98]
+  },
+  "next_steps": [
+    "Execute DISCOVERY_FULL_AI.md workflow (15-25 minutes)",
+    "Route to DESIGN_FULL_AI.md (4-15 components)",
+    "Route to EXECUTION_STANDARD_AI.md (6-30 files)",
+    "Test accessibility (WCAG AA compliance)",
+    "Test Firebase security rules",
+    "Deploy to hosting (Firebase Hosting, Netlify, or Vercel)"
+  ],
+  "workflow_history": [
+    {
+      "workflow": "DISCOVERY_ASSESSMENT",
+      "status": "COMPLETE",
+      "started": "2026-01-08T00:00:00Z",
+      "completed": "2026-01-08T00:00:00Z",
+      "duration_minutes": 10,
+      "outputs": 6,
+      "reflection_checkpoints": 2
+    }
+  ]
+}

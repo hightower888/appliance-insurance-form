@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Appliance Cover Inquiry Form - Get information about coverage for your home appliances">
+  <title>Appliance Cover Inquiry</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Inter Font (Elite Design System) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Lucide Icons (Professional Icon Library - Replaces Emoji) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Global Navigation (Phase 2) -->
+  <script src="components/global-navigation.js"></script>
+  
+  <!-- Command Palette (Phase 3) -->
+  <script src="components/command-palette.js"></script>
+  
+  <!-- Quick Actions FAB (Phase 3) -->
+  <script src="components/quick-actions-fab.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="user-info-header">
+        <div>
+          <h1 style="margin: 0; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="home" style="width: 24px; height: 24px;"></i>
+            Appliance Cover Application
+          </h1>
+          <p class="subtitle" style="margin-top: 8px;">Fill out the form below to apply for appliance cover</p>
+        </div>
+        <div id="userInfo" class="user-info">
+          <span id="userEmail" class="user-email"></span>
+          <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="admin-navigation">
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <span style="font-weight: 600; color: var(--text-secondary); font-size: 14px;">Navigate:</span>
+          <a href="/crm" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="bar-chart-3" style="width: 16px; height: 16px;"></i>
+            CRM
+          </a>
+          <a href="/admin" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="shield" style="width: 16px; height: 16px;"></i>
+            Admin
+          </a>
+          <a href="/processor" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="settings" style="width: 16px; height: 16px;"></i>
+            Processor
+          </a>
+          <a href="/" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="home" style="width: 16px; height: 16px;"></i>
+            Home
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Duplicate Warning Container -->
+    <div id="duplicateWarningContainer" style="display: none; margin-bottom: 20px;"></div>
+
+    <form id="insuranceForm" novalidate>
+      
+      <!-- Dynamic Form Fields Container -->
+      <div id="dynamicFieldsContainer"></div>
+      
+      <!-- Contact Details Section (Fallback/Static) -->
+      <section class="form-section">
+        <h2>Contact Details</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              required 
+              placeholder="John Smith"
+              aria-required="true">
+            <span class="error-message" id="name-error"></span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phoneNumbers">Phone Numbers <span class="required">*</span></label>
+            <input 
+              type="tel" 
+              id="phoneNumbers" 
+              name="phoneNumbers" 
+              required 
+              placeholder="07123456789"
+              aria-required="true">
+            <span class="error-message" id="phoneNumbers-error"></span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="john.smith@example.com"
+              aria-required="false">
+            <span class="error-message" id="email-error"></span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="adress">Address <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="adress" 
+              name="adress" 
+              required 
+              placeholder="123 High Street"
+              aria-required="true">
+            <span class="error-message" id="adress-error"></span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city">City <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="city" 
+              name="city" 
+              required 
+              placeholder="London"
+              aria-required="true">
+            <span class="error-message" id="city-error"></span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="county">County</label>
+            <input 
+              type="text" 
+              id="county" 
+              name="county" 
+              placeholder="Greater London"
+              aria-required="false">
+            <span class="error-message" id="county-error"></span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="postcode">Postcode <span class="required">*</span></label>
+            <div style="display: flex; gap: 8px; align-items: flex-start;">
+              <input 
+                type="text" 
+                id="postcode" 
+                name="postcode" 
+                required 
+                placeholder="SW1A 1AA"
+                aria-required="true"
+                style="flex: 1;">
+              <button 
+                type="button" 
+                id="postcodeLookupBtn" 
+                class="btn btn-secondary"
+                style="min-width: 100px; padding: 10px 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;"
+                aria-label="Lookup address from postcode">
+                <span>🔍</span>
+                <span>Lookup</span>
+              </button>
+            </div>
+            <span class="error-message" id="postcode-error"></span>
+            <div id="postcodeLookupStatus" style="display: none; margin-top: 8px; padding: 8px 12px; border-radius: 4px; font-size: 14px; font-weight: 500;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Direct Debit Section -->
+      <section class="form-section">
+        <h2>Direct Debit Details</h2>
+        <p class="section-description">We'll use these details to set up your monthly payments</p>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="sortCode">Sort Code <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="sortCode" 
+              name="sortCode" 
+              required 
+              placeholder="123456 (no hyphens)"
+              pattern="[0-9]{6}"
+              maxlength="6"
+              aria-required="true">
+            <span class="error-message" id="sortCode-error"></span>
+            <p class="field-note">Enter 6 digits without hyphens (e.g., 123456)</p>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="accountNumber">Account number <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="accountNumber" 
+              name="accountNumber" 
+              required 
+              placeholder="12345678"
+              pattern="[0-9]{8}"
+              maxlength="8"
+              aria-required="true">
+            <span class="error-message" id="accountNumber-error"></span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ddDate">DD Date <span class="required">*</span></label>
+            <input
+              type="text"
+              id="ddDate"
+              name="ddDate"
+              placeholder="Select a date"
+              required
+              aria-required="true"
+              readonly>
+            <span class="error-message" id="ddDate-error"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Appliances Section -->
+      <section class="form-section">
+        <h2>Appliances</h2>
+        <p class="section-description">Add all appliances you'd like to cover (minimum 1, maximum 10)</p>
+        
+        <div id="appliancesList" class="appliances-list">
+          <!-- Dynamic appliance entries will be added here -->
+        </div>
+
+        <button 
+          type="button" 
+          id="addApplianceBtn" 
+          class="btn-secondary"
+          aria-label="Add another appliance">
+          <span class="btn-icon">+</span> Add Another Appliance
+        </button>
+      </section>
+
+      <!-- Boiler Section (Optional) -->
+      <section class="form-section">
+        <h2>Boiler Cover (Optional)</h2>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              id="addBoilerCheckbox" 
+              name="addBoiler">
+            <span class="checkbox-text">Add Boiler Cover to my policy</span>
+          </label>
+        </div>
+
+        <div id="boilerOptions" class="boiler-options" style="display: none;">
+          <p class="section-description">Choose your boiler cover plan:</p>
+          
+          <div class="radio-group">
+            <label class="radio-label">
+              <input 
+                type="radio" 
+                name="boilerPlan" 
+                value="14.99"
+                data-plan-name="Basic Boiler Cover"
+                class="boiler-plan-radio">
+              <span class="radio-content">
+                <span class="radio-title">Basic Boiler Cover - £14.99/month</span>
+                <span class="radio-description">Annual service + breakdown cover</span>
+              </span>
+            </label>
+
+            <label class="radio-label">
+              <input 
+                type="radio" 
+                name="boilerPlan" 
+                value="19.99"
+                data-plan-name="Plus Boiler Cover"
+                class="boiler-plan-radio">
+              <span class="radio-content">
+                <span class="radio-title">Plus Boiler Cover - £19.99/month</span>
+                <span class="radio-description">Annual service + breakdown cover + parts replacement</span>
+              </span>
+            </label>
+
+            <label class="radio-label">
+              <input 
+                type="radio" 
+                name="boilerPlan" 
+                value="24.99"
+                data-plan-name="Premium Boiler Cover"
+                class="boiler-plan-radio">
+              <span class="radio-content">
+                <span class="radio-title">Premium Boiler Cover - £24.99/month</span>
+                <span class="radio-description">Annual service + breakdown cover + parts + full boiler replacement</span>
+              </span>
+            </label>
+          </div>
+          
+          <div class="form-group" style="margin-top: 1rem;">
+            <label for="boilerCostInput">Custom Boiler Cost (Editable)</label>
+            <div class="cost-input-wrapper">
+              <span class="currency-symbol">£</span>
+              <input 
+                type="number" 
+                id="boilerCostInput" 
+                name="boilerCostInput" 
+                min="0" 
+                step="0.01" 
+                value="0.00"
+                class="boiler-cost-input">
+              <span class="cost-period">/month</span>
+            </div>
+            <p class="field-note">Select a plan above or enter a custom cost</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Additional Information -->
+      <section class="form-section">
+        <h2>Additional Information</h2>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="notes">Notes - e.g. whats covered</label>
+            <textarea 
+              id="notes" 
+              name="notes" 
+              rows="3" 
+              placeholder="Automatically filled with appliances. Add any additional notes here."
+              aria-required="false"></textarea>
+            <span class="error-message" id="notes-error"></span>
+            <p class="field-note">This will automatically list your selected appliances</p>
+          </div>
+        </div>
+
+        <!-- Agents field removed - agent is automatically associated from logged-in user -->
+      </section>
+
+      <!-- Cost Summary Section -->
+      <section class="form-section cost-summary">
+        <h2>Total Cost</h2>
+        <div class="cost-breakdown">
+          <div class="cost-row">
+            <span class="cost-label">Appliances (£5.99 each):</span>
+            <span class="cost-value">£<span id="appliancesCost">0.00</span></span>
+          </div>
+          <div class="cost-row" id="boilerCostRow" style="display: none;">
+            <span class="cost-label">Boiler Cover:</span>
+            <span class="cost-value">£<span id="boilerCost">0.00</span></span>
+          </div>
+        </div>
+        
+        <div class="form-group" style="margin-top: 1rem;">
+          <label for="totalCostInput">Total Cost (Editable) <span class="required">*</span></label>
+          <div class="cost-input-wrapper">
+            <span class="currency-symbol">£</span>
+            <input 
+              type="number" 
+              id="totalCostInput" 
+              name="totalCost" 
+              required 
+              min="0" 
+              step="0.01" 
+              value="0.00"
+              aria-required="true">
+          </div>
+          <p class="field-note">Calculated automatically, but you can adjust if needed</p>
+        </div>
+      </section>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button type="submit" id="submitBtn" class="btn-primary" disabled>
+          <span id="submitBtnText">Submit Application</span>
+          <span id="submitBtnSpinner" class="spinner" style="display: none;"></span>
+        </button>
+      </div>
+
+      <!-- Message Display -->
+      <div id="messageContainer" class="message-container" style="display: none;">
+        <div id="messageContent" class="message"></div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Firebase SDK (CDN) - No Auth SDK needed, using database auth -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  
+  <!-- Authentication Module -->
+  <script src="services/security-logger.js"></script>
+  <script src="auth-db.js"></script>
+  
+  <!-- Phase 1: Missing Features from Sales Portal -->
+  <script src="services/duplicate-detection-service.js"></script>
+  <script src="components/duplicate-warning.js"></script>
+  <!-- Phase 2: Smart Input Handling -->
+  <script src="utils/input-formatter.js"></script>
+  
+  <!-- Firebase Configuration -->
+  <!-- Note: Firebase is initialized in auth-db.js, no need to re-initialize here -->
+  <!-- Firebase Auth for anonymous authentication (needed for database rules) -->
+  <!-- Auth Integration Script -->
+  <script>
+    // Check authentication on page load
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Check if user is authenticated
+      if (typeof checkAuth === 'function') {
+        const authenticated = await checkAuth('login.html');
+        if (!authenticated) {
+          return; // Redirected to login
+        }
+      }
+      
+      // Set up logout button
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async function() {
+          if (typeof logoutUser === 'function') {
+            try {
+              await logoutUser();
+            } catch (error) {
+              console.error('Logout error:', error);
+              alert('Error logging out. Please try again.');
+            }
+          }
+        });
+      }
+      
+      // Display user email
+      const userEmail = document.getElementById('userEmail');
+      if (userEmail && typeof getCurrentUser === 'function') {
+        // getCurrentUser() in auth-db.js is synchronous, not a Promise
+        const user = getCurrentUser();
+        if (user && user.email) {
+          userEmail.textContent = user.email;
+        }
+      }
+    });
+  </script>
+  
+  <!-- Custom Calendar Popup Component -->
+  <script>
+    (function() {
+      'use strict';
+
+      // Helper function for screen reader announcements
+      function announceToScreenReader(message) {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.style.position = 'absolute';
+        announcement.style.left = '-10000px';
+        announcement.style.width = '1px';
+        announcement.style.height = '1px';
+        announcement.style.overflow = 'hidden';
+        announcement.textContent = message;
+        document.body.appendChild(announcement);
+        setTimeout(() => {
+          if (document.body.contains(announcement)) {
+            document.body.removeChild(announcement);
+          }
+        }, 1000);
+      }
+
+      // Custom Calendar Component
+      class SimpleCalendar {
+        constructor(inputElement) {
+          this.input = inputElement;
+          this.calendar = null;
+          this.selectedDate = null;
+          this.isOpen = false;
+          this.init();
+        }
+
+        init() {
+          // Set up input attributes
+          this.input.setAttribute('aria-haspopup', 'grid');
+          this.input.setAttribute('aria-expanded', 'false');
+          this.input.setAttribute('role', 'combobox');
+          this.input.setAttribute('readonly', 'true');
+          this.input.setAttribute('autocomplete', 'off');
+
+          // Create calendar popup
+          this.createCalendar();
+
+          // Event listeners
+          this.input.addEventListener('click', () => this.toggle());
+          this.input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              this.toggle();
+            } else if (e.key === 'Escape' && this.isOpen) {
+              this.close();
+            }
+          });
+
+          // Close on outside click
+          document.addEventListener('click', (e) => {
+            if (this.isOpen && !this.calendar.contains(e.target) && e.target !== this.input) {
+              this.close();
+            }
+          });
+        }
+
+        createCalendar() {
+          const now = new Date();
+          const year = now.getFullYear();
+          const month = now.getMonth();
+          const today = now.getDate();
+          const firstDay = new Date(year, month, 1).getDay();
+          const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+          // Adjust first day to Monday = 0
+          const firstDayAdjusted = (firstDay + 6) % 7;
+
+          // Create calendar container
+          this.calendar = document.createElement('div');
+          this.calendar.className = 'custom-calendar';
+          this.calendar.setAttribute('role', 'grid');
+          this.calendar.setAttribute('aria-label', 'Calendar');
+
+          // Header
+          const header = document.createElement('div');
+          header.className = 'calendar-header';
+          const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          header.textContent = `${monthNames[month]} ${year}`;
+          this.calendar.appendChild(header);
+
+          // Weekday headers
+          const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+          const weekdayRow = document.createElement('div');
+          weekdayRow.className = 'calendar-weekdays';
+          weekdays.forEach(day => {
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'calendar-weekday';
+            dayHeader.textContent = day;
+            dayHeader.setAttribute('aria-label', day);
+            weekdayRow.appendChild(dayHeader);
+          });
+          this.calendar.appendChild(weekdayRow);
+
+          // Days grid
+          const daysGrid = document.createElement('div');
+          daysGrid.className = 'calendar-days';
+
+          // Empty cells for days before month starts
+          for (let i = 0; i < firstDayAdjusted; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = 'calendar-day empty';
+            daysGrid.appendChild(emptyCell);
+          }
+
+          // Days of the month
+          for (let day = 1; day <= daysInMonth; day++) {
+            const dayCell = document.createElement('button');
+            dayCell.className = 'calendar-day';
+            dayCell.textContent = day;
+            dayCell.setAttribute('type', 'button');
+            dayCell.setAttribute('aria-label', `${day} ${monthNames[month]} ${year}`);
+            dayCell.setAttribute('tabindex', '-1');
+
+            if (day === today) {
+              dayCell.classList.add('today');
+            }
+
+            dayCell.addEventListener('click', () => this.selectDate(day));
+            dayCell.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.selectDate(day);
+              }
+            });
+
+            daysGrid.appendChild(dayCell);
+          }
+
+          this.calendar.appendChild(daysGrid);
+          document.body.appendChild(this.calendar);
+
+          // Position calendar
+          this.positionCalendar();
+        }
+
+        positionCalendar() {
+          const rect = this.input.getBoundingClientRect();
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+          // Position below input
+          this.calendar.style.position = 'absolute';
+          this.calendar.style.top = `${rect.bottom + scrollTop + 4}px`;
+          this.calendar.style.left = `${rect.left + scrollLeft}px`;
+          this.calendar.style.zIndex = '1000';
+        }
+
+        toggle() {
+          if (this.isOpen) {
+            this.close();
+          } else {
+            this.open();
+          }
+        }
+
+        open() {
+          if (!this.calendar) return;
+          this.isOpen = true;
+          this.calendar.style.display = 'block';
+          this.input.setAttribute('aria-expanded', 'true');
+          if (this.input.parentElement) {
+            this.input.parentElement.classList.add('calendar-open');
+          }
+          this.positionCalendar();
+          announceToScreenReader('Calendar opened. Select a date.');
+
+          // Focus first day
+          const firstDay = this.calendar.querySelector('.calendar-day:not(.empty)');
+          if (firstDay) {
+            firstDay.setAttribute('tabindex', '0');
+            firstDay.focus();
+          }
+        }
+
+        close() {
+          if (!this.calendar) return;
+          this.isOpen = false;
+          this.calendar.style.display = 'none';
+          this.input.setAttribute('aria-expanded', 'false');
+          if (this.input.parentElement) {
+            this.input.parentElement.classList.remove('calendar-open');
+          }
+          this.input.focus();
+        }
+
+        selectDate(day) {
+          this.selectedDate = day;
+          const now = new Date();
+          const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          const month = monthNames[now.getMonth()];
+          
+          // Display day and month in input (e.g., "15 January")
+          this.input.value = `${day} ${month}`;
+          this.input.setAttribute('aria-label', `Selected ${day} ${month}`);
+
+          // Clear error
+          const errorElement = document.getElementById('ddDate-error');
+          if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+          }
+
+          // Announce selection
+          const announcement = `Selected ${day} ${month}`;
+          announceToScreenReader(announcement);
+
+          // Update visual selection
+          const days = this.calendar.querySelectorAll('.calendar-day:not(.empty)');
+          days.forEach(d => {
+            d.classList.remove('selected');
+            if (parseInt(d.textContent) === day) {
+              d.classList.add('selected');
+            }
+          });
+
+          // Close calendar
+          setTimeout(() => this.close(), 200);
+
+          // Trigger validation if available
+          if (typeof validateField === 'function') {
+            validateField(this.input);
+          }
+        }
+      }
+
+      // Initialize calendar when DOM is ready
+      function initCalendar() {
+        const ddDateInput = document.getElementById('ddDate');
+        if (ddDateInput && !ddDateInput._calendar) {
+          ddDateInput._calendar = new SimpleCalendar(ddDateInput);
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCalendar);
+      } else {
+        initCalendar();
+      }
+
+      // Retry in case form is dynamically rendered
+      setTimeout(initCalendar, 500);
+    })();
+  </script>
+
+  <!-- Application Logic -->
+  <script src="utils/sanitize.js"></script>
+  <script src="services/form-renderer.js"></script>
+  <script src="services/form-validator.js"></script>
+  <script src="services/appliance-relationship-manager.js"></script>
+  <script src="services/postcode-lookup.js"></script>
+  <script src="services/autocomplete.js"></script>
+  <script src="app.js">  </script>
+  
+  <!-- Initialize Lucide Icons (Professional Icons - Replaces Emoji) -->
+  <script>
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{
+  "stream_name": "portal_debug_mcp",
+  "created_date": "2026-01-12",
+  "status": "active",
+  "phase": "initialization",
+  "complexity_score": null,
+  "priority": "critical",
+  "primary_goal": "Debug and fix critical bugs in the appliance insurance portal using MCP workflow intelligence",
+  "scope": {
+    "frontend_debugging": true,
+    "backend_debugging": true,
+    "testing_validation": true,
+    "performance_optimization": false,
+    "security_audit": false,
+    "mcp_workflow_enforcement": true
+  },
+  "success_criteria": [
+    "All critical bugs identified and documented with MCP evidence",
+    "Root causes determined through systematic investigation",
+    "Fixes implemented with MCP workflow validation",
+    "Portal functionality verified across all user roles",
+    "MCP workflow completed with proper step enforcement"
+  ],
+  "current_issues": [
+    "Portal not working properly",
+    "Bugs affecting user experience",
+    "Frontend/backend integration issues",
+    "Previous manual analysis identified validation bugs"
+  ],
+  "technologies": [
+    "HTML/CSS/JavaScript",
+    "Firebase",
+    "Vercel",
+    "MCP Workflow Intelligence"
+  ],
+  "team_members": [],
+  "estimated_completion": null,
+  "last_updated": "2026-01-12",
+  "workflow_state": "critical_bug_identified",
+  "current_step": "completed",
+  "completed_steps": ["assess-1", "assess-2", "assess-3", "assess-4", "assess-4b", "assess-5"],
+  "complexity_scores": {
+    "file_structure": 50,
+    "characteristics": 26,
+    "learning_enhancement": 2,
+    "final_score": 78,
+    "routing_decision": "extended_discovery"
+  },
+  "assessment_complete": true,
+  "transition_ready": false,
+  "critical_blocker": "google_safe_browsing_false_positive",
+  "next_phase": "resolution_implementation",
+  "blocker_details": {
+    "issue": "Google Safe Browsing false positive blocking all site access",
+    "impact": "Complete portal inaccessibility for Chrome/Edge users",
+    "resolution_status": "plan_created",
+    "estimated_resolution_time": "3-7_days"
+  },
+  "mcp_config": {
+    "stream_path": "_DEV/STREAMS/portal_debug_mcp",
+    "workflow_type": "extended_discovery",
+    "enforcement_level": "full",
+    "quality_gates": true,
+    "reflection_checkpoints": true
+  }
+}

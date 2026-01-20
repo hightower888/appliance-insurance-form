@@ -1,0 +1,13 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "appliance_submissions": {
+      ".read": "auth != null",
+      ".write": true,
+      "$submissionId": {
+        ".validate": "newData.hasChildren(['contact', 'appliances', 'timestamp'])"
+      }
+    }
+  }
+}

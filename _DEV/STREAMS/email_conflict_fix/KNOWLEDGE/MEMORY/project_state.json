@@ -1,0 +1,88 @@
+{
+  "stream_name": "email_conflict_fix",
+  "created_date": "2026-01-12",
+  "status": "active",
+  "phase": "discovery",
+  "complexity_score": null,
+  "priority": "critical",
+  "primary_goal": "Fix email conflict issue when creating users with username only",
+  "scope": {
+    "email_conflict": true,
+    "permission_denied": true,
+    "system_email_generation": true,
+    "firebase_auth_handling": true
+  },
+  "success_criteria": [
+    "Users can be created with username only",
+    "No email already registered errors",
+    "No permission denied errors",
+    "System-generated emails are unique",
+    "Clear error messages"
+  ],
+  "current_issues": [
+    "Email already registered error when creating user without email",
+    "Permission denied error in Firebase Auth",
+    "System-generated emails may conflict with existing users"
+  ],
+  "system_email_format": "username@appliance-bot.local",
+  "technologies": [
+    "Firebase Authentication",
+    "Firebase Realtime Database",
+    "User Management",
+    "Email Generation"
+  ],
+  "team_members": [],
+  "estimated_completion": null,
+  "last_updated": "2026-01-12",
+  "workflow_state": "implementation_complete",
+  "implementation_status": "complete",
+  "deployment_status": "deployed",
+  "fixes_completed": {
+    "unique_email_generation": "completed",
+    "conflict_handling": "completed",
+    "error_messages": "completed",
+    "username_check": "completed"
+  },
+  "current_step": "completed",
+  "completed_steps": ["assess-1", "assess-2"],
+  "complexity_scores": {
+    "requirements": 6,
+    "architecture": 5,
+    "technology": 4,
+    "development": 5,
+    "final_score": 20,
+    "routing_decision": "quick_discovery"
+  },
+  "assessment_complete": true,
+  "routing_decision": "quick_discovery",
+  "implementation_ready": true,
+  "issues_identified": {
+    "non_unique_system_emails": {
+      "severity": "high",
+      "priority": "high",
+      "status": "identified"
+    },
+    "password_mismatch": {
+      "severity": "high",
+      "priority": "high",
+      "status": "identified"
+    },
+    "no_unique_email_generation": {
+      "severity": "high",
+      "priority": "high",
+      "status": "identified"
+    },
+    "poor_error_messages": {
+      "severity": "medium",
+      "priority": "medium",
+      "status": "identified"
+    }
+  },
+  "mcp_config": {
+    "stream_path": "_DEV/STREAMS/email_conflict_fix",
+    "workflow_type": "discovery_assessment",
+    "enforcement_level": "full",
+    "quality_gates": true,
+    "reflection_checkpoints": true
+  }
+}

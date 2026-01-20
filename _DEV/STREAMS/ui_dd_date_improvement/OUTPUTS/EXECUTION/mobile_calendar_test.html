@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mobile DD Date Calendar Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        /* Mobile-first responsive design */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px; /* Prevents zoom on iOS */
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 20px;
+            padding-right: 44px;
+        }
+
+        input:hover, input:focus {
+            border-color: #007aff;
+            outline: none;
+        }
+
+        .result {
+            margin-top: 16px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007aff;
+        }
+
+        .result strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .result span {
+            color: #666;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .device-info {
+            margin-top: 24px;
+            padding: 16px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .device-info strong {
+            color: #1565c0;
+        }
+
+        /* Touch-friendly button styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #007aff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            min-height: 44px; /* iOS touch target minimum */
+            margin: 8px 4px 0 0;
+        }
+
+        .btn:hover {
+            background: #0056cc;
+        }
+
+        /* Mobile-specific calendar overrides */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .container {
+                border-radius: 0;
+                box-shadow: none;
+                padding: 16px;
+            }
+
+            input {
+                font-size: 16px; /* Critical for iOS */
+                padding: 16px;
+                min-height: 48px; /* Larger touch targets */
+            }
+        }
+
+        /* Accessibility enhancements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Mobile Calendar Test</h1>
+        <p class="subtitle">Testing DD date picker on mobile devices</p>
+
+        <div class="form-group">
+            <label for="mobileDdDate">DD Date (Mobile Optimized)</label>
+            <input
+                type="text"
+                id="mobileDdDate"
+                name="mobileDdDate"
+                placeholder="Tap to select date"
+                readonly>
+        </div>
+
+        <div class="result">
+            <strong>Selected Value:</strong> <span id="selectedValue">None</span>
+        </div>
+
+        <div class="result">
+            <strong>Formatted Date:</strong> <span id="formattedDate">None</span>
+        </div>
+
+        <div class="result">
+            <strong>Device Info:</strong>
+            <span id="deviceInfo">Detecting...</span>
+        </div>
+
+        <button class="btn" onclick="testCalendar()">Test Calendar</button>
+        <button class="btn" onclick="clearSelection()">Clear Selection</button>
+
+        <div class="device-info">
+            <strong>Mobile Detection:</strong> <span id="mobileStatus">Checking...</span><br>
+            <strong>Touch Support:</strong> <span id="touchStatus">Checking...</span><br>
+            <strong>Screen Size:</strong> <span id="screenSize">Checking...</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Detect device capabilities
+            updateDeviceInfo();
+
+            // Initialize Flatpickr with mobile optimizations
+            const ddDateInput = document.getElementById('mobileDdDate');
+            const selectedValueSpan = document.getElementById('selectedValue');
+            const formattedDateSpan = document.getElementById('formattedDate');
+
+            if (ddDateInput) {
+                // Detect mobile devices
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                                window.innerWidth <= 768;
+
+                flatpickr(ddDateInput, {
+                    // Date constraints
+                    minDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                    maxDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+
+                    // Mobile-optimized settings
+                    dateFormat: "j",
+                    allowInput: false,
+                    disableMobile: false,
+                    touchKeyboard: false,
+                    position: isMobile ? "below center" : "auto",
+                    animate: !isMobile,
+
+                    // Enhanced mobile UX
+                    showMonths: 1,
+                    inline: false,
+                    static: false,
+
+                    // Event handlers
+                    onChange: function(selectedDates, dateStr, instance) {
+                        if (selectedDates.length > 0) {
+                            const day = selectedDates[0].getDate();
+                            const month = selectedDates[0].getMonth() + 1;
+                            const year = selectedDates[0].getFullYear();
+
+                            selectedValueSpan.textContent = day.toString();
+                            formattedDateSpan.textContent = `${day}/${month}/${year}`;
+
+                            console.log('Mobile calendar selection:', {
+                                day,
+                                formatted: `${day}/${month}/${year}`,
+                                isMobile,
+                                userAgent: navigator.userAgent.substring(0, 50) + '...'
+                            });
+                        } else {
+                            selectedValueSpan.textContent = 'None';
+                            formattedDateSpan.textContent = 'None';
+                        }
+                    },
+
+                    onOpen: function() {
+                        console.log('Mobile calendar opened');
+                        ddDateInput.setAttribute('aria-expanded', 'true');
+                    },
+
+                    onClose: function() {
+                        console.log('Mobile calendar closed');
+                        ddDateInput.setAttribute('aria-expanded', 'false');
+                    },
+
+                    // Localization
+                    locale: {
+                        firstDayOfWeek: 1,
+                    }
+                });
+
+                // Set initial values
+                selectedValueSpan.textContent = ddDateInput.value || 'None';
+                formattedDateSpan.textContent = 'None';
+            }
+        });
+
+        // Device detection and info display
+        function updateDeviceInfo() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            document.getElementById('mobileStatus').textContent = isMobile ? 'Yes' : 'No';
+            document.getElementById('touchStatus').textContent = hasTouch ? 'Yes' : 'No';
+            document.getElementById('screenSize').textContent = `${screenWidth} x ${screenHeight}`;
+
+            const deviceInfo = `${isMobile ? 'Mobile' : 'Desktop'} - ${hasTouch ? 'Touch' : 'No Touch'} - ${screenWidth}px`;
+            document.getElementById('deviceInfo').textContent = deviceInfo;
+
+            console.log('Device detection:', {
+                isMobile,
+                hasTouch,
+                screenSize: `${screenWidth} x ${screenHeight}`,
+                userAgent: navigator.userAgent
+            });
+        }
+
+        // Test functions
+        function testCalendar() {
+            const input = document.getElementById('mobileDdDate');
+            if (input) {
+                input.focus();
+                input.click();
+                console.log('Calendar test initiated');
+            }
+        }
+
+        function clearSelection() {
+            const input = document.getElementById('mobileDdDate');
+            if (input) {
+                input.value = '';
+                document.getElementById('selectedValue').textContent = 'None';
+                document.getElementById('formattedDate').textContent = 'None';
+                console.log('Selection cleared');
+            }
+        }
+
+        // Handle window resize for responsive testing
+        window.addEventListener('resize', function() {
+            setTimeout(updateDeviceInfo, 100);
+        });
+
+        // Performance monitoring
+        window.addEventListener('load', function() {
+            console.log('Mobile calendar test page loaded');
+            console.timeEnd('pageLoad');
+        });
+        console.time('pageLoad');
+    </script>
+</body>
+</html>

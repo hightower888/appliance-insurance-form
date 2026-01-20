@@ -1,0 +1,467 @@
+{
+  "metadata": {
+    "stream": "feature_comparison_sales_portal",
+    "workflow": "PLANNING_STANDARD_AI",
+    "step": "planning-step-2",
+    "created": "2026-01-19",
+    "total_requirements": 10,
+    "total_tasks": 95,
+    "total_effort_days": 38,
+    "total_effort_days_max": 55
+  },
+  "requirements": [
+    {
+      "id": "REQ-DUP-001",
+      "name": "Real-time Duplicate Detection",
+      "priority": "P0",
+      "category": "Data Quality",
+      "effort_days": 5,
+      "effort_days_max": 7,
+      "tasks": [
+        {
+          "id": "TASK-DUP-001-01",
+          "name": "Create duplicate-detection-service.js structure",
+          "description": "Create new service file with class structure, constructor, and basic methods",
+          "component": "services/duplicate-detection-service.js",
+          "effort_days": 0.5,
+          "dependencies": [],
+          "acceptance_criteria": ["Service file created", "Class structure defined", "Basic methods scaffolded"]
+        },
+        {
+          "id": "TASK-DUP-001-02",
+          "name": "Implement phone number matching algorithm",
+          "description": "Create phone number normalization and matching logic (primary detection)",
+          "component": "services/duplicate-detection-service.js",
+          "effort_days": 1,
+          "dependencies": ["TASK-DUP-001-01"],
+          "acceptance_criteria": ["Phone normalization works", "Matching algorithm accurate", "Handles various formats"]
+        },
+        {
+          "id": "TASK-DUP-001-03",
+          "name": "Implement email matching algorithm",
+          "description": "Create email normalization and matching logic (secondary validation)",
+          "component": "services/duplicate-detection-service.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-DUP-001-01"],
+          "acceptance_criteria": ["Email normalization works", "Matching algorithm accurate", "Case-insensitive matching"]
+        },
+        {
+          "id": "TASK-DUP-001-04",
+          "name": "Implement name matching algorithm",
+          "description": "Create name combination matching logic (tertiary check)",
+          "component": "services/duplicate-detection-service.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-DUP-001-01"],
+          "acceptance_criteria": ["Name matching works", "Handles name variations", "Fuzzy matching implemented"]
+        },
+        {
+          "id": "TASK-DUP-001-05",
+          "name": "Implement confidence scoring system",
+          "description": "Create confidence scoring algorithm (HIGH/MEDIUM/LOW) based on match quality",
+          "component": "services/duplicate-detection-service.js",
+          "effort_days": 1,
+          "dependencies": ["TASK-DUP-001-02", "TASK-DUP-001-03", "TASK-DUP-001-04"],
+          "acceptance_criteria": ["Confidence scoring works", "HIGH/MEDIUM/LOW levels defined", "Scoring logic accurate"]
+        },
+        {
+          "id": "TASK-DUP-001-06",
+          "name": "Add database query methods",
+          "description": "Create methods to query Firebase for existing customers by phone/email/name",
+          "component": "services/duplicate-detection-service.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-DUP-001-01"],
+          "acceptance_criteria": ["Database queries work", "Efficient querying", "Returns matching records"]
+        },
+        {
+          "id": "TASK-DUP-001-07",
+          "name": "Create duplicate-warning.js component",
+          "description": "Create UI component for displaying duplicate warnings with existing customer details",
+          "component": "components/duplicate-warning.js",
+          "effort_days": 1,
+          "dependencies": ["TASK-DUP-001-05"],
+          "acceptance_criteria": ["Component renders correctly", "Shows existing customer details", "Color-coded warnings", "Override button works"]
+        },
+        {
+          "id": "TASK-DUP-001-08",
+          "name": "Integrate duplicate detection in app.js",
+          "description": "Add duplicate detection to form inputs (phone, email, name) with debouncing",
+          "component": "src/app.js",
+          "effort_days": 1,
+          "dependencies": ["TASK-DUP-001-07"],
+          "acceptance_criteria": ["Detection triggers on input", "Debounced correctly", "Warnings display", "Override works"]
+        },
+        {
+          "id": "TASK-DUP-001-09",
+          "name": "Add override system",
+          "description": "Implement override functionality to allow proceeding with duplicates when necessary",
+          "component": "src/app.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-DUP-001-08"],
+          "acceptance_criteria": ["Override button works", "Form submission allowed", "Override logged"]
+        },
+        {
+          "id": "TASK-DUP-001-10",
+          "name": "Store duplicate matches in database",
+          "description": "Log duplicate matches to database for tracking and analysis",
+          "component": "services/duplicate-detection-service.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-DUP-001-05"],
+          "acceptance_criteria": ["Matches stored in database", "Proper data structure", "Queryable"]
+        },
+        {
+          "id": "TASK-DUP-001-11",
+          "name": "Add visual feedback styling",
+          "description": "Style duplicate warnings with color-coded indicators (red/yellow/green for confidence levels)",
+          "component": "src/styles.css",
+          "effort_days": 0.25,
+          "dependencies": ["TASK-DUP-001-07"],
+          "acceptance_criteria": ["Styles applied", "Color coding works", "Responsive design"]
+        },
+        {
+          "id": "TASK-DUP-001-12",
+          "name": "Test duplicate detection",
+          "description": "Comprehensive testing of duplicate detection with various scenarios",
+          "component": "Testing",
+          "effort_days": 1,
+          "dependencies": ["TASK-DUP-001-09", "TASK-DUP-001-10"],
+          "acceptance_criteria": ["All test cases pass", "Edge cases handled", "Performance acceptable"]
+        }
+      ]
+    },
+    {
+      "id": "REQ-EXP-001",
+      "name": "Enhanced CSV Export (160+ Fields)",
+      "priority": "P0",
+      "category": "Export/Import",
+      "effort_days": 3,
+      "effort_days_max": 5,
+      "tasks": [
+        {
+          "id": "TASK-EXP-001-01",
+          "name": "Create export-service.js structure",
+          "description": "Create new service file with class structure for comprehensive CSV export",
+          "component": "services/export-service.js",
+          "effort_days": 0.5,
+          "dependencies": [],
+          "acceptance_criteria": ["Service file created", "Class structure defined", "Basic methods scaffolded"]
+        },
+        {
+          "id": "TASK-EXP-001-02",
+          "name": "Design 160+ field mapping structure",
+          "description": "Design comprehensive field mapping structure for all customer, financial, technical, and appliance fields",
+          "component": "services/export-service.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-EXP-001-01"],
+          "acceptance_criteria": ["Field mapping structure defined", "All 160+ fields mapped", "Documentation complete"]
+        },
+        {
+          "name": "Implement customer information fields export",
+          "description": "Add export logic for customer fields (title, first name, last name, full name, premium, package)",
+          "component": "services/export-service.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-EXP-001-02"],
+          "acceptance_criteria": ["Customer fields exported", "Proper formatting", "All fields included"]
+        },
+        {
+          "id": "TASK-EXP-001-04",
+          "name": "Implement financial information fields export",
+          "description": "Add export logic for financial fields (sort code, account number, account name, DD date, total cost)",
+          "component": "services/export-service.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-EXP-001-02"],
+          "acceptance_criteria": ["Financial fields exported", "Proper formatting", "All fields included"]
+        },
+        {
+          "id": "TASK-EXP-001-05",
+          "name": "Implement technical fields export",
+          "description": "Add export logic for technical fields (lead source, payment method, processor, customer reference)",
+          "component": "services/export-service.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-EXP-001-02"],
+          "acceptance_criteria": ["Technical fields exported", "Proper formatting", "All fields included"]
+        },
+        {
+          "id": "TASK-EXP-001-06",
+          "name": "Implement appliance details export (up to 10)",
+          "description": "Add export logic for appliance details with expansion to 10 appliances per sale",
+          "component": "services/export-service.js",
+          "effort_days": 1,
+          "dependencies": ["TASK-EXP-001-02"],
+          "acceptance_criteria": ["Appliance details exported", "Up to 10 appliances handled", "Proper column naming"]
+        },
+        {
+          "id": "TASK-EXP-001-07",
+          "name": "Implement boiler cover details export",
+          "description": "Add export logic for boiler cover details and pricing",
+          "component": "services/export-service.js",
+          "effort_days": 0.25,
+          "dependencies": ["TASK-EXP-001-02"],
+          "acceptance_criteria": ["Boiler details exported", "Proper formatting", "All fields included"]
+        },
+        {
+          "id": "TASK-EXP-001-08",
+          "name": "Implement CSV generation with all fields",
+          "description": "Create CSV generation method that combines all fields into standardized format",
+          "component": "services/export-service.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-EXP-001-03", "TASK-EXP-001-04", "TASK-EXP-001-05", "TASK-EXP-001-06", "TASK-EXP-001-07"],
+          "acceptance_criteria": ["CSV generation works", "All fields included", "Proper CSV formatting", "Escaping handled"]
+        },
+        {
+          "id": "TASK-EXP-001-09",
+          "name": "Create field-mapping-ui.js component",
+          "description": "Create UI component for field mapping configuration with custom column names",
+          "component": "components/field-mapping-ui.js",
+          "effort_days": 1,
+          "dependencies": ["TASK-EXP-001-02"],
+          "acceptance_criteria": ["UI component created", "Field mapping editor works", "Presets available", "Preview works"]
+        },
+        {
+          "id": "TASK-EXP-001-10",
+          "name": "Integrate export-service in admin.js",
+          "description": "Replace existing CSV export with enhanced export-service in admin.js",
+          "component": "src/admin.js",
+          "effort_days": 1,
+          "dependencies": ["TASK-EXP-001-08", "TASK-EXP-001-09"],
+          "acceptance_criteria": ["Integration complete", "Export works", "Field mapping UI integrated", "Backward compatible"]
+        },
+        {
+          "id": "TASK-EXP-001-11",
+          "name": "Integrate export-service in processor.js",
+          "description": "Replace existing CSV export with enhanced export-service in processor.js, integrate with processor profiles",
+          "component": "src/processor.js",
+          "effort_days": 1,
+          "dependencies": ["TASK-EXP-001-08", "TASK-EXP-001-09"],
+          "acceptance_criteria": ["Integration complete", "Export works", "Processor profiles integrated", "Backward compatible"]
+        },
+        {
+          "id": "TASK-EXP-001-12",
+          "name": "Integrate export-service in crm-reports.js",
+          "description": "Add enhanced export option to crm-reports.js",
+          "component": "src/crm-reports.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-EXP-001-08"],
+          "acceptance_criteria": ["Integration complete", "Export works", "Backward compatible"]
+        },
+        {
+          "id": "TASK-EXP-001-13",
+          "name": "Add filtered data export support",
+          "description": "Ensure export works with filtered data sets",
+          "component": "services/export-service.js",
+          "effort_days": 0.25,
+          "dependencies": ["TASK-EXP-001-08"],
+          "acceptance_criteria": ["Filtered export works", "All filters respected"]
+        },
+        {
+          "id": "TASK-EXP-001-14",
+          "name": "Test enhanced CSV export",
+          "description": "Comprehensive testing of enhanced CSV export with all field types",
+          "component": "Testing",
+          "effort_days": 1,
+          "dependencies": ["TASK-EXP-001-10", "TASK-EXP-001-11", "TASK-EXP-001-12"],
+          "acceptance_criteria": ["All test cases pass", "CRM systems can import", "All fields exported correctly"]
+        },
+        {
+          "id": "TASK-EXP-001-15",
+          "name": "Document field mapping structure",
+          "description": "Create documentation for 160+ field mapping structure",
+          "component": "Documentation",
+          "effort_days": 0.25,
+          "dependencies": ["TASK-EXP-001-02"],
+          "acceptance_criteria": ["Documentation complete", "Field mapping documented", "Examples provided"]
+        }
+      ]
+    },
+    {
+      "id": "REQ-FIL-001",
+      "name": "Advanced Filtering",
+      "priority": "P0",
+      "category": "Filtering",
+      "effort_days": 3,
+      "effort_days_max": 4,
+      "tasks": [
+        {
+          "id": "TASK-FIL-001-01",
+          "name": "Create date-range-picker.js component",
+          "description": "Create reusable date range picker component (from/to dates)",
+          "component": "components/date-range-picker.js",
+          "effort_days": 0.5,
+          "dependencies": [],
+          "acceptance_criteria": ["Component created", "From/To dates work", "Validation works", "Styling complete"]
+        },
+        {
+          "id": "TASK-FIL-001-02",
+          "name": "Add agent filter to filter-component.js",
+          "description": "Enhance filter-component.js to add agent filter (by email)",
+          "component": "components/filter-component.js",
+          "effort_days": 0.5,
+          "dependencies": [],
+          "acceptance_criteria": ["Agent filter added", "Dropdown populated", "Filter works"]
+        },
+        {
+          "id": "TASK-FIL-001-03",
+          "name": "Add date range filter to filter-component.js",
+          "description": "Enhance filter-component.js to add date range filter for sales creation dates",
+          "component": "components/filter-component.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-FIL-001-01"],
+          "acceptance_criteria": ["Date range filter added", "Date picker integrated", "Filter works"]
+        },
+        {
+          "id": "TASK-FIL-001-04",
+          "name": "Add DD date filter to filter-component.js",
+          "description": "Enhance filter-component.js to add Direct Debit date range filter",
+          "component": "components/filter-component.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-FIL-001-01"],
+          "acceptance_criteria": ["DD date filter added", "Date picker integrated", "Filter works"]
+        },
+        {
+          "id": "TASK-FIL-001-05",
+          "name": "Add plan type filter to filter-component.js",
+          "description": "Enhance filter-component.js to add plan type filter (Appliance-only, Boiler-only, Both)",
+          "component": "components/filter-component.js",
+          "effort_days": 0.25,
+          "dependencies": [],
+          "acceptance_criteria": ["Plan type filter added", "Options work", "Filter works"]
+        },
+        {
+          "id": "TASK-FIL-001-06",
+          "name": "Add appliance count filter to filter-component.js",
+          "description": "Enhance filter-component.js to add appliance count filter (1, 2-3, 4-5, 6+)",
+          "component": "components/filter-component.js",
+          "effort_days": 0.25,
+          "dependencies": [],
+          "acceptance_criteria": ["Appliance count filter added", "Options work", "Filter works"]
+        },
+        {
+          "id": "TASK-FIL-001-07",
+          "name": "Add boiler cover filter to filter-component.js",
+          "description": "Enhance filter-component.js to add boiler cover filter (Yes/No)",
+          "component": "components/filter-component.js",
+          "effort_days": 0.25,
+          "dependencies": [],
+          "acceptance_criteria": ["Boiler cover filter added", "Options work", "Filter works"]
+        },
+        {
+          "id": "TASK-FIL-001-08",
+          "name": "Implement filter combination logic (AND)",
+          "description": "Ensure all filters combine correctly with AND logic",
+          "component": "components/filter-component.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-FIL-001-02", "TASK-FIL-001-03", "TASK-FIL-001-04", "TASK-FIL-001-05", "TASK-FIL-001-06", "TASK-FIL-001-07"],
+          "acceptance_criteria": ["Filter combination works", "AND logic correct", "All filters respected"]
+        },
+        {
+          "id": "TASK-FIL-001-09",
+          "name": "Add filter state persistence",
+          "description": "Add filter state persistence using crmState or localStorage",
+          "component": "components/filter-component.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-FIL-001-08"],
+          "acceptance_criteria": ["Filter state persists", "State restored on page load", "Works across pages"]
+        },
+        {
+          "id": "TASK-FIL-001-10",
+          "name": "Integrate advanced filters in admin.js, processor.js, crm.js",
+          "description": "Integrate enhanced filter-component.js in all three main files",
+          "component": "src/admin.js, src/processor.js, src/crm.js",
+          "effort_days": 1,
+          "dependencies": ["TASK-FIL-001-09"],
+          "acceptance_criteria": ["Integration complete", "Filters work in all files", "UI shows active filters"]
+        },
+        {
+          "id": "TASK-FIL-001-11",
+          "name": "Test advanced filtering",
+          "description": "Comprehensive testing of all filter types and combinations",
+          "component": "Testing",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-FIL-001-10"],
+          "acceptance_criteria": ["All test cases pass", "Filter combinations work", "Performance acceptable"]
+        }
+      ]
+    },
+    {
+      "id": "REQ-BULK-001",
+      "name": "Bulk Delete Operations",
+      "priority": "P0",
+      "category": "Operations",
+      "effort_days": 2,
+      "effort_days_max": 3,
+      "tasks": [
+        {
+          "id": "TASK-BULK-001-01",
+          "name": "Create bulk-operations.js component structure",
+          "description": "Create new component file with class structure for bulk operations",
+          "component": "components/bulk-operations.js",
+          "effort_days": 0.5,
+          "dependencies": [],
+          "acceptance_criteria": ["Component file created", "Class structure defined", "Basic methods scaffolded"]
+        },
+        {
+          "id": "TASK-BULK-001-02",
+          "name": "Implement bulk delete functionality",
+          "description": "Add bulk delete method that deletes multiple selected records",
+          "component": "components/bulk-operations.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-BULK-001-01"],
+          "acceptance_criteria": ["Bulk delete works", "Multiple records deleted", "Error handling works"]
+        },
+        {
+          "id": "TASK-BULK-001-03",
+          "name": "Create confirmation dialog",
+          "description": "Create confirmation dialog that shows count of items to delete",
+          "component": "components/bulk-operations.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-BULK-001-02"],
+          "acceptance_criteria": ["Confirmation dialog works", "Count displayed", "Cancel works", "Confirm works"]
+        },
+        {
+          "id": "TASK-BULK-001-04",
+          "name": "Add progress tracking",
+          "description": "Add progress tracking UI that shows deletion progress",
+          "component": "components/bulk-operations.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-BULK-001-02"],
+          "acceptance_criteria": ["Progress tracking works", "Progress bar displays", "Updates in real-time"]
+        },
+        {
+          "id": "TASK-BULK-001-05",
+          "name": "Enhance bulk-selection.js for bulk actions toolbar",
+          "description": "Add bulk actions toolbar that appears when items are selected",
+          "component": "components/bulk-selection.js",
+          "effort_days": 0.5,
+          "dependencies": [],
+          "acceptance_criteria": ["Toolbar appears on selection", "Selection count displayed", "Styling complete"]
+        },
+        {
+          "id": "TASK-BULK-001-06",
+          "name": "Integrate bulk-operations in admin.js",
+          "description": "Integrate bulk-operations.js in admin.js with permission checks and activity logging",
+          "component": "src/admin.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-BULK-001-03", "TASK-BULK-001-04", "TASK-BULK-001-05"],
+          "acceptance_criteria": ["Integration complete", "Permission checks work", "Activity logged", "Success/error feedback works"]
+        },
+        {
+          "id": "TASK-BULK-001-07",
+          "name": "Integrate bulk-operations in crm.js",
+          "description": "Integrate bulk-operations.js in crm.js with permission checks and activity logging",
+          "component": "src/crm.js",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-BULK-001-03", "TASK-BULK-001-04", "TASK-BULK-001-05"],
+          "acceptance_criteria": ["Integration complete", "Permission checks work", "Activity logged", "Success/error feedback works"]
+        },
+        {
+          "id": "TASK-BULK-001-08",
+          "name": "Test bulk delete operations",
+          "description": "Comprehensive testing of bulk delete with various scenarios",
+          "component": "Testing",
+          "effort_days": 0.5,
+          "dependencies": ["TASK-BULK-001-06", "TASK-BULK-001-07"],
+          "acceptance_criteria": ["All test cases pass", "Edge cases handled", "Permission checks work"]
+        }
+      ]
+    }
+  ]
+}

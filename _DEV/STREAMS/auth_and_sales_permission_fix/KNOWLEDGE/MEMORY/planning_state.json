@@ -1,0 +1,57 @@
+{
+  "workflow": "PLANNING_ASSESSMENT_AI",
+  "version": "1.0.0",
+  "timestamp": "2026-01-15T07:10:00.000Z",
+  "assessment": {
+    "final_score": 26,
+    "confidence": 0.95,
+    "breakdown": {
+      "task_estimate": {
+        "score": 6,
+        "estimated_tasks": 30,
+        "requirements": 5,
+        "components": 3,
+        "services": 0
+      },
+      "dependency_complexity": {
+        "score": 4.6,
+        "internal": 3,
+        "external": 2,
+        "circular": 0
+      },
+      "integration_complexity": {
+        "score": 10,
+        "apis": 2,
+        "databases": 1,
+        "services": 0
+      },
+      "technology_breadth": {
+        "score": 5,
+        "languages": 1,
+        "frameworks": 1,
+        "new_tech": 0
+      }
+    },
+    "learning_adjustments": {
+      "patterns_found": 0,
+      "top_similarity": 0.0,
+      "score_adjustment": 0,
+      "confidence_adjustment": 0.0
+    }
+  },
+  "routing": {
+    "decision": "PLANNING_SIMPLE_AI",
+    "workflow_path": "SHARED_RESOURCES/WORKFLOW_SYSTEM/AI_WORKFLOWS/PLANNING/PLANNING_SIMPLE_AI.md",
+    "rationale": "Score 26/150 falls in 0-29 range → PLANNING_SIMPLE_AI. Low complexity (2 bug fixes, 4 files, familiar tech), estimated 30 tasks, minimal dependencies, simple integrations. SIMPLE tier appropriate - no checkpointing/phasing needed for straightforward bug fixes.",
+    "overrides_applied": [],
+    "alternatives_considered": [
+      "PLANNING_STANDARD_AI: Would be overkill for 2 bug fixes, adds unnecessary overhead"
+    ],
+    "risk_assessment": "Low risk - straightforward bug fixes with clear solutions. Main risk is if both files accidentally load causing duplicate declaration, but fix is simple. Sales permission fix requires ensuring anonymous auth completes before database access."
+  },
+  "next_steps": [
+    "Execute PLANNING_SIMPLE_AI workflow",
+    "Monitor for complexity changes",
+    "Be ready to reroute if needed"
+  ]
+}

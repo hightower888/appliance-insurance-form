@@ -1,0 +1,38 @@
+{
+  "stream_path": "_DEV/STREAMS/admin_js_errors_fix",
+  "workflow_name": "PLANNING_ASSESSMENT_AI",
+  "assessment_date": "2026-01-14",
+  "planning_score": 14,
+  "max_score": 150,
+  "routing_decision": "PLANNING_SIMPLE_AI",
+  "confidence": 0.95,
+  "score_breakdown": {
+    "task_estimate": 2,
+    "dependencies": 2,
+    "integrations": 7,
+    "tech_breadth": 3
+  },
+  "estimated_tasks": 11,
+  "estimated_duration_minutes": 10,
+  "issues": [
+    {
+      "id": "csp_violation",
+      "type": "CSP",
+      "description": "Cloud Function URL blocked by Content Security Policy",
+      "url": "https://us-central1-appliance-bot.cloudfunctions.net/createUser",
+      "location": "vercel.json CSP connect-src directive"
+    },
+    {
+      "id": "permission_denied",
+      "type": "Database",
+      "description": "Permission denied when writing to database",
+      "location": "admin.js handleCreateUser fallback method",
+      "error": "PERMISSION_DENIED: Permission denied"
+    }
+  ],
+  "requirements": [
+    "Fix CSP to allow Cloud Function connection OR ensure fallback works",
+    "Fix database permissions for admin users authenticated via auth-db.js",
+    "Ensure user creation works via either method"
+  ]
+}

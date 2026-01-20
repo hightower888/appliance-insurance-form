@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Admin Panel - Appliance Cover Application">
+  <title>Admin Panel - Appliance Cover</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Inter Font (Elite Design System) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Lucide Icons (Professional Icon Library - Replaces Emoji) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Global Navigation (Phase 2) -->
+  <script src="components/global-navigation.js"></script>
+  
+  <!-- Command Palette (Phase 3) -->
+  <script src="components/command-palette.js"></script>
+  
+  <!-- Quick Actions FAB (Phase 3) -->
+  <script src="components/quick-actions-fab.js"></script>
+  
+  <!-- Phase 1: Missing Features from Sales Portal -->
+  <script src="services/export-service.js"></script>
+  <script src="components/date-range-picker.js"></script>
+  <script src="components/field-mapping-ui.js"></script>
+  <script src="components/bulk-operations.js"></script>
+  <script src="components/filter-component.js"></script>
+  <!-- Phase 2: Import and Input Formatting -->
+  <script src="services/import-service.js"></script>
+  <script src="utils/input-formatter.js"></script>
+  <!-- Phase 3: SMS and Document Services -->
+  <script src="services/sms-service.js"></script>
+  <script src="services/document-service.js"></script>
+  <script src="utils/pdf-generator.js"></script>
+  <script src="components/sms-ui.js"></script>
+  <script src="components/document-template-ui.js"></script>
+  
+  <!-- Firebase SDKs (App, Auth, and Database) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="user-info-header">
+        <div>
+          <h1 style="margin: 0; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="shield" style="width: 24px; height: 24px;"></i>
+            Admin Panel
+          </h1>
+          <p class="subtitle" style="margin-top: 8px;">Manage users and view sales data</p>
+        </div>
+        <div id="userInfo" class="user-info">
+          <span id="userEmail" class="user-email"></span>
+          <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="admin-navigation">
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <span style="font-weight: 600; color: var(--text-secondary); font-size: 14px;">Navigate:</span>
+          <a href="/crm" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="bar-chart-3" style="width: 16px; height: 16px;"></i>
+            CRM
+          </a>
+          <a href="/form" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+            Form
+          </a>
+          <a href="/processor" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="settings" style="width: 16px; height: 16px;"></i>
+            Processor
+          </a>
+          <a href="/" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="home" style="width: 16px; height: 16px;"></i>
+            Home
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="users" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="users" style="width: 16px; height: 16px;"></i>
+        Users
+      </button>
+      <button class="admin-tab" data-tab="sales" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="trending-up" style="width: 16px; height: 16px;"></i>
+        Sales
+      </button>
+      <button class="admin-tab" data-tab="formFields" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+        Form Fields
+      </button>
+      <button class="admin-tab" data-tab="brands" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="tag" style="width: 16px; height: 16px;"></i>
+        Brands
+      </button>
+      <button class="admin-tab" data-tab="sms" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="message-square" style="width: 16px; height: 16px;"></i>
+        SMS
+      </button>
+      <button class="admin-tab" data-tab="documents" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="file" style="width: 16px; height: 16px;"></i>
+        Documents
+      </button>
+      <button class="admin-tab" data-tab="security" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="shield-check" style="width: 16px; height: 16px;"></i>
+        Security Logs
+      </button>
+    </div>
+
+    <!-- Error/Success Messages -->
+    <div id="adminMessage" class="message-container" style="display: none;">
+      <div id="adminMessageContent" class="message"></div>
+    </div>
+
+    <!-- Users Tab Content -->
+    <div id="usersTab" class="admin-tab-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>User Management</h2>
+        <button id="createUserBtn" class="btn btn-primary">Create New User</button>
+      </div>
+
+      <!-- Create User Form (initially hidden) -->
+      <div id="createUserForm" class="form-section card" style="display: none;">
+        <h3 style="margin-top: 0;">Create New User</h3>
+        <form id="newUserForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newUserUsername">Username <span class="required">*</span></label>
+              <input type="text" id="newUserUsername" name="username" required placeholder="username" pattern="[a-zA-Z0-9_]+" title="Username can only contain letters, numbers, and underscores" autocomplete="username">
+              <span class="error-message" id="newUserUsername-error"></span>
+            </div>
+            <div class="form-group">
+              <label for="newUserEmail">Email</label>
+              <input type="email" id="newUserEmail" name="email" placeholder="user@example.com (optional)">
+              <span class="error-message" id="newUserEmail-error"></span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newUserPassword">Password <span class="required">*</span></label>
+              <input type="password" id="newUserPassword" name="password" required placeholder="Minimum 6 characters" autocomplete="new-password">
+              <span class="error-message" id="newUserPassword-error"></span>
+            </div>
+            <div class="form-group">
+              <label for="newUserRole">Role <span class="required">*</span></label>
+              <select id="newUserRole" name="role" required>
+                <option value="">Select role...</option>
+                <option value="agent">Agent</option>
+                <option value="admin">Admin</option>
+                <option value="processor">Processor</option>
+              </select>
+              <span class="error-message" id="newUserRole-error"></span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn btn-primary">Create User</button>
+            <button type="button" id="cancelCreateBtn" class="btn btn-secondary">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Users List -->
+      <div id="usersList" class="users-list">
+        <div id="usersLoading" style="text-align: center; padding: 60px;">
+          <div class="spinner" style="margin: 0 auto 20px;"></div>
+          <p style="color: var(--text-secondary);">Loading users...</p>
+        </div>
+        <div id="usersTable" style="display: none;">
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <!-- Users will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Fields Tab Content -->
+    <div id="formFieldsTab" class="admin-tab-content" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>Form Field Management</h2>
+        <button id="addFieldBtn" class="btn btn-primary">➕ Add New Field</button>
+      </div>
+
+      <!-- Add/Edit Field Form (initially hidden) -->
+      <div id="fieldForm" class="form-section" style="display: none; margin-bottom: 30px;">
+        <h3 id="fieldFormTitle">Add New Field</h3>
+        <form id="newFieldForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fieldName">Field Name (ID) <span class="required">*</span></label>
+              <input type="text" id="fieldName" name="fieldName" required placeholder="e.g., name, email, customField1">
+              <span class="error-message" id="fieldName-error"></span>
+            </div>
+            <div class="form-group">
+              <label for="fieldLabel">Field Label <span class="required">*</span></label>
+              <input type="text" id="fieldLabel" name="fieldLabel" required placeholder="e.g., Full Name">
+              <span class="error-message" id="fieldLabel-error"></span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fieldType">Field Type <span class="required">*</span></label>
+              <select id="fieldType" name="fieldType" required>
+                <option value="">Select field type</option>
+                <option value="text">Text</option>
+                <option value="email">Email</option>
+                <option value="tel">Telephone</option>
+                <option value="number">Number</option>
+                <option value="select">Select (Dropdown)</option>
+                <option value="textarea">Textarea</option>
+                <option value="checkbox">Checkbox</option>
+                <option value="radio">Radio Button</option>
+              </select>
+              <span class="error-message" id="fieldType-error"></span>
+            </div>
+            <div class="form-group">
+              <label for="fieldSection">Section</label>
+              <input type="text" id="fieldSection" name="fieldSection" placeholder="e.g., Contact Details">
+              <span class="error-message" id="fieldSection-error"></span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fieldOrder">Display Order</label>
+              <input type="number" id="fieldOrder" name="fieldOrder" min="0" value="999">
+              <span class="error-message" id="fieldOrder-error"></span>
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="fieldRequired" name="fieldRequired">
+                <span class="checkbox-text">Required Field</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fieldDefaultValue">Default Value</label>
+              <input type="text" id="fieldDefaultValue" name="fieldDefaultValue" placeholder="Optional default value">
+            </div>
+            <div class="form-group">
+              <label for="fieldHelpText">Help Text</label>
+              <input type="text" id="fieldHelpText" name="fieldHelpText" placeholder="Optional help text">
+            </div>
+          </div>
+
+          <!-- Validation Options (shown based on field type) -->
+          <div id="validationOptions" style="display: none;">
+            <h4>Validation Rules</h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="validationMinLength">Min Length</label>
+                <input type="number" id="validationMinLength" name="validationMinLength" min="0">
+              </div>
+              <div class="form-group">
+                <label for="validationMaxLength">Max Length</label>
+                <input type="number" id="validationMaxLength" name="validationMaxLength" min="0">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="validationPattern">Pattern (Regex)</label>
+                <input type="text" id="validationPattern" name="validationPattern" placeholder="e.g., ^[0-9]+$">
+              </div>
+            </div>
+          </div>
+
+          <!-- Select/Radio Options (shown for select/radio types) -->
+          <div id="fieldOptions" style="display: none;">
+            <h4>Options</h4>
+            <div id="optionsList"></div>
+            <button type="button" id="addOptionBtn" class="btn btn-secondary">➕ Add Option</button>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px;">
+              <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+              Save Field
+            </button>
+            <button type="button" id="cancelFieldBtn" class="btn btn-secondary">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Fields List -->
+      <div id="fieldsList" class="fields-list">
+        <div id="fieldsLoading" style="text-align: center; padding: 60px;">
+          <div class="spinner" style="margin: 0 auto 20px;"></div>
+          <p style="color: var(--text-secondary);">Loading form fields...</p>
+        </div>
+        <div id="fieldsTable" style="display: none;">
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 60px;">Order</th>
+                  <th>Field Name</th>
+                  <th>Label</th>
+                  <th>Type</th>
+                  <th>Section</th>
+                  <th style="width: 150px;">Required</th>
+                  <th style="width: 280px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="fieldsTableBody">
+                <!-- Fields will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brands Tab Content -->
+    <div id="brandsTab" class="admin-tab-content" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>Brand Management</h2>
+        <button id="refreshBrandsBtn" class="btn btn-secondary" onclick="loadBrands()">🔄 Refresh</button>
+      </div>
+      <p class="section-description" style="margin-bottom: 20px; color: var(--text-secondary);">Manage appliance brands that appear in the form autocomplete dropdown.</p>
+      
+      <!-- Add Brand Form -->
+      <div class="brand-form-container" style="margin-bottom: 2rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
+        <h3 style="margin-top: 0;">Add New Brand</h3>
+        <form id="addBrandForm" style="display: flex; gap: 12px; align-items: flex-end;">
+          <div style="flex: 1;">
+            <label for="newBrandName" style="display: block; margin-bottom: 4px; font-weight: 600;">Brand Name</label>
+            <input 
+              type="text" 
+              id="newBrandName" 
+              name="newBrandName" 
+              placeholder="e.g., Dyson, Apple"
+              required
+              style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+          </div>
+          <button type="submit" class="btn btn-primary" style="padding: 8px 24px;">Add Brand</button>
+        </form>
+        <div id="brandFormMessage" class="message-container" style="display: none; margin-top: 12px;"></div>
+      </div>
+
+      <!-- Brands List -->
+      <div class="brands-list-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3 style="margin: 0;">Existing Brands</h3>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input 
+              type="text" 
+              id="brandSearchInput" 
+              placeholder="Search brands..." 
+              style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+            <span id="brandCount" style="color: #666; font-size: 14px;">0 brands</span>
+          </div>
+        </div>
+        <div id="brandsList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px;">
+          <!-- Brands will be loaded here -->
+        </div>
+        <div id="brandsLoading" style="text-align: center; padding: 2rem; color: #666;">
+          Loading brands...
+        </div>
+        <div id="brandsEmpty" style="text-align: center; padding: 2rem; color: #666; display: none;">
+          No brands found. Add your first brand above.
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Logs Tab Content -->
+    <div id="securityTab" class="admin-tab-content" style="display: none;">
+      <div style="margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+          <h2>Security Event Logs</h2>
+          <button id="refreshSecurityLogsBtn" class="btn btn-secondary" onclick="loadSecurityLogs()">🔄 Refresh</button>
+        </div>
+        <p style="color: var(--text-secondary); margin-top: 8px;">Monitor security events including login attempts, brute force attacks, and account changes.</p>
+      </div>
+
+      <div id="securityLogsContent">
+        <div id="securityLogsLoading" style="text-align: center; padding: 60px;">
+          <div class="spinner" style="margin: 0 auto 20px;"></div>
+          <p style="color: var(--text-secondary);">Loading security logs...</p>
+        </div>
+        <div id="securityLogsList" style="display: none;">
+          <!-- Security log items will be populated here -->
+        </div>
+        <div id="securityLogsEmpty" style="display: none; text-align: center; padding: 60px; color: var(--text-secondary);">
+          <p style="font-size: 18px; margin-bottom: 8px;">No security events logged</p>
+          <p>Security events will appear here as they occur.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sales Tab Content -->
+    <div id="salesTab" class="admin-tab-content" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+        <h2>Sales Data</h2>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <input type="text" id="salesSearch" class="admin-search" placeholder="🔍 Search all fields..." oninput="filterSales()">
+          <select id="salesFilterAgent" class="admin-filter" onchange="filterSales()" style="min-width: 150px;">
+            <option value="">All Agents</option>
+          </select>
+          <select id="salesFilterPlan" class="admin-filter" onchange="filterSales()" style="min-width: 150px;">
+            <option value="">All Plans</option>
+            <option value="Appliance">Appliance</option>
+            <option value="Appliance + Boiler">Appliance + Boiler</option>
+          </select>
+          <button id="refreshSalesBtn" class="btn btn-secondary" onclick="if(typeof loadSales === 'function') { loadSales(); } else { console.error('loadSales not available'); }">🔄 Refresh</button>
+          <button id="columnVisibilityBtn" class="btn btn-secondary" onclick="toggleColumnVisibilityMenu()">👁️ Columns</button>
+          <button id="importSalesBtn" class="btn btn-secondary" onclick="showImportSalesModal()">📤 Import Sales</button>
+          <button id="exportSalesBtn" class="btn btn-primary" onclick="exportSalesToCSV()">📥 Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Column Visibility Menu -->
+      <div id="columnVisibilityMenu" class="modal" style="display: none; position: absolute; top: 100px; right: 20px; z-index: 1000; max-width: 300px;">
+        <div class="modal-content" style="padding: 20px;">
+          <h3 style="margin: 0 0 16px 0; font-size: 18px;">Column Visibility</h3>
+          <div id="columnVisibilityList" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Column checkboxes will be populated here -->
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button class="btn btn-secondary" onclick="resetColumnVisibility()" style="flex: 1;">Reset</button>
+            <button class="btn btn-primary" onclick="closeColumnVisibilityMenu()" style="flex: 1;">Done</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sales List -->
+      <div id="salesList" class="sales-list">
+        <div id="salesLoading" style="text-align: center; padding: 60px;">
+          <div class="spinner" style="margin: 0 auto 20px;"></div>
+          <p style="color: var(--text-secondary);">Loading sales data...</p>
+        </div>
+        <div id="salesTable" style="display: none;">
+          <div style="overflow-x: auto;">
+            <table id="salesDataTable">
+              <thead>
+                <tr id="salesTableHeader">
+                  <th onclick="sortSales('date')" style="cursor: pointer; user-select: none;">
+                    Date <span id="sort-date" class="sort-indicator">⇅</span>
+                  </th>
+                  <th onclick="sortSales('customer')" style="cursor: pointer; user-select: none;">
+                    Customer <span id="sort-customer" class="sort-indicator">⇅</span>
+                  </th>
+                  <th onclick="sortSales('agent')" style="cursor: pointer; user-select: none;">
+                    Agent <span id="sort-agent" class="sort-indicator">⇅</span>
+                  </th>
+                  <th onclick="sortSales('plan')" style="cursor: pointer; user-select: none;">
+                    Plan <span id="sort-plan" class="sort-indicator">⇅</span>
+                  </th>
+                  <th onclick="sortSales('cost')" style="cursor: pointer; user-select: none;">
+                    Total Cost <span id="sort-cost" class="sort-indicator">⇅</span>
+                  </th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="salesTableBody">
+                <!-- Sales will be populated here -->
+              </tbody>
+            </table>
+          </div>
+          <div id="salesTableInfo" style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div style="color: var(--text-secondary); font-size: 14px;">
+              Showing <span id="salesCount">0</span> of <span id="salesTotal">0</span> sales
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <label for="pageSizeSelect" style="font-size: 14px; color: var(--text-secondary);">Items per page:</label>
+              <select id="pageSizeSelect" onchange="changePageSize(this.value)" style="padding: 5px 10px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-primary); color: var(--text-primary);">
+                <option value="25">25</option>
+                <option value="50" selected>50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Pagination Controls -->
+          <div id="paginationControls" style="margin-top: 20px; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <button id="paginationFirst" class="btn btn-secondary" onclick="goToPage(1)" style="min-width: 40px;">⏮️ First</button>
+            <button id="paginationPrev" class="btn btn-secondary" onclick="goToPage(currentPage - 1)" style="min-width: 40px;">◀️ Prev</button>
+            <div id="paginationPageNumbers" style="display: flex; gap: 5px; align-items: center;"></div>
+            <span id="paginationInfo" style="padding: 0 10px; color: var(--text-secondary); font-size: 14px;">Page 1 of 1</span>
+            <button id="paginationNext" class="btn btn-secondary" onclick="goToPage(currentPage + 1)" style="min-width: 40px;">Next ▶️</button>
+            <button id="paginationLast" class="btn btn-secondary" onclick="goToPage(totalPages)" style="min-width: 40px;">Last ⏭️</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit User Modal (hidden by default) -->
+  <div id="editUserModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h3 style="margin-top: 0; margin-bottom: 24px; font-size: 24px; color: var(--text-primary);">✏️ Edit User</h3>
+      <form id="editUserForm">
+        <input type="hidden" id="editUserId">
+        <div class="form-group">
+          <label for="editUserUsername">Username</label>
+          <input type="text" id="editUserUsername" name="username" placeholder="username (optional)">
+          <span class="error-message" id="editUserUsername-error"></span>
+        </div>
+        <div class="form-group">
+          <label for="editUserEmail">Email <span class="required">*</span></label>
+          <input type="email" id="editUserEmail" name="email" required>
+          <span class="error-message" id="editUserEmail-error"></span>
+        </div>
+        <div class="form-group">
+          <label for="editUserRole">Role <span class="required">*</span></label>
+          <select id="editUserRole" name="role" required>
+            <option value="agent">Agent</option>
+            <option value="admin">Admin</option>
+            <option value="processor">Processor</option>
+          </select>
+          <span class="error-message" id="editUserRole-error"></span>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <button type="button" id="cancelEditBtn" class="btn btn-secondary">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SMS Tab Content -->
+  <div id="smsTab" class="admin-tab-content" style="display: none;">
+    <div id="smsUIContainer"></div>
+  </div>
+
+  <!-- Documents Tab Content -->
+  <div id="documentsTab" class="admin-tab-content" style="display: none;">
+    <div id="documentTemplateUIContainer"></div>
+  </div>
+
+  <!-- Sale Details Modal (hidden by default) -->
+  <div id="saleDetailsModal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h3 style="margin: 0; font-size: 24px; color: var(--text-primary);">📋 Sale Details</h3>
+        <button onclick="closeSaleDetailsModal()" class="btn btn-secondary" style="padding: 8px 16px;">✕ Close</button>
+      </div>
+      <div id="saleDetailsContent">
+        <!-- Sale details will be populated here -->
+      </div>
+    </div>
+  </div>
+
+  <script src="services/security-logger.js"></script>
+  <script src="auth-db.js"></script>
+  <!-- auth.js removed - using auth-db.js only to avoid function conflicts -->
+  <!-- Firebase Auth for anonymous authentication (needed for database rules) -->
+  <!-- Note: Firebase Auth compat is already loaded in head, just need to initialize auth -->
+  <script src="utils/sanitize.js"></script>
+  <script src="services/field-config.js"></script>
+  <script src="admin.js"></script>
+  <script>
+    // Helper to get current user from database auth (auth-db.js)
+    // This reads directly from sessionStorage to avoid function conflicts
+    function getCurrentUserFromDatabaseAuth() {
+      try {
+        const stored = sessionStorage.getItem('currentUser');
+        if (stored) {
+          const dbUser = JSON.parse(stored);
+          return dbUser; // Return user regardless of role, let caller check
+        }
+      } catch (e) {
+        console.error('Error reading sessionStorage:', e);
+      }
+      return null;
+    }
+
+      // Check admin access on page load
+      document.addEventListener('DOMContentLoaded', async function() {
+        // Check database auth (auth-db.js) - read directly from sessionStorage
+        const dbUser = getCurrentUserFromDatabaseAuth();
+        if (dbUser) {
+          // User is authenticated via database auth
+          if (dbUser.role === 'admin') {
+            console.log('Admin authenticated via database auth:', dbUser.email || dbUser.username);
+            // Set user email in UI
+            const userEmailEl = document.getElementById('userEmail');
+            if (userEmailEl) {
+              userEmailEl.textContent = dbUser.email || dbUser.username || 'Admin';
+            }
+            // User is admin, allow access - DO NOT redirect
+          } else {
+            // User is authenticated but not admin, redirect to form
+            console.log('User authenticated but not admin, redirecting to form');
+            window.location.href = '/form';
+            return;
+          }
+        } else {
+          // Not authenticated, redirect to login
+          console.log('Not authenticated, redirecting to login');
+          window.location.href = '/login.html';
+          return;
+        }
+
+      // Override getCurrentUser to use database auth (auth-db.js)
+      // Since we're only using auth-db.js, we can use it directly
+      window.getCurrentUser = async function() {
+        const dbUser = getCurrentUserFromDatabaseAuth();
+        if (dbUser) {
+          return Promise.resolve(dbUser);
+        }
+        return null;
+      };
+
+      // Override checkRole to use database auth (auth-db.js)
+      // Since we're only using auth-db.js, we can use it directly
+      window.checkRole = async function(redirectTo = 'appliance_form.html') {
+        const dbUser = getCurrentUserFromDatabaseAuth();
+        if (dbUser) {
+          if (dbUser.role === 'admin') {
+            return true;
+          } else {
+            // User is authenticated but not admin, redirect
+            window.location.href = redirectTo;
+            return false;
+          }
+        }
+        // No auth system available, redirect
+        window.location.href = redirectTo;
+        return false;
+      };
+
+      // Set up logout button
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async function() {
+          // Logout from database auth (auth-db.js)
+          if (typeof logoutUser === 'function') {
+            try {
+              await logoutUser();
+            } catch (error) {
+              console.error('Database auth logout error:', error);
+            }
+          }
+          // Clear sessionStorage and redirect
+          sessionStorage.removeItem('currentUser');
+          window.location.href = '/login.html';
+        });
+      }
+
+      // Display user email (already set above for database auth, but check if not set)
+      const userEmail = document.getElementById('userEmail');
+      if (userEmail && !userEmail.textContent) {
+        // Fallback: try to get from database auth
+        const dbUser = getCurrentUserFromDatabaseAuth();
+        if (dbUser && (dbUser.email || dbUser.username)) {
+          userEmail.textContent = dbUser.email || dbUser.username;
+        }
+      }
+
+      // Set up tab switching
+      const tabs = document.querySelectorAll('.admin-tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const tabName = this.getAttribute('data-tab');
+          
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Hide all tab contents
+          document.querySelectorAll('.admin-tab-content').forEach(content => {
+            content.style.display = 'none';
+          });
+          
+          // Show selected tab
+          let contentId = tabName + 'Tab';
+          if (tabName === 'formFields') {
+            contentId = 'formFieldsTab';
+          } else if (tabName === 'security') {
+            contentId = 'securityTab';
+          }
+          const content = document.getElementById(contentId);
+          if (content) {
+            content.style.display = 'block';
+            
+            // Load data for specific tabs
+            if (tabName === 'sales') {
+              if (typeof loadSales === 'function') {
+                loadSales();
+              } else {
+                console.error('loadSales function not available');
+              }
+            } else if (tabName === 'formFields') {
+              if (typeof loadFormFields === 'function') {
+                loadFormFields();
+              } else {
+                console.error('loadFormFields function not available');
+              }
+            } else if (tabName === 'security') {
+              if (typeof loadSecurityLogs === 'function') {
+                loadSecurityLogs();
+              } else {
+                console.error('loadSecurityLogs function not available');
+              }
+            } else if (tabName === 'sms') {
+              // Initialize SMS tab
+              if (typeof initializeSMSTab === 'function') {
+                initializeSMSTab();
+              } else {
+                console.error('initializeSMSTab function not available');
+              }
+            } else if (tabName === 'documents') {
+              // Initialize Documents tab
+              if (typeof initializeDocumentsTab === 'function') {
+                initializeDocumentsTab();
+              } else {
+                console.error('initializeDocumentsTab function not available');
+              }
+            }
+          }
+        });
+      });
+      
+      // Load initial data for active tab (Users)
+      if (typeof loadUsers === 'function') {
+        loadUsers();
+      }
+    });
+  </script>
+
+  <style>
+    /* Additional admin-specific styles are in main styles.css */
+    .admin-search {
+      padding: 12px 16px;
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius-sm);
+      font-size: 14px;
+      width: 100%;
+      max-width: 400px;
+      transition: all var(--transition-base);
+    }
+    .admin-search:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Brand management styles */
+    .brands-list-container {
+      margin-top: 20px;
+    }
+
+    .brand-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+    }
+
+    .brand-card:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Autocomplete styles */
+    .autocomplete-wrapper {
+      position: relative;
+    }
+
+    .autocomplete-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+      margin-top: 4px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .autocomplete-option {
+      padding: 8px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .autocomplete-option:hover,
+    .autocomplete-option.selected {
+      background: #f0f7ff;
+      color: #3b82f6;
+    }
+
+    .autocomplete-option:last-child {
+      border-bottom: none;
+    }
+
+    .autocomplete-other-input {
+      margin-top: 8px;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 100%;
+    }
+  </style>
+</body>
+</html>

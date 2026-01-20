@@ -1,0 +1,130 @@
+{
+  "phase": 1,
+  "phase_name": "UI/UX Foundation & Quick Wins",
+  "total_tasks": 31,
+  "estimated_effort_days": 20,
+  "note": "Detailed task breakdown. Full implementation details reference: ../crm_ui_ux_enhancement/OUTPUTS/PLANNING/IMPLEMENTATION_PLAN.md",
+  "tasks": [
+    {
+      "id": "TASK-1.2.1",
+      "name": "Implement field-level logging in Enhanced Logger",
+      "feature": "FEAT-1.2",
+      "phase": 1,
+      "component": "enhanced-logger.js",
+      "requirement": "REQ-AUDIT-001",
+      "description": "Add field-level change tracking to enhanced logger service. Log every field change with before/after values.",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/services/enhanced-logger.js",
+        "details": "Enhance enhanced-logger.js to support field-level logging. Add logFieldChange(fieldName, oldValue, newValue, userId, timestamp) method. Store field changes in Firebase with structure: /audit_logs/{recordId}/changes/{fieldName}/{timestamp}. This is CRITICAL for Phase 2 audit features."
+      },
+      "estimated_hours": 8,
+      "complexity": 7,
+      "dependencies": [],
+      "acceptance_criteria": [
+        "Field-level logging implemented",
+        "Before/after values captured",
+        "Changes stored in Firebase",
+        "Timestamp and user ID recorded"
+      ],
+      "priority": "P0",
+      "risk": "RISK-1"
+    },
+    {
+      "id": "TASK-1.2.2",
+      "name": "Add audit trail generation",
+      "feature": "FEAT-1.2",
+      "phase": 1,
+      "component": "enhanced-logger.js",
+      "requirement": "REQ-AUDIT-002",
+      "description": "Add audit trail generation functionality to create comprehensive change history.",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/services/enhanced-logger.js",
+        "details": "Add generateAuditTrail(recordId) method that retrieves all field changes for a record and formats them as an audit trail. Return chronological list of all changes with user, timestamp, field, old value, new value."
+      },
+      "estimated_hours": 4,
+      "complexity": 5,
+      "dependencies": ["TASK-1.2.1"],
+      "acceptance_criteria": [
+        "Audit trail generation works",
+        "Chronological ordering correct",
+        "All field changes included"
+      ],
+      "priority": "P0",
+      "risk": "RISK-1"
+    },
+    {
+      "id": "TASK-1.1.1",
+      "name": "Enhance State Manager for view state",
+      "feature": "FEAT-1.1",
+      "phase": 1,
+      "component": "crm-state.js",
+      "requirement": "REQ-UI-002, REQ-UI-003",
+      "description": "Enhance state manager to handle view state, sidebar state, and layout state.",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/modules/crm-state.js",
+        "details": "Enhance crm-state.js to add view state management. Add setView(viewName), getCurrentView(), setSidebarState(collapsed), getSidebarState(), setLayoutState(layoutConfig), getLayoutState() methods. Store state in memory with optional persistence to localStorage."
+      },
+      "estimated_hours": 6,
+      "complexity": 4,
+      "dependencies": [],
+      "acceptance_criteria": [
+        "View state management works",
+        "Sidebar state management works",
+        "Layout state management works",
+        "State persists across page reloads"
+      ],
+      "priority": "P0",
+      "risk": "RISK-4"
+    },
+    {
+      "id": "TASK-1.5.1",
+      "name": "Enhance Sidebar with new navigation items",
+      "feature": "FEAT-1.5",
+      "phase": 1,
+      "component": "sidebar.js",
+      "requirement": "REQ-UI-002",
+      "description": "Enhance sidebar component to include new navigation items for views (Table, Kanban, Timeline, Card).",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/components/sidebar.js",
+        "details": "Enhance sidebar.js to add navigation items for: Table View, Kanban View, Timeline View, Card View. Add active state indicators. Integrate with state manager for view switching."
+      },
+      "estimated_hours": 4,
+      "complexity": 3,
+      "dependencies": ["TASK-1.1.1"],
+      "acceptance_criteria": [
+        "New navigation items added",
+        "Active state indicators work",
+        "View switching works"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "TASK-1.6.1",
+      "name": "Implement multi-column layouts for desktop",
+      "feature": "FEAT-1.6",
+      "phase": 1,
+      "component": "Layout CSS",
+      "requirement": "REQ-UI-003",
+      "description": "Create CSS for multi-column desktop layouts optimized for 1200px+ screens.",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/styles.css",
+        "details": "Add CSS for multi-column desktop layouts. Create .desktop-layout-2col, .desktop-layout-3col classes. Use CSS Grid for responsive columns. Optimize for 1200px+ screens. Add media queries for desktop breakpoint."
+      },
+      "estimated_hours": 4,
+      "complexity": 3,
+      "dependencies": [],
+      "acceptance_criteria": [
+        "Multi-column layouts work",
+        "Responsive on 1200px+ screens",
+        "Layouts are customizable"
+      ],
+      "priority": "P0"
+    }
+  ],
+  "note_remaining_tasks": "Remaining 26 tasks for Phase 1 follow same pattern. See ../crm_ui_ux_enhancement/OUTPUTS/PLANNING/IMPLEMENTATION_PLAN.md for full breakdown. Tasks include: Enhanced Logger (remaining 10 tasks), View Controller (3 tasks), Cache Manager (2 tasks), Sidebar enhancements (2 tasks), Desktop Layout (2 tasks), Quick Filters (2 tasks), Status Indicators (2 tasks), Testing (3 tasks)."
+}

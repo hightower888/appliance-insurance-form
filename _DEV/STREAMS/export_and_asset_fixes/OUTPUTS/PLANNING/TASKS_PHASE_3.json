@@ -1,0 +1,107 @@
+{
+  "phase": 3,
+  "phase_name": "UI/UX Advanced Features",
+  "total_tasks": 146,
+  "estimated_effort_days": 96,
+  "note": "Detailed task breakdown. Full implementation details reference: ../crm_ui_ux_enhancement/OUTPUTS/PLANNING/IMPLEMENTATION_PLAN.md. Phase 3 includes 60+ days of additional advanced features.",
+  "tasks": [
+    {
+      "id": "TASK-3.1.1",
+      "name": "Create Timeline View component",
+      "feature": "FEAT-3.1",
+      "phase": 3,
+      "component": "timeline-view.js",
+      "requirement": "REQ-UI-005",
+      "description": "Create timeline view component showing lead progression over time.",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/components/timeline-view.js",
+        "details": "Create timeline-view.js component. Display leads chronologically with visual timeline. Add milestones for key events (created, disposition, etc.). Add date range filtering. Make items clickable to view details. Integrate with view controller."
+      },
+      "estimated_hours": 4,
+      "complexity": 5,
+      "dependencies": ["TASK-1.3.1"],
+      "acceptance_criteria": [
+        "Timeline displays chronologically",
+        "Milestones visible",
+        "Date filtering works",
+        "Click to view details works"
+      ],
+      "priority": "P1"
+    },
+    {
+      "id": "TASK-3.4.1",
+      "name": "Create Auto-Save Service",
+      "feature": "FEAT-3.4",
+      "phase": 3,
+      "component": "auto-save-service.js",
+      "requirement": "REQ-ED-008",
+      "description": "Create auto-save service that saves changes automatically after a delay.",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/services/auto-save-service.js",
+        "details": "Create auto-save-service.js. Implement auto-save after delay (e.g., 2 seconds after last change). Add visual save indicator. Add conflict resolution for concurrent edits. Add undo capability. Integrate with enhanced logger for audit trail."
+      },
+      "estimated_hours": 10,
+      "complexity": 7,
+      "dependencies": ["TASK-1.2.1"],
+      "acceptance_criteria": [
+        "Auto-save works after delay",
+        "Visual indicator shows save status",
+        "Conflict resolution works",
+        "Undo capability works"
+      ],
+      "priority": "P1"
+    },
+    {
+      "id": "TASK-3.5.1",
+      "name": "Create Report Builder component",
+      "feature": "FEAT-3.5",
+      "phase": 3,
+      "component": "report-builder.js",
+      "requirement": "REQ-REPORT-005",
+      "description": "Create report builder component for custom report creation.",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/components/report-builder.js",
+        "details": "Create report-builder.js component. Add UI for custom report creation: field selection, filter configuration, grouping options, sorting options. Add save/load reports functionality. Generate reports using export service. Integrate with KPI calculator and chart service."
+      },
+      "estimated_hours": 13,
+      "complexity": 8,
+      "dependencies": ["TASK-2.7.1", "TASK-2.10.1"],
+      "acceptance_criteria": [
+        "Report builder UI works",
+        "Field selection works",
+        "Filter configuration works",
+        "Save/load reports works",
+        "Report generation works"
+      ],
+      "priority": "P1"
+    },
+    {
+      "id": "TASK-3.6.1",
+      "name": "Implement Virtual Scrolling",
+      "feature": "FEAT-3.6",
+      "phase": 3,
+      "component": "Performance optimization",
+      "requirement": "REQ-PERF-002",
+      "description": "Implement virtual scrolling for large lists to improve performance.",
+      "instructions": {
+        "action_type": "EDIT_FILE",
+        "file_path": "src/components/table-view.js, src/components/kanban-view.js",
+        "details": "Implement virtual scrolling in table-view.js and kanban-view.js for large datasets. Only render visible items. Use Intersection Observer API for lazy loading. Optimize for 1000+ items. Test performance with large datasets."
+      },
+      "estimated_hours": 10,
+      "complexity": 7,
+      "dependencies": ["TASK-2.11.1", "TASK-2.12.1"],
+      "acceptance_criteria": [
+        "Virtual scrolling works",
+        "Performance improved for large lists",
+        "Lazy loading works",
+        "No visual glitches"
+      ],
+      "priority": "P1"
+    }
+  ],
+  "note_remaining_tasks": "Remaining 142 tasks for Phase 3 follow same pattern. See ../crm_ui_ux_enhancement/OUTPUTS/PLANNING/IMPLEMENTATION_PLAN.md for full breakdown. Phase 3 includes: Timeline View (remaining 1 task), Card View (3 tasks), Diff Viewer (4 tasks), Auto-Save (remaining 9 tasks), Report Builder (remaining 12 tasks), Virtual Scrolling (remaining 9 tasks), Additional advanced features (60+ days, 100+ tasks), Testing (15 tasks)."
+}

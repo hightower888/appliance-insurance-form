@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CRM System - Customer Relationship Management">
+  <title>CRM System - Appliance Cover</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Inter Font (Elite Design System) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Resource Hints (Phase 4A) -->
+  <link rel="preconnect" href="https://www.gstatic.com">
+  <link rel="preconnect" href="https://www.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://www.gstatic.com">
+  <link rel="dns-prefetch" href="https://www.googleapis.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  
+  <!-- Critical CSS -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles/mobile.css">
+  <link rel="stylesheet" href="styles/phase4b.css">
+  <link rel="stylesheet" href="styles/accessibility.css">
+  <link rel="stylesheet" href="styles/phase4c.css">
+  
+  <!-- Preload critical resources -->
+  <link rel="preload" href="modules/view-controller.js" as="script">
+  <link rel="preload" href="modules/crm-state.js" as="script">
+  
+  <!-- Firebase SDKs (App, Auth, and Database) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  
+  <!-- Chart.js for data visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons (Professional Icon Library - Replaces Emoji) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Global Navigation (Phase 2) -->
+  <script src="components/global-navigation.js"></script>
+  
+  <!-- Elite Dashboard (Phase 3) -->
+  <script src="components/elite-dashboard.js"></script>
+  
+  <!-- Command Palette (Phase 3) -->
+  <script src="components/command-palette.js"></script>
+  
+  <!-- Quick Actions FAB (Phase 3) -->
+  <script src="components/quick-actions-fab.js"></script>
+  
+  <!-- CRM Foundation Modules -->
+  <script src="modules/crm-state.js"></script>
+  <script src="services/enhanced-logger.js"></script>
+  <script src="modules/view-controller.js"></script>
+  <script src="services/cache-manager.js"></script>
+  <script src="services/query-optimizer.js"></script>
+  <script src="components/sidebar.js"></script>
+  <script src="components/filter-component.js"></script>
+  <script src="components/status-indicator.js"></script>
+  <!-- Phase 2: Core Enhancements -->
+  <script src="services/validation-service.js"></script>
+  <script src="components/inline-editor.js"></script>
+  <script src="components/bulk-selection.js"></script>
+  <!-- Phase 2: Services -->
+  <script src="services/kpi-calculator.js"></script>
+  <script src="services/chart-service.js"></script>
+  <script src="services/search-service.js"></script>
+  <!-- Phase 2: View Components -->
+  <script src="components/table-view.js"></script>
+  <script src="components/kanban-view.js"></script>
+  <script src="components/dashboard.js"></script>
+  <script src="components/history-viewer.js"></script>
+  <script src="components/audit-viewer.js"></script>
+  <!-- Phase 1: Missing Features from Sales Portal -->
+  <script src="services/duplicate-detection-service.js"></script>
+  <script src="services/export-service.js"></script>
+  <script src="components/date-range-picker.js"></script>
+  <script src="components/duplicate-warning.js"></script>
+  <script src="components/field-mapping-ui.js"></script>
+  <script src="components/bulk-operations.js"></script>
+  <!-- Phase 2: Import and Input Formatting -->
+  <script src="services/import-service.js"></script>
+  <script src="utils/input-formatter.js"></script>
+  <!-- Phase 4B: Analytics & Automation -->
+  <script src="services/lead-scoring-service.js"></script>
+  <script src="services/churn-prediction-service.js"></script>
+  <script src="services/automated-insights-service.js"></script>
+  <script src="services/workflow-automation-engine.js"></script>
+  <script src="components/workflow-designer.js"></script>
+  <script src="components/advanced-reporting-dashboard.js"></script>
+  <script src="components/insights-panel.js"></script>
+  <!-- Phase 4C: Polish & Integration -->
+  <script src="services/keyboard-navigation-service.js"></script>
+  <script src="services/rest-api-service.js"></script>
+  <script src="services/advanced-search-service.js"></script>
+  <script src="services/comments-service.js"></script>
+  <script src="components/comments-panel.js"></script>
+  <script src="services/user-preferences-service.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="sidebar"></aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+    <header class="header">
+      <div class="user-info-header">
+        <div>
+          <h1 style="margin: 0; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="bar-chart-3" style="width: 24px; height: 24px;"></i>
+            CRM System
+          </h1>
+          <p class="subtitle" style="margin-top: 8px;">Manage customers, leads, and track dispositions</p>
+        </div>
+        <div id="userInfo" class="user-info">
+          <span id="userEmail" class="user-email"></span>
+          <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="admin-navigation">
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <span style="font-weight: 600; color: var(--text-secondary); font-size: 14px;">Navigate:</span>
+          <a href="/form" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+            Form
+          </a>
+          <a href="/admin" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="shield" style="width: 16px; height: 16px;"></i>
+            Admin
+          </a>
+          <a href="/processor" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="settings" style="width: 16px; height: 16px;"></i>
+            Processor
+          </a>
+          <a href="/" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="home" style="width: 16px; height: 16px;"></i>
+            Home
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Skip to main content link (Accessibility) -->
+    <a href="#main-content" class="skip-link" style="position: absolute; left: -9999px; z-index: 9999; padding: 10px; background: var(--primary); color: white; text-decoration: none;">Skip to main content</a>
+    <a href="#main-content" class="skip-link" style="position: absolute; left: -9999px; z-index: 9999; padding: 10px; background: var(--primary); color: white; text-decoration: none;" onfocus="this.style.left='10px';" onblur="this.style.left='-9999px';">Skip to main content</a>
+
+    <!-- Navigation Tabs -->
+    <nav class="admin-tabs" role="tablist" aria-label="Main navigation">
+      <button class="admin-tab" data-tab="dashboard" role="tab" aria-selected="false" aria-controls="dashboardTab" id="tab-dashboard" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="layout-dashboard" style="width: 16px; height: 16px;"></i>
+        Dashboard
+      </button>
+      <button class="admin-tab active" data-tab="leads" role="tab" aria-selected="true" aria-controls="leadsTab" id="tab-leads" tabindex="0" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="users" style="width: 16px; height: 16px;"></i>
+        Leads
+      </button>
+      <button class="admin-tab" data-tab="customers" role="tab" aria-selected="false" aria-controls="customersTab" id="tab-customers" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="user-check" style="width: 16px; height: 16px;"></i>
+        Customers
+      </button>
+      <button class="admin-tab" data-tab="reports" role="tab" aria-selected="false" aria-controls="reportsTab" id="tab-reports" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="trending-up" style="width: 16px; height: 16px;"></i>
+        Reports
+      </button>
+      <button class="admin-tab" data-tab="kanban" role="tab" aria-selected="false" aria-controls="kanbanTab" id="tab-kanban" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="layout-grid" style="width: 16px; height: 16px;"></i>
+        Kanban
+      </button>
+      <button class="admin-tab" data-tab="timeline" role="tab" aria-selected="false" aria-controls="timelineTab" id="tab-timeline" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+        Timeline
+      </button>
+      <button class="admin-tab" data-tab="cards" role="tab" aria-selected="false" aria-controls="cardsTab" id="tab-cards" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="credit-card" style="width: 16px; height: 16px;"></i>
+        Cards
+      </button>
+      <button class="admin-tab" data-tab="reportBuilder" role="tab" aria-selected="false" aria-controls="reportBuilderTab" id="tab-reportBuilder" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="file-bar-chart" style="width: 16px; height: 16px;"></i>
+        Report Builder
+      </button>
+      <button class="admin-tab" data-tab="savedViews" role="tab" aria-selected="false" aria-controls="savedViewsTab" id="tab-savedViews" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+        Saved Views
+      </button>
+      <button class="admin-tab" data-tab="scheduledReports" role="tab" aria-selected="false" aria-controls="scheduledReportsTab" id="tab-scheduledReports" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="clock" style="width: 16px; height: 16px;"></i>
+        Scheduled Reports
+      </button>
+      <button class="admin-tab" data-tab="workflows" role="tab" aria-selected="false" aria-controls="workflowsTab" id="tab-workflows" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="workflow" style="width: 16px; height: 16px;"></i>
+        Workflows
+      </button>
+      <button class="admin-tab" data-tab="analytics" role="tab" aria-selected="false" aria-controls="analyticsTab" id="tab-analytics" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="activity" style="width: 16px; height: 16px;"></i>
+        Analytics
+      </button>
+      <button class="admin-tab" data-tab="audit" role="tab" aria-selected="false" aria-controls="auditTab" id="tab-audit" tabindex="-1" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+        Audit Log
+      </button>
+    </nav>
+
+    <!-- Error/Success Messages -->
+    <div id="crmMessage" class="message-container" style="display: none;">
+      <div id="crmMessageContent" class="message"></div>
+    </div>
+
+    <!-- Leads Tab Content -->
+    <div id="leadsTab" class="admin-tab-content" role="tabpanel" aria-labelledby="tab-leads" id="main-content">
+      <!-- Quick Filter Pills -->
+      <div id="filterPills" class="filter-pills-container" style="margin-bottom: 20px;"></div>
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+        <h2>Lead Management</h2>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <label for="leadsSearch" class="sr-only">Search leads</label>
+          <input type="text" id="leadsSearch" class="admin-search" placeholder="🔍 Search all fields..." aria-label="Search all lead fields" oninput="if(typeof searchLeads === 'function') { searchLeads(); }">
+          <label for="leadsFilterDisposition" class="sr-only">Filter by disposition</label>
+          <select id="leadsFilterDisposition" class="admin-filter" aria-label="Filter leads by disposition" onchange="if(typeof filterLeads === 'function') { filterLeads(); }" style="min-width: 150px;">
+            <option value="">All Dispositions</option>
+            <option value="no_answer">No Answer</option>
+            <option value="not_interested">Not Interested</option>
+            <option value="interested">Interested</option>
+            <option value="call_back">Call Back</option>
+            <option value="other">Other</option>
+          </select>
+          <label for="leadsFilterStatus" class="sr-only">Filter by status</label>
+          <select id="leadsFilterStatus" class="admin-filter" aria-label="Filter leads by status" onchange="if(typeof filterLeads === 'function') { filterLeads(); }" style="min-width: 150px;">
+            <option value="">All Statuses</option>
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="dispositioned">Dispositioned</option>
+            <option value="converted">Converted</option>
+          </select>
+          <!-- Phase 4B: Score and Risk Filters -->
+          <select id="leadsFilterScore" class="admin-filter" onchange="if(typeof filterLeads === 'function') { filterLeads(); }" style="min-width: 150px; display: none;">
+            <option value="">All Scores</option>
+            <option value="high">High (80+)</option>
+            <option value="medium-high">Medium-High (65-79)</option>
+            <option value="medium">Medium (50-64)</option>
+            <option value="low">Low (&lt;50)</option>
+          </select>
+          <select id="leadsFilterRisk" class="admin-filter" onchange="if(typeof filterLeads === 'function') { filterLeads(); }" style="min-width: 150px; display: none;">
+            <option value="">All Risk Levels</option>
+            <option value="high">High Risk</option>
+            <option value="medium">Medium Risk</option>
+            <option value="low">Low Risk</option>
+            <option value="minimal">Minimal Risk</option>
+          </select>
+          <button class="btn btn-secondary" onclick="if(typeof clearFilters === 'function') { clearFilters(); }" style="white-space: nowrap;" aria-label="Clear all filters">Clear Filters</button>
+          <button id="uploadLeadsBtn" class="btn btn-primary" aria-label="Upload leads from file" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="upload" style="width: 16px; height: 16px;"></i>
+            Upload Leads
+          </button>
+          <button id="refreshLeadsBtn" class="btn btn-secondary" onclick="if(typeof loadLeads === 'function') { loadLeads(); }" aria-label="Refresh leads list" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="refresh-cw" style="width: 16px; height: 16px;"></i>
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Lead Cycling Controls -->
+      <div id="leadCyclingControls" style="display: none; margin-bottom: 20px; padding: 15px; background: var(--bg-secondary); border-radius: var(--border-radius); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button id="prevLeadBtn" class="btn btn-secondary" onclick="if(typeof cycleToPreviousLead === 'function') { cycleToPreviousLead(); }">← Previous</button>
+          <span id="currentLeadInfo" style="color: var(--text-secondary); font-weight: 600;">Lead 0 of 0</span>
+          <button id="nextLeadBtn" class="btn btn-secondary" onclick="if(typeof cycleToNextLead === 'function') { cycleToNextLead(); }">Next →</button>
+        </div>
+        <div>
+          <button id="jumpToLeadBtn" class="btn btn-outline" onclick="showJumpToLeadDialog()">Jump to Lead</button>
+        </div>
+      </div>
+
+      <!-- Insights Panel (Phase 4B) -->
+      <div id="insightsPanelContainer" style="margin-bottom: 20px;"></div>
+
+      <!-- Lead List -->
+      <div id="leadsList" class="sales-list">
+        <div id="leadsLoading" style="text-align: center; padding: 60px;">
+          <div class="spinner" style="margin: 0 auto 20px;"></div>
+          <p style="color: var(--text-secondary);">Loading leads...</p>
+        </div>
+        <div id="leadsTable" style="display: none;">
+          <div style="overflow-x: auto;">
+            <table id="leadsDataTable">
+              <thead>
+                <tr id="leadsTableHeader">
+                  <th onclick="if(typeof sortLeads === 'function') { sortLeads('date'); }" style="cursor: pointer; user-select: none;">
+                    Date <span id="sort-date" class="sort-indicator">⇅</span>
+                  </th>
+                  <th onclick="if(typeof sortLeads === 'function') { sortLeads('name'); }" style="cursor: pointer; user-select: none;">
+                    Name <span id="sort-name" class="sort-indicator">⇅</span>
+                  </th>
+                  <th>Contact</th>
+                  <th onclick="if(typeof sortLeads === 'function') { sortLeads('status'); }" style="cursor: pointer; user-select: none;">
+                    Status <span id="sort-status" class="sort-indicator">⇅</span>
+                  </th>
+                  <th onclick="if(typeof sortLeads === 'function') { sortLeads('disposition'); }" style="cursor: pointer; user-select: none;">
+                    Disposition <span id="sort-disposition" class="sort-indicator">⇅</span>
+                  </th>
+                  <th>Source</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="leadsTableBody">
+                <!-- Leads will be rendered here -->
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination -->
+          <div id="leadsPagination" class="pagination" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <button id="leadsPrevBtn" class="btn btn-secondary" onclick="if(typeof previousPage === 'function') { previousPage(); }">← Previous</button>
+              <span id="leadsPageInfo" style="color: var(--text-secondary);">Page 1 of 1</span>
+              <button id="leadsNextBtn" class="btn btn-secondary" onclick="if(typeof nextPage === 'function') { nextPage(); }">Next →</button>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 14px;">
+              <span id="leadsCountInfo">0 leads</span>
+            </div>
+          </div>
+        </div>
+        <div id="leadsEmpty" style="display: none; text-align: center; padding: 60px; color: var(--text-secondary);">
+          <p>No leads found.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customers Tab Content -->
+    <div id="customersTab" class="admin-tab-content" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+        <h2>Customer Management</h2>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <input type="text" id="customersSearch" class="admin-search" placeholder="🔍 Search all fields..." oninput="if(typeof searchCustomers === 'function') { searchCustomers(); }">
+          <button id="refreshCustomersBtn" class="btn btn-secondary" onclick="if(typeof loadCustomers === 'function') { loadCustomers(); }" style="display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="refresh-cw" style="width: 16px; height: 16px;"></i>
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Customer List -->
+      <div id="customersList" class="sales-list">
+        <div id="customersLoading" style="text-align: center; padding: 60px;">
+          <div class="spinner" style="margin: 0 auto 20px;"></div>
+          <p style="color: var(--text-secondary);">Loading customers...</p>
+        </div>
+        <div id="customersTable" style="display: none;">
+          <div style="overflow-x: auto;">
+            <table id="customersDataTable">
+              <thead>
+                <tr id="customersTableHeader">
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Contact</th>
+                  <th>Plan</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="customersTableBody">
+                <!-- Customers will be rendered here -->
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination -->
+          <div id="customersPagination" class="pagination" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <button id="customersPrevBtn" class="btn btn-secondary">← Previous</button>
+              <span id="customersPageInfo" style="color: var(--text-secondary);">Page 1 of 1</span>
+              <button id="customersNextBtn" class="btn btn-secondary">Next →</button>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 14px;">
+              <span id="customersCountInfo">0 customers</span>
+            </div>
+          </div>
+        </div>
+        <div id="customersEmpty" style="display: none; text-align: center; padding: 60px; color: var(--text-secondary);">
+          <p>No customers found.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reports Tab Content -->
+    <div id="reportsTab" class="admin-tab-content" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+        <h2>Reports & KPIs</h2>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <div style="display: flex; gap: 5px; align-items: center;">
+            <label style="color: var(--text-secondary); font-size: 14px; white-space: nowrap;">From:</label>
+            <input type="date" id="reportDateFrom" class="admin-filter" style="min-width: 150px;">
+          </div>
+          <div style="display: flex; gap: 5px; align-items: center;">
+            <label style="color: var(--text-secondary); font-size: 14px; white-space: nowrap;">To:</label>
+            <input type="date" id="reportDateTo" class="admin-filter" style="min-width: 150px;">
+          </div>
+          <button id="refreshReportsBtn" class="btn btn-secondary" onclick="if(typeof renderKPIDashboard === 'function') { renderKPIDashboard(); }">🔄 Refresh</button>
+          <button id="exportReportsBtn" class="btn btn-primary" onclick="if(typeof exportReports === 'function') { exportReports(); }">📥 Export</button>
+        </div>
+      </div>
+
+      <!-- KPI Dashboard -->
+      <div id="reportsDashboard">
+        <div id="reportsLoading" style="text-align: center; padding: 60px;">
+          <div class="spinner" style="margin: 0 auto 20px;"></div>
+          <p style="color: var(--text-secondary);">Loading reports...</p>
+        </div>
+        <div id="kpiCards" style="display: none; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+          <!-- KPI cards will be rendered here -->
+        </div>
+        <div id="kpiCharts" style="display: none;">
+          <!-- Charts will be rendered here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Tab Content -->
+    <div id="dashboardTab" class="admin-tab-content" style="display: none;">
+      <div id="dashboardContainer">
+        <!-- Dashboard builder will be initialized here -->
+      </div>
+    </div>
+
+    <!-- Kanban Tab Content -->
+    <div id="kanbanTab" class="admin-tab-content" style="display: none;">
+      <div id="kanbanContainer">
+        <!-- Kanban view will be rendered here -->
+      </div>
+    </div>
+
+    <!-- Timeline Tab Content -->
+    <div id="timelineTab" class="admin-tab-content" style="display: none;">
+      <div id="timelineContainer">
+        <!-- Timeline view will be rendered here -->
+      </div>
+    </div>
+
+    <!-- Cards Tab Content -->
+    <div id="cardsTab" class="admin-tab-content" style="display: none;">
+      <div id="cardContainer">
+        <!-- Card view will be rendered here -->
+      </div>
+    </div>
+
+    <!-- Report Builder Tab Content -->
+    <div id="reportBuilderTab" class="admin-tab-content" style="display: none;">
+      <div id="reportBuilderContainer">
+        <!-- Report builder will be rendered here -->
+      </div>
+    </div>
+
+    <!-- Audit Tab Content -->
+    <div id="auditTab" class="admin-tab-content" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+        <h2>Audit Log</h2>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <button id="refreshAuditBtn" class="btn btn-secondary" onclick="if(typeof switchTab === 'function') { switchTab('audit'); }">🔄 Refresh</button>
+          <button id="exportAuditBtn" class="btn btn-primary" onclick="if(typeof auditViewer !== 'undefined' && typeof auditViewer.export === 'function') { auditViewer.export(); }">📥 Export</button>
+        </div>
+      </div>
+      <div id="auditViewerContainer">
+        <!-- Audit logs will be rendered here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Lead Detail Modal -->
+  <div id="leadDetailModal" class="modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="leadDetailModalTitle" aria-describedby="leadDetailContent">
+    <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;" role="document">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 id="leadDetailModalTitle" style="margin: 0;">Lead Details</h2>
+        <button id="closeLeadModalBtn" class="btn btn-secondary" onclick="closeLeadDetailModal()" aria-label="Close lead details modal">✕ Close</button>
+      </div>
+      <div id="leadDetailContent">
+        <!-- Lead details will be rendered here -->
+      </div>
+      <div id="diffViewerContainer" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+        <!-- Diff viewer will be rendered here -->
+      </div>
+      <div id="leadDetailActions" style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+        <button id="editLeadBtn" class="btn btn-primary" onclick="if(typeof editLead === 'function') { editLead(); }">✏️ Edit</button>
+        <button id="saveLeadBtn" class="btn btn-primary" style="display: none;" onclick="if(typeof saveLead === 'function') { saveLead(); }">💾 Save</button>
+        <button id="cancelEditBtn" class="btn btn-secondary" style="display: none;" onclick="if(typeof cancelEdit === 'function') { cancelEdit(); }">Cancel</button>
+        <div id="dispositionControls" style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <select id="dispositionSelect" class="admin-filter" style="min-width: 150px;">
+            <option value="">Set Disposition...</option>
+            <option value="no_answer">No Answer</option>
+            <option value="not_interested">Not Interested</option>
+            <option value="interested">Interested</option>
+            <option value="call_back">Call Back</option>
+            <option value="other">Other</option>
+          </select>
+          <button id="setDispositionBtn" class="btn btn-primary" onclick="if(typeof setDisposition === 'function') { setDisposition(); }">Set Disposition</button>
+        </div>
+        <button id="pasteToFormBtn" class="btn btn-success" style="display: none; align-items: center; gap: 6px;" onclick="if(typeof pasteToForm === 'function') { pasteToForm(); }">
+          <i data-lucide="clipboard" style="width: 16px; height: 16px;"></i>
+          Paste to Form
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Leads Modal -->
+  <div id="uploadLeadsModal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 600px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin: 0;">Upload Leads</h2>
+        <button id="closeUploadModalBtn" class="btn btn-secondary" onclick="closeUploadModal()">✕ Close</button>
+      </div>
+      <div id="uploadLeadsContent">
+        <div class="form-section">
+          <h3>Upload File (CSV/JSON)</h3>
+          <input type="file" id="uploadFileInput" accept=".csv,.json" style="margin-bottom: 15px;">
+          <button id="uploadFileBtn" class="btn btn-primary" onclick="if(typeof uploadLeadsFromFile === 'function') { uploadLeadsFromFile(); }">Upload File</button>
+        </div>
+        <div class="form-section" style="margin-top: 30px;">
+          <h3>Or Enter Manually</h3>
+          <button id="manualEntryBtn" class="btn btn-primary" onclick="if(typeof showManualEntryForm === 'function') { showManualEntryForm(); }">Manual Entry</button>
+        </div>
+      </div>
+    </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="auth-db.js"></script>
+  <script src="crm.js"></script>
+  <script src="crm-leads.js"></script>
+  <script src="crm-reports.js"></script>
+  
+  <script>
+    // Make functions globally available for onclick handlers
+    // Use safety checks to ensure functions are defined before exposing
+    if (typeof viewLeadDetails !== 'undefined') {
+      window.viewLeadDetails = viewLeadDetails;
+    } else {
+      console.warn('viewLeadDetails not found - crm.js may not be loaded');
+    }
+    if (typeof closeLeadDetailModal !== 'undefined') {
+      window.closeLeadDetailModal = closeLeadDetailModal;
+    } else {
+      console.warn('closeLeadDetailModal not found - crm.js may not be loaded');
+    }
+    if (typeof closeUploadModal !== 'undefined') {
+      window.closeUploadModal = closeUploadModal;
+    } else {
+      console.warn('closeUploadModal not found - crm.js may not be loaded');
+    }
+    if (typeof searchLeads !== 'undefined') {
+      window.searchLeads = searchLeads;
+    } else {
+      console.warn('searchLeads not found - crm.js may not be loaded');
+    }
+    window.filterLeads = filterLeads;
+    window.searchCustomers = searchCustomers;
+    window.editLead = editLead;
+    window.saveLead = saveLead;
+    window.cancelEdit = cancelEdit;
+    // setDisposition is now exposed in crm-leads.js
+    window.pasteToForm = pasteToForm;
+    window.cycleToNextLead = cycleToNextLead;
+    window.cycleToPreviousLead = cycleToPreviousLead;
+    window.previousPage = previousPage;
+    window.nextPage = nextPage;
+    window.uploadLeadsFromFile = uploadLeadsFromFile;
+    window.showManualEntryForm = showManualEntryForm;
+    // Expose renderKPIDashboard after scripts load
+    if (typeof renderKPIDashboard !== 'undefined') {
+      window.renderKPIDashboard = renderKPIDashboard;
+    } else {
+      console.warn('renderKPIDashboard not found - crm-reports.js may not be loaded');
+    }
+    window.showJumpToLeadDialog = showJumpToLeadDialog;
+    window.handleManualLeadSubmit = handleManualLeadSubmit;
+    window.addApplianceToLead = addApplianceToLead;
+    window.removeApplianceFromLead = removeApplianceFromLead;
+    window.editAppliance = editAppliance;
+    window.exportReports = exportReports;
+    // clearFilters is already assigned in crm.js line 1668, no need to reassign here
+    if (typeof clearFilters === 'function') {
+      window.clearFilters = clearFilters;
+    }
+    
+    // Initialize Lucide Icons (Professional Icons - Replaces Emoji)
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

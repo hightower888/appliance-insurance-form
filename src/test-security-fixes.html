@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Fixes Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .pass { color: green; }
+    .fail { color: red; }
+    .warning { color: orange; }
+    pre {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 3px;
+      overflow-x: auto;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔒 Security Fixes Test</h1>
+  
+  <div class="test-section">
+    <h2>1. Sanitization Function Test</h2>
+    <p>Test that sanitizeHTML function works correctly:</p>
+    <button onclick="testSanitization()">Run Sanitization Test</button>
+    <div id="sanitizeResult"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>2. XSS Prevention Test</h2>
+    <p>Test that XSS attempts are blocked:</p>
+    <button onclick="testXSS()">Run XSS Test</button>
+    <div id="xssResult"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>3. Function Availability Test</h2>
+    <p>Check that sanitizeHTML is available:</p>
+    <button onclick="testAvailability()">Check Availability</button>
+    <div id="availabilityResult"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>4. Console Check</h2>
+    <p>Open browser DevTools → Console to check for errors</p>
+    <button onclick="checkConsole()">Check Console</button>
+    <div id="consoleResult"></div>
+  </div>
+
+  <script src="utils/sanitize.js"></script>
+  <script>
+    function testSanitization() {
+      const result = document.getElementById('sanitizeResult');
+      try {
+        // Test basic sanitization
+        const test1 = sanitizeHTML('<script>alert("XSS")</script>');
+        const expected1 = '&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;';
+        
+        // Test with user data
+        const test2 = sanitizeHTML('John<script>alert("XSS")</script>Doe');
+        
+        // Test with quotes
+        const test3 = sanitizeHTML('User "Name"');
+        
+        let html = '<h3 class="pass">✅ Sanitization Test Results:</h3>';
+        html += '<pre>Test 1 (script tag):\n';
+        html += `Input:  <script>alert("XSS")</script>\n`;
+        html += `Output: ${test1}\n`;
+        html += `Expected: ${expected1}\n`;
+        html += `Status: ${test1 === expected1 ? '✅ PASS' : '❌ FAIL'}</pre>`;
+        
+        html += '<pre>Test 2 (user data with script):\n';
+        html += `Input:  John<script>alert("XSS")</script>Doe\n`;
+        html += `Output: ${test2}\n`;
+        html += `Status: ${test2.includes('&lt;script&gt;') ? '✅ PASS' : '❌ FAIL'}</pre>`;
+        
+        html += '<pre>Test 3 (quotes):\n';
+        html += `Input:  User "Name"\n`;
+        html += `Output: ${test3}\n`;
+        html += `Status: ${test3.includes('&quot;') ? '✅ PASS' : '❌ FAIL'}</pre>`;
+        
+        result.innerHTML = html;
+      } catch (error) {
+        result.innerHTML = `<p class="fail">❌ Error: ${error.message}</p>`;
+      }
+    }
+
+    function testXSS() {
+      const result = document.getElementById('xssResult');
+      try {
+        // Create a test element
+        const testDiv = document.createElement('div');
+        const maliciousInput = '<script>alert("XSS Attack")</script><img src=x onerror=alert("XSS")>';
+        const sanitized = sanitizeHTML(maliciousInput);
+        
+        // Set innerHTML with sanitized content
+        testDiv.innerHTML = sanitized;
+        
+        // Check if script was executed (it shouldn't be)
+        const scripts = testDiv.querySelectorAll('script');
+        const hasScript = scripts.length > 0;
+        
+        let html = '<h3 class="pass">✅ XSS Prevention Test Results:</h3>';
+        html += `<p>Input: <code>${maliciousInput}</code></p>`;
+        html += `<p>Sanitized: <code>${sanitized}</code></p>`;
+        html += `<p>Scripts found in DOM: ${scripts.length}</p>`;
+        html += `<p class="${hasScript ? 'fail' : 'pass'}">${hasScript ? '❌ FAIL: Script found in DOM' : '✅ PASS: No scripts executed'}</p>`;
+        
+        result.innerHTML = html;
+      } catch (error) {
+        result.innerHTML = `<p class="fail">❌ Error: ${error.message}</p>`;
+      }
+    }
+
+    function testAvailability() {
+      const result = document.getElementById('availabilityResult');
+      let html = '<h3>Function Availability:</h3>';
+      
+      if (typeof sanitizeHTML === 'function') {
+        html += '<p class="pass">✅ sanitizeHTML function is available</p>';
+        html += '<p>Function type: ' + typeof sanitizeHTML + '</p>';
+      } else {
+        html += '<p class="fail">❌ sanitizeHTML function is NOT available</p>';
+        html += '<p>Make sure utils/sanitize.js is loaded</p>';
+      }
+      
+      if (typeof sanitizeObject === 'function') {
+        html += '<p class="pass">✅ sanitizeObject function is available</p>';
+      } else {
+        html += '<p class="warning">⚠️ sanitizeObject function is not available (optional)</p>';
+      }
+      
+      result.innerHTML = html;
+    }
+
+    function checkConsole() {
+      const result = document.getElementById('consoleResult');
+      let html = '<h3>Console Check:</h3>';
+      html += '<p>Open browser DevTools (F12) → Console tab</p>';
+      html += '<p>Check for:</p>';
+      html += '<ul>';
+      html += '<li>✅ No JavaScript errors</li>';
+      html += '<li>✅ No CSP violations (unsafe-inline warnings are expected)</li>';
+      html += '<li>✅ No network errors</li>';
+      html += '</ul>';
+      html += '<p>If you see errors, note them here:</p>';
+      result.innerHTML = html;
+    }
+
+    // Auto-run availability test on load
+    window.addEventListener('DOMContentLoaded', function() {
+      testAvailability();
+    });
+  </script>
+</body>
+</html>

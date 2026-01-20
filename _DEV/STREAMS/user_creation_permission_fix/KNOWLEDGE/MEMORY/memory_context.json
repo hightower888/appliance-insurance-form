@@ -1,0 +1,96 @@
+{
+  "stream_name": "user_creation_permission_fix",
+  "created": "2026-01-14T00:00:00Z",
+  "last_updated": "2026-01-14T00:00:00Z",
+  "project_context": {
+    "goal": "Fix the 'permission denied' error when an admin clicks 'Add New User' in the admin panel. Ensure user creation works properly at all levels (admin, agent, processor) and that user roles/permissions are functioning correctly throughout the system.",
+    "project_type": "BUG_FIX",
+    "complexity": 46,
+    "category": "Authentication & Authorization"
+  },
+  "requirements_overview": {
+    "total": 14,
+    "critical": 3,
+    "high": 5,
+    "medium": 6,
+    "key_requirements": [
+      "REQ-001: Fix permission denied error",
+      "REQ-005: Fix database security rules",
+      "REQ-003: Support dual authentication systems"
+    ]
+  },
+  "patterns_to_apply": [
+    {
+      "name": "Dual Authentication Support Pattern",
+      "priority": "critical",
+      "score": 9,
+      "description": "Update database rules to support both Firebase Auth and auth-db.js",
+      "implementation": "Check role from database (not just auth.uid), support both auth systems"
+    },
+    {
+      "name": "Cloud Function Fallback Pattern",
+      "priority": "high",
+      "score": 8,
+      "description": "Ensure Cloud Function works, fix fallback path",
+      "implementation": "Verify deployment, fix database rules for fallback"
+    },
+    {
+      "name": "RBAC Pattern",
+      "priority": "critical",
+      "score": 9,
+      "description": "Verify role-based access control works correctly",
+      "implementation": "Check admin role in database before allowing write"
+    }
+  ],
+  "structure_summary": {
+    "organization": "Feature-based with services",
+    "key_files": [
+      "src/admin.js (handleCreateUser - line 249)",
+      "database.rules.json (users write rule - line 8)",
+      "src/auth-db.js (loginUser - line 119)",
+      "functions/createUser.js (Cloud Function)"
+    ],
+    "entry_points": [
+      "Admin Panel (admin.html)",
+      "Login Page (login.html)",
+      "Cloud Function (createUser.js)"
+    ]
+  },
+  "key_insights": [
+    "Root cause: Database rules require Firebase Auth (auth != null), but system uses auth-db.js which doesn't set Firebase Auth",
+    "Solution: Update database rules to check role from database, not just auth.uid",
+    "Cloud Function uses Firebase Admin SDK (bypasses rules), but fallback path needs fixed rules",
+    "Both authentication systems must be supported for backward compatibility",
+    "Security must be maintained - cannot weaken rules, must add alternative check"
+  ],
+  "key_decisions": [
+    {
+      "decision": "Fix database rules to support dual authentication",
+      "rationale": "Directly addresses root cause while maintaining security",
+      "impact": "Enables user creation with both auth systems"
+    },
+    {
+      "decision": "Verify Cloud Function deployment",
+      "rationale": "Preferred path for user creation, keeps admin logged in",
+      "impact": "Ensures reliable user creation"
+    },
+    {
+      "decision": "Test all user roles",
+      "rationale": "Ensure admin, agent, processor can all be created",
+      "impact": "Verifies complete functionality"
+    }
+  ],
+  "risks_and_concerns": [
+    "Cloud Function deployment status unknown",
+    "Must maintain security while fixing rules",
+    "Dual auth systems may cause confusion",
+    "Need to test with both authentication systems"
+  ],
+  "next_steps": [
+    "Update database.rules.json to support database-based auth",
+    "Verify Cloud Function deployment status",
+    "Test user creation with both auth systems",
+    "Verify all roles work correctly",
+    "Test security logging"
+  ]
+}

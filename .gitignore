@@ -1,0 +1,81 @@
+# Dependencies
+node_modules/
+functions/node_modules/
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.env
+.env.production
+.env.development
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+service-account-key.json
+*-service-account.json
+
+# Vercel
+.vercel
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.cursor/
+
+# Testing
+coverage/
+.nyc_output/
+*.test.js.snap
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Data files (may contain sensitive info)
+users.json
+*.csv
+*.xlsx
+
+# Development streams (optional - can be committed if needed)
+# _DEV/
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Misc
+*.pem
+*.key
+*.cert

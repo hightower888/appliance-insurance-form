@@ -1,0 +1,73 @@
+{
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": "src",
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/login.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/form",
+      "destination": "/appliance_form.html"
+    },
+    {
+      "source": "/processor",
+      "destination": "/processor.html"
+    },
+    {
+      "source": "/crm",
+      "destination": "/crm.html"
+    },
+    {
+      "source": "/CRM",
+      "destination": "/crm.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/CRM",
+      "destination": "/crm",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains; preload"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.google.com https://www.gstatic.com https://vercel.live https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://*.firebaseio.com https://*.googleapis.com https://*.google.com https://www.gstatic.com https://vercel.live https://cdn.jsdelivr.net; script-src-elem 'self' 'unsafe-inline' https://*.firebaseio.com https://*.googleapis.com https://*.google.com https://www.gstatic.com https://vercel.live https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://*.googleapis.com https://*.google.com https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data: https://*.googleapis.com https://*.google.com https://cdn.jsdelivr.net; connect-src 'self' wss://*.firebaseio.com https://*.firebaseio.com https://*.googleapis.com https://*.google.com https://www.gstatic.com https://vercel.live https://us-central1-appliance-bot.cloudfunctions.net https://cdn.jsdelivr.net; frame-src 'self' https://*.firebaseapp.com https://*.firebaseio.com https://*.google.com https://*.googleapis.com; frame-ancestors 'self';"
+        }
+      ]
+    }
+  ]
+}

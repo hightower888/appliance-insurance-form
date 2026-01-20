@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Test Accounts - Appliance Cover</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f9fafb;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #111827;
+      margin-top: 0;
+    }
+    .info {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 30px;
+      color: #1e40af;
+    }
+    .accounts-list {
+      margin: 20px 0;
+    }
+    .account-item {
+      background: #f9fafb;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border-left: 4px solid #3b82f6;
+    }
+    .account-item.admin {
+      border-left-color: #dc2626;
+    }
+    .account-item h3 {
+      margin: 0 0 5px 0;
+      color: #111827;
+    }
+    .account-item p {
+      margin: 5px 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
+    button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+      margin: 10px 5px 10px 0;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+    button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    .btn-danger {
+      background: #dc2626;
+    }
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+    .status {
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+    }
+    .status.success {
+      background: #d1fae5;
+      border: 1px solid #10b981;
+      color: #065f46;
+      display: block;
+    }
+    .status.error {
+      background: #fee2e2;
+      border: 1px solid #ef4444;
+      color: #991b1b;
+      display: block;
+    }
+    .status.info {
+      background: #dbeafe;
+      border: 1px solid #3b82f6;
+      color: #1e40af;
+      display: block;
+    }
+    .progress {
+      margin: 20px 0;
+    }
+    .progress-item {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 6px;
+      background: #f3f4f6;
+    }
+    .progress-item.success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .progress-item.error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .progress-item.processing {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+  </style>
+  
+  <!-- Firebase SDKs - No Auth SDK needed, using database auth -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Setup Test Accounts</h1>
+    
+    <div class="info">
+      <strong>⚠️ Important:</strong> This page will create test accounts in Firebase. 
+      You must be logged in as an admin user first, or create the first admin manually.
+      <br><br>
+      <strong>Note:</strong> Creating users will temporarily sign you in as each new user. 
+      After setup completes, you'll need to log back in.
+    </div>
+
+    <div class="accounts-list">
+      <h2>Accounts to Create:</h2>
+      
+      <div class="account-item admin">
+        <h3>👑 Admin Account</h3>
+        <p><strong>Email:</strong> admin@test.com</p>
+        <p><strong>Password:</strong> TestAdmin123!</p>
+        <p><strong>Role:</strong> Admin</p>
+      </div>
+
+      <div class="account-item">
+        <h3>👤 Agent 1</h3>
+        <p><strong>Email:</strong> agent1@test.com</p>
+        <p><strong>Password:</strong> TestAgent123!</p>
+        <p><strong>Role:</strong> Agent</p>
+      </div>
+
+      <div class="account-item">
+        <h3>👤 Agent 2</h3>
+        <p><strong>Email:</strong> agent2@test.com</p>
+        <p><strong>Password:</strong> TestAgent123!</p>
+        <p><strong>Role:</strong> Agent</p>
+      </div>
+
+      <div class="account-item">
+        <h3>👤 Agent 3</h3>
+        <p><strong>Email:</strong> agent3@test.com</p>
+        <p><strong>Password:</strong> TestAgent123!</p>
+        <p><strong>Role:</strong> Agent</p>
+      </div>
+
+      <div class="account-item">
+        <h3>👤 Agent 4</h3>
+        <p><strong>Email:</strong> agent4@test.com</p>
+        <p><strong>Password:</strong> TestAgent123!</p>
+        <p><strong>Role:</strong> Agent</p>
+      </div>
+    </div>
+
+    <div id="status" class="status"></div>
+    
+    <div id="progress" class="progress" style="display: none;"></div>
+
+    <div>
+      <button id="createAllBtn" onclick="createAllAccounts()">Create All Accounts</button>
+      <button id="checkExistingBtn" onclick="checkExistingAccounts()" class="btn-secondary">Check Existing Accounts</button>
+      <button id="clearAllBtn" onclick="clearAllAccounts()" class="btn-danger">Clear All Test Accounts</button>
+    </div>
+  </div>
+
+  <script src="auth-db.js"></script>
+  <script>
+    // Test accounts configuration
+    const testAccounts = [
+      {
+        email: 'admin@test.com',
+        password: 'TestAdmin123!',
+        role: 'admin',
+        name: 'Admin Account'
+      },
+      {
+        email: 'agent1@test.com',
+        password: 'TestAgent123!',
+        role: 'agent',
+        name: 'Agent 1'
+      },
+      {
+        email: 'agent2@test.com',
+        password: 'TestAgent123!',
+        role: 'agent',
+        name: 'Agent 2'
+      },
+      {
+        email: 'agent3@test.com',
+        password: 'TestAgent123!',
+        role: 'agent',
+        name: 'Agent 3'
+      },
+      {
+        email: 'agent4@test.com',
+        password: 'TestAgent123!',
+        role: 'agent',
+        name: 'Agent 4'
+      }
+    ];
+
+    // Check if user is logged in
+    function checkAuth() {
+      if (!auth || !auth.currentUser) {
+        showStatus('Please log in first. Redirecting to login page...', 'error');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
+        return false;
+      }
+      return true;
+    }
+
+    // Show status message
+    function showStatus(message, type = 'info') {
+      const statusDiv = document.getElementById('status');
+      statusDiv.className = `status ${type}`;
+      statusDiv.textContent = message;
+    }
+
+    // Update progress
+    function updateProgress(accountName, status, message = '') {
+      const progressDiv = document.getElementById('progress');
+      progressDiv.style.display = 'block';
+      
+      const item = document.createElement('div');
+      item.className = `progress-item ${status}`;
+      item.textContent = `${accountName}: ${status === 'success' ? '✅ Created' : status === 'error' ? '❌ Error' : '⏳ Processing'} ${message}`;
+      progressDiv.appendChild(item);
+    }
+
+    // Create a single account
+    async function createAccount(account, adminEmail = null) {
+      try {
+        // Create user with Firebase Auth
+        const userCredential = await auth.createUserWithEmailAndPassword(account.email, account.password);
+        const userId = userCredential.user.uid;
+
+        // Store user metadata in database
+        await database.ref(`users/${userId}`).set({
+          email: account.email,
+          role: account.role,
+          status: 'active',
+          createdAt: new Date().toISOString(),
+          createdBy: adminEmail || 'setup-script',
+          isTestAccount: true
+        });
+
+        // Sign out the newly created user
+        await auth.signOut();
+
+        return { success: true, userId, email: account.email };
+      } catch (error) {
+        // If user already exists, try to update their role
+        if (error.code === 'auth/email-already-in-use') {
+          try {
+            // Try to sign in to get the user ID
+            const signInCredential = await auth.signInWithEmailAndPassword(account.email, account.password);
+            const userId = signInCredential.user.uid;
+            
+            // Update role in database
+            await database.ref(`users/${userId}`).update({
+              role: account.role,
+              status: 'active',
+              isTestAccount: true,
+              updatedAt: new Date().toISOString()
+            });
+
+            await auth.signOut();
+            return { success: true, userId, email: account.email, updated: true };
+          } catch (updateError) {
+            await auth.signOut();
+            return { success: false, error: updateError.message };
+          }
+        }
+        
+        // Sign out in case of any error
+        if (auth.currentUser) {
+          await auth.signOut();
+        }
+        
+        return { success: false, error: error.message };
+      }
+    }
+
+    // Create all accounts
+    async function createAllAccounts() {
+      if (!checkAuth()) return;
+
+      const currentAdmin = auth.currentUser;
+      const adminEmail = currentAdmin.email;
+      
+      // Disable button
+      document.getElementById('createAllBtn').disabled = true;
+      document.getElementById('progress').innerHTML = '';
+      document.getElementById('progress').style.display = 'block';
+
+      showStatus('Creating accounts... This may take a moment.', 'info');
+
+      const results = [];
+      
+      for (const account of testAccounts) {
+        updateProgress(account.name, 'processing');
+        
+        // Re-authenticate as admin before each creation (except first)
+        if (results.length > 0 && !auth.currentUser) {
+          try {
+            // Try to sign back in as admin
+            // Note: We'd need the admin password, so we'll skip this
+            // The user will need to log back in if needed
+          } catch (e) {
+            // Continue anyway
+          }
+        }
+
+        const result = await createAccount(account, adminEmail);
+        results.push({ account: account.name, ...result });
+
+        if (result.success) {
+          updateProgress(account.name, 'success', result.updated ? '(updated)' : '');
+        } else {
+          updateProgress(account.name, 'error', `- ${result.error}`);
+        }
+
+        // Small delay between creations
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+
+      // Summary
+      const successCount = results.filter(r => r.success).length;
+      const errorCount = results.filter(r => !r.success).length;
+
+      if (errorCount === 0) {
+        showStatus(`✅ Successfully created/updated ${successCount} accounts! You'll need to log back in.`, 'success');
+      } else {
+        showStatus(`⚠️ Created ${successCount} accounts, ${errorCount} errors. Check progress above.`, 'error');
+      }
+
+      // Re-enable button
+      document.getElementById('createAllBtn').disabled = false;
+
+      // Redirect to login after 3 seconds
+      setTimeout(() => {
+        window.location.href = '/?message=Test accounts created. Please log in.';
+      }, 3000);
+    }
+
+    // Check existing accounts
+    async function checkExistingAccounts() {
+      if (!checkAuth()) return;
+
+      showStatus('Checking existing accounts...', 'info');
+      document.getElementById('progress').innerHTML = '';
+      document.getElementById('progress').style.display = 'block';
+
+      const results = [];
+
+      for (const account of testAccounts) {
+        try {
+          // Try to sign in to check if account exists
+          const credential = await auth.signInWithEmailAndPassword(account.email, account.password);
+          const userId = credential.user.uid;
+
+          // Check database for role
+          const userSnapshot = await database.ref(`users/${userId}`).once('value');
+          const userData = userSnapshot.val();
+
+          await auth.signOut();
+
+          if (userData) {
+            updateProgress(account.name, 'success', `- Role: ${userData.role || 'not set'}`);
+            results.push({ account: account.name, exists: true, role: userData.role });
+          } else {
+            updateProgress(account.name, 'error', '- Exists but no database record');
+            results.push({ account: account.name, exists: true, role: null });
+          }
+        } catch (error) {
+          if (error.code === 'auth/user-not-found') {
+            updateProgress(account.name, 'error', '- Does not exist');
+            results.push({ account: account.name, exists: false });
+          } else if (error.code === 'auth/wrong-password') {
+            updateProgress(account.name, 'error', '- Exists but wrong password');
+            results.push({ account: account.name, exists: true, wrongPassword: true });
+          } else {
+            updateProgress(account.name, 'error', `- ${error.message}`);
+            results.push({ account: account.name, exists: false, error: error.message });
+          }
+        }
+      }
+
+      const existingCount = results.filter(r => r.exists).length;
+      showStatus(`Found ${existingCount} existing accounts out of ${testAccounts.length}`, existingCount === testAccounts.length ? 'success' : 'info');
+    }
+
+    // Clear all test accounts (delete from database, not auth)
+    async function clearAllAccounts() {
+      if (!confirm('This will mark all test accounts as inactive in the database. Continue?')) {
+        return;
+      }
+
+      if (!checkAuth()) return;
+
+      showStatus('Clearing test accounts...', 'info');
+      document.getElementById('progress').innerHTML = '';
+      document.getElementById('progress').style.display = 'block';
+
+      for (const account of testAccounts) {
+        try {
+          // Try to find user by email
+          // Note: Firebase Auth doesn't allow searching by email from client
+          // So we'll mark all test accounts in database as inactive
+          const usersRef = database.ref('users');
+          const snapshot = await usersRef.once('value');
+          
+          if (snapshot.exists()) {
+            snapshot.forEach((childSnapshot) => {
+              const userData = childSnapshot.val();
+              if (userData && userData.isTestAccount && testAccounts.some(ta => ta.email === userData.email)) {
+                database.ref(`users/${childSnapshot.key}`).update({
+                  status: 'inactive',
+                  deletedAt: new Date().toISOString()
+                });
+                updateProgress(userData.email, 'success', '- Marked inactive');
+              }
+            });
+          }
+        } catch (error) {
+          updateProgress(account.name, 'error', `- ${error.message}`);
+        }
+      }
+
+      showStatus('Test accounts cleared (marked as inactive)', 'success');
+    }
+
+    // Check auth on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!auth || !auth.currentUser) {
+        showStatus('Please log in first. Redirecting...', 'error');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
+      } else {
+        showStatus('Ready to create test accounts. Click "Create All Accounts" to begin.', 'info');
+      }
+    });
+  </script>
+</body>
+</html>

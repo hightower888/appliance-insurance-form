@@ -1,0 +1,108 @@
+{
+  "phase": 2,
+  "phase_name": "UI/UX Core Enhancements",
+  "total_tasks": 67,
+  "estimated_effort_days": 58,
+  "note": "Detailed task breakdown. Full implementation details reference: ../crm_ui_ux_enhancement/OUTPUTS/PLANNING/IMPLEMENTATION_PLAN.md",
+  "tasks": [
+    {
+      "id": "TASK-2.2.1",
+      "name": "Create Inline Editor component",
+      "feature": "FEAT-2.2",
+      "phase": 2,
+      "component": "inline-editor.js",
+      "requirement": "REQ-ED-001",
+      "description": "Create inline editor component that allows clicking on table cells to edit directly.",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/components/inline-editor.js",
+        "details": "Create inline-editor.js component. Implement click-to-edit functionality. Add save on blur/Enter key, cancel with Escape. Add visual edit indicators (highlight, border). Support text, select, date input types. Integrate with validation service."
+      },
+      "estimated_hours": 12,
+      "complexity": 6,
+      "dependencies": ["TASK-2.1.1"],
+      "acceptance_criteria": [
+        "Click cell to edit works",
+        "Save on blur/Enter works",
+        "Cancel with Escape works",
+        "Visual indicators show edit state"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "TASK-2.5.1",
+      "name": "Create Audit Viewer component",
+      "feature": "FEAT-2.5",
+      "phase": 2,
+      "component": "audit-viewer.js",
+      "requirement": "REQ-AUDIT-004",
+      "description": "Create audit viewer component to display audit logs and change history.",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/components/audit-viewer.js",
+        "details": "Create audit-viewer.js component. Display audit logs from enhanced logger. Add filtering by user, date range, field. Add search functionality. Add export to CSV. Integrate with enhanced-logger.js service. This depends on TASK-1.2.1 (Enhanced Logger)."
+      },
+      "estimated_hours": 10,
+      "complexity": 6,
+      "dependencies": ["TASK-1.2.1", "TASK-1.2.2"],
+      "acceptance_criteria": [
+        "Audit logs display correctly",
+        "Filtering works",
+        "Search works",
+        "Export to CSV works"
+      ],
+      "priority": "P0",
+      "risk": "RISK-1"
+    },
+    {
+      "id": "TASK-2.8.1",
+      "name": "Create Dashboard component",
+      "feature": "FEAT-2.8",
+      "phase": 2,
+      "component": "dashboard.js",
+      "requirement": "REQ-UI-001",
+      "description": "Create dashboard component with KPI cards and real-time updates.",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/components/dashboard.js",
+        "details": "Create dashboard.js component. Display top 5-7 KPIs in card layout. Add real-time updates using Firebase Realtime Database. Make cards clickable to navigate to detailed views. Use responsive grid layout. Integrate with KPI Calculator and Chart Service."
+      },
+      "estimated_hours": 10,
+      "complexity": 6,
+      "dependencies": ["TASK-2.7.1", "TASK-2.9.1", "TASK-1.1.1"],
+      "acceptance_criteria": [
+        "Dashboard displays KPIs",
+        "Real-time updates work",
+        "Cards are clickable",
+        "Responsive layout works"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "TASK-2.12.1",
+      "name": "Create Kanban View component",
+      "feature": "FEAT-2.12",
+      "phase": 2,
+      "component": "kanban-view.js",
+      "requirement": "REQ-UI-004",
+      "description": "Create kanban board view with columns for status/disposition and drag-and-drop functionality.",
+      "instructions": {
+        "action_type": "CREATE_FILE",
+        "file_path": "src/components/kanban-view.js",
+        "details": "Create kanban-view.js component. Add columns for each status/disposition. Implement drag-and-drop between columns using HTML5 Drag and Drop API. Add card view with key information. Add filtering. Add real-time updates. Integrate with state manager and view controller."
+      },
+      "estimated_hours": 16,
+      "complexity": 8,
+      "dependencies": ["TASK-1.1.1", "TASK-1.3.1"],
+      "acceptance_criteria": [
+        "Kanban columns display correctly",
+        "Drag-and-drop works",
+        "Card view shows key info",
+        "Filtering works",
+        "Real-time updates work"
+      ],
+      "priority": "P0"
+    }
+  ],
+  "note_remaining_tasks": "Remaining 63 tasks for Phase 2 follow same pattern. See ../crm_ui_ux_enhancement/OUTPUTS/PLANNING/IMPLEMENTATION_PLAN.md for full breakdown. Key tasks include: Validation Service (2 tasks), Inline Editor (remaining 6 tasks), Bulk Selection (2 tasks), Bulk Operations (5 tasks), Audit Viewer (remaining 5 tasks), History Viewer (5 tasks), KPI Calculator (12 tasks), Dashboard (remaining 5 tasks), Chart Service (9 tasks), Export Service (13 tasks), Table View (8 tasks), Kanban View (remaining 8 tasks), Search Service (9 tasks), Testing (10 tasks)."
+}

@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "appliance-bot"
+  },
+  "targets": {
+    "appliance-bot": {
+      "database": {
+        "appliance-bot-default-rtdb": [
+          "appliance-bot-default-rtdb"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

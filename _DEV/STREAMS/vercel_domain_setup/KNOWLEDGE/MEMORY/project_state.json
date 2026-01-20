@@ -1,0 +1,81 @@
+{
+  "stream_name": "vercel_domain_setup",
+  "created_date": "2026-01-12",
+  "status": "active",
+  "phase": "discovery",
+  "complexity_score": null,
+  "priority": "critical",
+  "primary_goal": "Create new clean Vercel domain and ensure proper routing for /form, /admin, /processor with role-based access",
+  "scope": {
+    "new_domain_creation": true,
+    "route_configuration": true,
+    "role_based_access": true,
+    "deployment": true,
+    "firebase_update": true
+  },
+  "success_criteria": [
+    "New clean Vercel domain created",
+    "All routes (/form, /admin, /processor) working",
+    "Role-based access control enforced",
+    "No Safe Browsing issues",
+    "All fixes deployed to new domain",
+    "Firebase authorized domains updated"
+  ],
+  "current_issues": [
+    "Old domain has Google Safe Browsing issues",
+    "Need new clean domain without 'insurance'",
+    "Need to verify /form, /admin, /processor routes",
+    "Need to verify role-based access control"
+  ],
+  "technologies": [
+    "Vercel Deployment",
+    "Domain Management",
+    "Route Configuration",
+    "Role-Based Access Control",
+    "Firebase Authentication"
+  ],
+  "team_members": [],
+  "estimated_completion": null,
+  "last_updated": "2026-01-12",
+  "workflow_state": "discovery_assessment_complete",
+  "current_step": "completed",
+  "completed_steps": ["assess-1", "assess-2"],
+  "complexity_scores": {
+    "requirements": 6,
+    "architecture": 5,
+    "technology": 4,
+    "development": 5,
+    "final_score": 20,
+    "routing_decision": "quick_discovery"
+  },
+  "assessment_complete": true,
+  "routing_decision": "quick_discovery",
+  "implementation_ready": true,
+  "quick_discovery_status": "complete",
+  "quick_discovery_completion_date": "2026-01-12",
+  "new_domain": "appliance-cover-form.vercel.app",
+  "project_name": "appliance-cover-form",
+  "routes_status": {
+    "form": "working",
+    "admin": "working",
+    "processor": "working_fixed"
+  },
+  "fixes_implemented": {
+    "processor_route_access": "fixed_allow_admin_and_processor",
+    "isprocessor_function": "added_to_auth_js",
+    "new_domain_created": "appliance-cover-form",
+    "all_routes_verified": true
+  },
+  "deployment_status": "complete",
+  "verification_status": "passed",
+  "firebase_update_required": false,
+  "firebase_update_completed": true,
+  "project_complete": true,
+  "mcp_config": {
+    "stream_path": "_DEV/STREAMS/vercel_domain_setup",
+    "workflow_type": "discovery_assessment",
+    "enforcement_level": "full",
+    "quality_gates": true,
+    "reflection_checkpoints": true
+  }
+}
